@@ -68,6 +68,10 @@ function create(win, opts) {
 			menuTpl.push(...opts.append());
 		}
 
+		// filter out leading/trailing separators
+		// TODO: https://github.com/electron/electron/issues/5869
+		menuTpl = menuTpl.filter((el, i, arr) => !(el.type === 'separator' && (i === 0 || i === arr.length - 1)));
+
 		const menu = (electron.Menu || electron.remote.Menu).buildFromTemplate(menuTpl);
 		menu.popup(win);
 	});
