@@ -1,0 +1,43 @@
+{
+  "name": "electron-context-menu",
+  "version": "0.0.0",
+  "description": "Context menu for your Electron app",
+  "license": "MIT",
+  "repository": "sindresorhus/electron-context-menu",
+  "author": {
+    "name": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com"
+  },
+  "scripts": {
+    "start": "electron fixture.js",
+    "test": "xo"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "electron",
+    "app",
+    "context",
+    "right-click",
+    "menu",
+    "extensible",
+    "save",
+    "image"
+  ],
+  "dependencies": {
+    "electron-dl": "^1.2.0"
+  },
+  "devDependencies": {
+    "electron-prebuilt": "^1.2.1",
+    "xo": "*"
+  },
+  "xo": {
+    "esnext": true,
+    "envs": [
+      "node",
+      "browser"
+    ]
+  }
+}
