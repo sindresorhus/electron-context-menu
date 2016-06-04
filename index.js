@@ -22,7 +22,7 @@ function create(win, opts) {
 			// role: 'copy',
 			role: editFlags.canCopy && hasText ? 'copy' : '',
 			enabled: editFlags.canCopy && hasText,
-			visible: props.isEditable
+			visible: props.isEditable || hasText
 		}, {
 			label: 'Paste',
 			// role: 'paste',
