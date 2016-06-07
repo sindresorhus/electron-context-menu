@@ -6,28 +6,26 @@ function create(win, opts) {
 	win.webContents.on('context-menu', (e, props) => {
 		const editFlags = props.editFlags;
 		const hasText = props.selectionText.trim().length > 0;
+		const can = type => editFlags[`can${type}`] && hasText;
 
 		let menuTpl = [{
 			type: 'separator'
 		}, {
 			label: 'Cut',
-			// role: 'cut',
-			// the above is commented out because of:
+			// needed because of OS X limitation:
 			// https://github.com/electron/electron/issues/5860
-			role: editFlags.canCut && hasText ? 'cut' : '',
-			enabled: editFlags.canCut && hasText,
+			role: can('Cut') ? 'cut' : '',
+			enabled: can('Cut'),
 			visible: props.isEditable
 		}, {
 			label: 'Copy',
-			// role: 'copy',
-			role: editFlags.canCopy && hasText ? 'copy' : '',
-			enabled: editFlags.canCopy && hasText,
+			role: can('Copy') ? 'copy' : '',
+			enabled: can('Copy'),
 			visible: props.isEditable || hasText
 		}, {
 			label: 'Paste',
-			// role: 'paste',
-			role: editFlags.canPaste && hasText ? 'paste' : '',
-			enabled: editFlags.canPaste && hasText,
+			role: can('Paste') ? 'paste' : '',
+			enabled: can('Paste'),
 			visible: props.isEditable
 		}, {
 			type: 'separator'
