@@ -12,7 +12,7 @@ function create(win, opts) {
 			type: 'separator'
 		}, {
 			label: 'Cut',
-			// needed because of OS X limitation:
+			// needed because of macOS limitation:
 			// https://github.com/electron/electron/issues/5860
 			role: can('Cut') ? 'cut' : '',
 			enabled: can('Cut'),
