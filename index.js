@@ -24,8 +24,8 @@ function create(win, opts) {
 			visible: props.isEditable || hasText
 		}, {
 			label: 'Paste',
-			role: can('Paste') ? 'paste' : '',
-			enabled: can('Paste'),
+			role: editFlags.canPaste ? 'paste' : '',
+			enabled: editFlags.canPaste,
 			visible: props.isEditable
 		}, {
 			type: 'separator'
