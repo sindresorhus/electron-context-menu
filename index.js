@@ -1,6 +1,7 @@
 'use strict';
 const electron = require('electron');
 const {download} = require('electron-dl');
+const isDev = require('electron-is-dev');
 
 function create(win, opts) {
 	win.webContents.on('context-menu', (e, props) => {
@@ -64,6 +65,19 @@ function create(win, opts) {
 
 		if (opts.append) {
 			menuTpl.push(...opts.append());
+		}
+
+		if (isDev) {
+			menuTpl.push({
+				type: 'separator'
+			}, {
+				label: 'Inspect Element',
+				click(item, win) {
+					win.inspectElement(props.x, props.y);
+				}
+			}, {
+				type: 'separator'
+			});
 		}
 
 		// filter out leading/trailing separators
