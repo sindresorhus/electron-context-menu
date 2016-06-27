@@ -60,11 +60,11 @@ function create(win, opts) {
 		}
 
 		if (opts.prepend) {
-			menuTpl.unshift(...opts.prepend());
+			menuTpl.unshift(...opts.prepend(props));
 		}
 
 		if (opts.append) {
-			menuTpl.push(...opts.append());
+			menuTpl.push(...opts.append(props));
 		}
 
 		if (isDev) {
