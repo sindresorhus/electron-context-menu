@@ -51,8 +51,7 @@ function create(win, opts) {
 			}, {
 				label: 'Copy Link',
 				click() {
-					// TODO: https://github.com/electron/electron/issues/5861
-					electron.clipboard.writeText(props.linkURL);
+					electron.clipboard.writeBookmark(props.linkText, props.linkURL);
 				}
 			}, {
 				type: 'separator'

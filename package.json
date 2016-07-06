@@ -31,7 +31,7 @@
     "electron-is-dev": "^0.1.1"
   },
   "devDependencies": {
-    "electron-prebuilt": "^1.2.1",
+    "electron-prebuilt": "^1.2.6",
     "xo": "*"
   },
   "xo": {
