@@ -51,7 +51,11 @@ function create(win, opts) {
 			}, {
 				label: 'Copy Link',
 				click() {
-					electron.clipboard.writeBookmark(props.linkText, props.linkURL);
+					if (process.platform === 'linux') {
+						electron.clipboard.writeText(props.linkURL);
+					} else {
+						electron.clipboard.writeBookmark(props.linkText, props.linkURL);
+					}
 				}
 			}, {
 				type: 'separator'
