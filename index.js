@@ -72,8 +72,6 @@ function create(win, opts) {
 
 		if (isDev) {
 			menuTpl.push({
-				type: 'separator'
-			}, {
 				label: 'Inspect Element',
 				click(item, win) {
 					win.inspectElement(props.x, props.y);
