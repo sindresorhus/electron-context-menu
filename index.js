@@ -69,8 +69,8 @@ function create(win, opts) {
 		if (opts.append) {
 			menuTpl.push(...opts.append(props));
 		}
-
-		if (opts.showInspectElement || isDev) {
+		
+		if (opts.showInspectElement || opts.showInspectElement !== false && isDev) {
 			menuTpl.push({
 				type: 'separator'
 			}, {
