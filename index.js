@@ -70,7 +70,7 @@ function create(win, opts) {
 			menuTpl.push(...opts.append(props));
 		}
 
-		if (opts.forceInspectElement || isDev) {
+		if (opts.showInspectElement || isDev) {
 			menuTpl.push({
 				type: 'separator'
 			}, {
