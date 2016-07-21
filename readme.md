@@ -63,6 +63,13 @@ Type: `Function`
 
 Should return an array of [MenuItem](http://electron.atom.io/docs/api/menu-item/)'s to be appended to the context menu. The first argument is [this `params` object](http://electron.atom.io/docs/api/web-contents/#event-context-menu).
 
+#### showInspectElement
+
+Type: `boolean`<br>
+Default: [Only in development](https://github.com/sindresorhus/electron-is-dev)
+
+Force enable or disable the `Inspect Element` menu item.
+
 
 ## Related
 

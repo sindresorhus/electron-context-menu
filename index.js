@@ -70,13 +70,17 @@ function create(win, opts) {
 			menuTpl.push(...opts.append(props));
 		}
 
-		if (isDev) {
+		if (opts.showInspectElement || (opts.showInspectElement !== false && isDev)) {
 			menuTpl.push({
 				type: 'separator'
 			}, {
 				label: 'Inspect Element',
 				click(item, win) {
-					win.inspectElement(props.x, props.y);
+					win.webContents.inspectElement(props.x, props.y);
+
+					if (win.webContents.isDevToolsOpened()) {
+						win.webContents.devToolsWebContents.focus();
+					}
 				}
 			}, {
 				type: 'separator'
