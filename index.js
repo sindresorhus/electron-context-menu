@@ -101,7 +101,7 @@ function create(win, opts) {
 function deleteUnnecessarySeparators(menuTpl) {
 	let visiblePreviousEl;
 	return menuTpl.filter((el, i, arr) => {
-		let toDelete = el.type === 'separator' && (!visiblePreviousEl || i === arr.length - 1 || arr[i + 1].type === 'separator');
+		const toDelete = el.type === 'separator' && (!visiblePreviousEl || i === arr.length - 1 || arr[i + 1].type === 'separator');
 		visiblePreviousEl = toDelete || !isVisible(el) ? visiblePreviousEl : el;
 		return !toDelete;
 	});
