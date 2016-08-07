@@ -45,9 +45,9 @@ app.on('ready', () => {
 
 #### window
 
-Type: `BrowserWindow`<br>
+Type: `BrowserWindow` `WebView`<br>
 
-Window to add the context menu to.
+Window or WebView to add the context menu to.
 
 When not specified, the context menu will be added to all existing and new windows.
 
