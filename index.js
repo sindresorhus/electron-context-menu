@@ -89,7 +89,7 @@ function create(win, opts) {
 
 		// filter out leading/trailing separators
 		// TODO: https://github.com/electron/electron/issues/5869
-		menuTpl = deleteUnnecessarySeparators(menuTpl);
+		menuTpl = deleteUnnecessarySeparatorsAndElements(menuTpl);
 
 		if (menuTpl.some(elem => isVisible(elem))) {
 			const menu = (electron.Menu || electron.remote.Menu).buildFromTemplate(menuTpl);
@@ -98,9 +98,9 @@ function create(win, opts) {
 	});
 }
 
-function deleteUnnecessarySeparators(menuTpl) {
+function deleteUnnecessarySeparatorsAndElements(menuTpl) {
 	let visiblePreviousEl;
-	return menuTpl.filter((el, i, arr) => {
+	return menuTpl.filter((el, i, arr) => isVisible(el)).filter((el, i, arr) => {
 		const toDelete = el.type === 'separator' && (!visiblePreviousEl || i === arr.length - 1 || arr[i + 1].type === 'separator');
 		visiblePreviousEl = toDelete || !isVisible(el) ? visiblePreviousEl : el;
 		return !toDelete;
