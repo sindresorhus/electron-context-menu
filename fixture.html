@@ -3,6 +3,14 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Fixture</title>
+		<script>
+			window.addEventListener('load', () => {
+				const webview = document.getElementById('webview');
+				require('.')({
+					window: webview
+				});
+			});
+		</script>
 	</head>
 	<body>
 		<h1>Fixture</h1>
@@ -16,5 +24,6 @@
 		<div contenteditable="true"><strong>Editable text</strong></div>
 		<br>
 		<a href="https://github.com">Link</a>
+		<webview id="webview" src="http://example.org">
 	</body>
 </html>
