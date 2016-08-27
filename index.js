@@ -4,7 +4,7 @@ const {download} = require('electron-dl');
 const isDev = require('electron-is-dev');
 
 function create(win, opts) {
-	win.webContents.on('context-menu', (e, props) => {
+	(win.webContents || win.getWebContents()).on('context-menu', (e, props) => {
 		const editFlags = props.editFlags;
 		const hasText = props.selectionText.trim().length > 0;
 		const can = type => editFlags[`can${type}`] && hasText;
@@ -92,14 +92,32 @@ function create(win, opts) {
 		menuTpl = menuTpl.filter((el, i, arr) => !(el.type === 'separator' && (i === 0 || i === arr.length - 1 || arr[i + 1].type === 'separator')));
 
 		const menu = (electron.Menu || electron.remote.Menu).buildFromTemplate(menuTpl);
-		menu.popup(win);
+
+		/*
+		 * When electron.remote is not available this runs in the browser process.
+		 * We can safely use win in this case as it refers to the window the
+		 * context-menu should open in.
+		 * When this is being called from a webView, we can't use win as this
+		 * would refere to the webView which is not allowed to render a popup menu.
+		 */
+		menu.popup(electron.remote ? electron.remote.getCurrentWindow() : win);
 	});
 }
 
 module.exports = (opts = {}) => {
 	if (opts.window) {
-		create(opts.window, opts);
-		return;
+		const win = opts.window;
+		const webContents = win.webContents || win.getWebContents();
+
+		// When window is a webview that has not yet finished loading webContents is not available
+		if (webContents === undefined) {
+			win.addEventListener('dom-ready', () => {
+				create(win, opts);
+			}, {once: true});
+			return;
+		}
+
+		return create(win, opts);
 	}
 
 	(electron.BrowserWindow || electron.remote.BrowserWindow).getAllWindows().forEach(win => {
