@@ -23,7 +23,7 @@ const {app, BrowserWindow} = require('electron');
 
 require('electron-context-menu')({
 	prepend: params => [{
-		label: 'Rainbow'
+		label: 'Rainbow',
 		// only show it when right-clicking images
 		visible: params.mediaType === 'image'
 	}]
@@ -45,9 +45,9 @@ app.on('ready', () => {
 
 #### window
 
-Type: `BrowserWindow`<br>
+Type: `BrowserWindow` `WebView`<br>
 
-Window to add the context menu to.
+Window or WebView to add the context menu to.
 
 When not specified, the context menu will be added to all existing and new windows.
 
