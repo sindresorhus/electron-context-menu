@@ -89,26 +89,22 @@ function create(win, opts) {
 
 		// filter out leading/trailing separators
 		// TODO: https://github.com/electron/electron/issues/5869
-		menuTpl = deleteUnnecessarySeparatorsAndElements(menuTpl);
+		menuTpl = delUnusedElements(menuTpl);
 
-		if (menuTpl.some(elem => isVisible(elem))) {
+		if (menuTpl.length > 0) {
 			const menu = (electron.Menu || electron.remote.Menu).buildFromTemplate(menuTpl);
 			menu.popup(win);
 		}
 	});
 }
 
-function deleteUnnecessarySeparatorsAndElements(menuTpl) {
-	let visiblePreviousEl;
-	return menuTpl.filter(el => isVisible(el)).filter((el, i, arr) => {
-		const toDelete = el.type === 'separator' && (!visiblePreviousEl || i === arr.length - 1 || arr[i + 1].type === 'separator');
-		visiblePreviousEl = toDelete || !isVisible(el) ? visiblePreviousEl : el;
+function delUnusedElements(menuTpl) {
+	let notDeletedPrevEl;
+	return menuTpl.filter(el => el.visible !== false).filter((el, i, arr) => {
+		const toDelete = el.type === 'separator' && (!notDeletedPrevEl || i === arr.length - 1 || arr[i + 1].type === 'separator');
+		notDeletedPrevEl = toDelete ? notDeletedPrevEl : el;
 		return !toDelete;
 	});
-}
-
-function isVisible(elem) {
-	return !('visible' in elem) || elem.visible;
 }
 
 module.exports = (opts = {}) => {
