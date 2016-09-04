@@ -89,18 +89,29 @@ function create(win, opts) {
 
 		// filter out leading/trailing separators
 		// TODO: https://github.com/electron/electron/issues/5869
-		menuTpl = menuTpl.filter((el, i, arr) => !(el.type === 'separator' && (i === 0 || i === arr.length - 1 || arr[i + 1].type === 'separator')));
+		menuTpl = delUnusedElements(menuTpl);
 
-		const menu = (electron.Menu || electron.remote.Menu).buildFromTemplate(menuTpl);
+		if (menuTpl.length > 0) {
+			const menu = (electron.Menu || electron.remote.Menu).buildFromTemplate(menuTpl);
 
-		/*
-		 * When electron.remote is not available this runs in the browser process.
-		 * We can safely use win in this case as it refers to the window the
-		 * context-menu should open in.
-		 * When this is being called from a webView, we can't use win as this
-		 * would refere to the webView which is not allowed to render a popup menu.
-		 */
-		menu.popup(electron.remote ? electron.remote.getCurrentWindow() : win);
+			/*
+			 * When electron.remote is not available this runs in the browser process.
+			 * We can safely use win in this case as it refers to the window the
+			 * context-menu should open in.
+			 * When this is being called from a webView, we can't use win as this
+			 * would refere to the webView which is not allowed to render a popup menu.
+			 */
+			menu.popup(electron.remote ? electron.remote.getCurrentWindow() : win);
+		}
+	});
+}
+
+function delUnusedElements(menuTpl) {
+	let notDeletedPrevEl;
+	return menuTpl.filter(el => el.visible !== false).filter((el, i, arr) => {
+		const toDelete = el.type === 'separator' && (!notDeletedPrevEl || i === arr.length - 1 || arr[i + 1].type === 'separator');
+		notDeletedPrevEl = toDelete ? notDeletedPrevEl : el;
+		return !toDelete;
 	});
 }
 
