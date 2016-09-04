@@ -4,6 +4,17 @@ const electron = require('electron');
 require('.')({
 	prepend: () => [{
 		label: 'Unicorn'
+	}, {
+		type: 'separator'
+	}, {
+		type: 'separator'
+	}, {
+		label: 'Invisible',
+		visible: false
+	}, {
+		type: 'separator'
+	}, {
+		type: 'separator'
 	}]
 });
 
