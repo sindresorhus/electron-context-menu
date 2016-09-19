@@ -51,10 +51,10 @@ function create(win, opts) {
 			}, {
 				label: 'Copy Link',
 				click() {
-					if (process.platform === 'linux') {
-						electron.clipboard.writeText(props.linkURL);
-					} else {
+					if (process.platform === 'darwin') {
 						electron.clipboard.writeBookmark(props.linkText, props.linkURL);
+					} else {
+						electron.clipboard.writeText(props.linkURL);
 					}
 				}
 			}, {
