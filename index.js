@@ -41,6 +41,12 @@ function create(win, opts) {
 					download(win, props.srcURL);
 				}
 			}, {
+				label: 'Copy Image Address',
+				click() {
+					electron.clipboard.writeText(props.srcURL);
+				},
+				visible: opts.showCopyImageAddress
+			}, {
 				type: 'separator'
 			}];
 		}
