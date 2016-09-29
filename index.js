@@ -45,7 +45,7 @@ function create(win, opts) {
 				click() {
 					electron.clipboard.writeText(props.srcURL);
 				},
-				visible: opts.showCopyImageAddress
+				visible: Boolean(opts.showCopyImageAddress)
 			}, {
 				type: 'separator'
 			}];
