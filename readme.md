@@ -70,6 +70,24 @@ Default: [Only in development](https://github.com/sindresorhus/electron-is-dev)
 
 Force enable or disable the `Inspect Element` menu item.
 
+#### labels
+
+Type: `object`<br>
+Default: Empty
+
+Enables to overwrite the labels for the default menu items.
+
+Format
+```js
+    labels: {
+        cut: 'Configured Cut',
+        copy: 'Configured Copy',
+        paste: 'Configured Paste',
+        save: 'Configured Save Image',
+        copyLink: 'Configured Copy Link',
+        inspect: 'Configured Inspect'
+    },
+```
 
 ## Related
 
