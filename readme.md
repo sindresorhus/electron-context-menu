@@ -72,12 +72,12 @@ Force enable or disable the `Inspect Element` menu item.
 
 #### labels
 
-Type: `object`<br>
+Type: `Object`<br>
 Default: Empty
 
 Enables to overwrite the labels for the default menu items.
 
-Format
+Format:
 ```js
     labels: {
         cut: 'Configured Cut',
