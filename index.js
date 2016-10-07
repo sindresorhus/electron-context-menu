@@ -92,11 +92,12 @@ function create(win, opts) {
 				type: 'separator'
 			});
 		}
-
-		// Apply custom labels for default menu items
-		for (let i = 0; i < menuTpl.length; i++) {
-			if (opts.labels[menuTpl[i].id] !== undefined) {
-				menuTpl[i].label = opts.labels[menuTpl[i].id];
+		if (opts.labels) {
+			// Apply custom labels for default menu items
+			for (let i = 0; i < menuTpl.length; i++) {
+				if (opts.labels[menuTpl[i].id] !== undefined) {
+					menuTpl[i].label = opts.labels[menuTpl[i].id];
+				}
 			}
 		}
 		// filter out leading/trailing separators
