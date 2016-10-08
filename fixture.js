@@ -3,13 +3,13 @@ const electron = require('electron');
 
 require('.')({
 	labels: {
-        cut: 'Configured Cut',
-        copy: 'Configured Copy',
-        paste: 'Configured Paste',
-        save: 'Configured Save Image',
-        copyLink: 'Configured Copy Link',
-        inspect: 'Configured Inspect'
-    },
+		cut: 'Configured Cut',
+		copy: 'Configured Copy',
+		paste: 'Configured Paste',
+		save: 'Configured Save Image',
+		copyLink: 'Configured Copy Link',
+		inspect: 'Configured Inspect'
+	},
 	prepend: () => [{
 		label: 'Unicorn'
 	}, {

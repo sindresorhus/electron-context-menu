@@ -73,9 +73,9 @@ Force enable or disable the `Inspect Element` menu item.
 #### labels
 
 Type: `Object`<br>
-Default: Empty
+Default: `{}`
 
-Enables to overwrite the labels for the default menu items.
+Overwrite labels for the default menu items. Useful for i18n.
 
 Format:
 ```js

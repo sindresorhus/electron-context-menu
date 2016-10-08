@@ -94,9 +94,9 @@ function create(win, opts) {
 		}
 		if (opts.labels) {
 			// Apply custom labels for default menu items
-			for (let i = 0; i < menuTpl.length; i++) {
-				if (opts.labels[menuTpl[i].id] !== undefined) {
-					menuTpl[i].label = opts.labels[menuTpl[i].id];
+			for (const menuItem of menuTpl) {
+				if (opts.labels[menuItem.id] !== undefined) {
+					menuItem.label = opts.labels[menuItem.id];
 				}
 			}
 		}
