@@ -78,15 +78,16 @@ Default: `{}`
 Overwrite labels for the default menu items. Useful for i18n.
 
 Format:
+
 ```js
-    labels: {
-        cut: 'Configured Cut',
-        copy: 'Configured Copy',
-        paste: 'Configured Paste',
-        save: 'Configured Save Image',
-        copyLink: 'Configured Copy Link',
-        inspect: 'Configured Inspect'
-    },
+labels: {
+	cut: 'Configured Cut',
+	copy: 'Configured Copy',
+	paste: 'Configured Paste',
+	save: 'Configured Save Image',
+	copyLink: 'Configured Copy Link',
+	inspect: 'Configured Inspect'
+}
 ```
 
 ## Related

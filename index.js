@@ -92,14 +92,16 @@ function create(win, opts) {
 				type: 'separator'
 			});
 		}
+
+		// apply custom labels for default menu items
 		if (opts.labels) {
-			// Apply custom labels for default menu items
 			for (const menuItem of menuTpl) {
-				if (opts.labels[menuItem.id] !== undefined) {
+				if (opts.labels[menuItem.id]) {
 					menuItem.label = opts.labels[menuItem.id];
 				}
 			}
 		}
+
 		// filter out leading/trailing separators
 		// TODO: https://github.com/electron/electron/issues/5869
 		menuTpl = delUnusedElements(menuTpl);
