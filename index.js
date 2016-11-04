@@ -12,6 +12,7 @@ function create(win, opts) {
 		let menuTpl = [{
 			type: 'separator'
 		}, {
+			id: 'cut',
 			label: 'Cut',
 			// needed because of macOS limitation:
 			// https://github.com/electron/electron/issues/5860
@@ -19,11 +20,13 @@ function create(win, opts) {
 			enabled: can('Cut'),
 			visible: props.isEditable
 		}, {
+			id: 'copy',
 			label: 'Copy',
 			role: can('Copy') ? 'copy' : '',
 			enabled: can('Copy'),
 			visible: props.isEditable || hasText
 		}, {
+			id: 'paste',
 			label: 'Paste',
 			role: editFlags.canPaste ? 'paste' : '',
 			enabled: editFlags.canPaste,
@@ -36,6 +39,7 @@ function create(win, opts) {
 			menuTpl = [{
 				type: 'separator'
 			}, {
+				id: 'save',
 				label: 'Save Image',
 				click(item, win) {
 					download(win, props.srcURL);
@@ -49,6 +53,7 @@ function create(win, opts) {
 			menuTpl = [{
 				type: 'separator'
 			}, {
+				id: 'copyLink',
 				label: 'Copy Link',
 				click() {
 					if (process.platform === 'darwin') {
@@ -74,6 +79,7 @@ function create(win, opts) {
 			menuTpl.push({
 				type: 'separator'
 			}, {
+				id: 'inspect',
 				label: 'Inspect Element',
 				click(item, win) {
 					win.webContents.inspectElement(props.x, props.y);
@@ -86,7 +92,14 @@ function create(win, opts) {
 				type: 'separator'
 			});
 		}
-
+		if (opts.labels) {
+			// Apply custom labels for default menu items
+			for (const menuItem of menuTpl) {
+				if (opts.labels[menuItem.id] !== undefined) {
+					menuItem.label = opts.labels[menuItem.id];
+				}
+			}
+		}
 		// filter out leading/trailing separators
 		// TODO: https://github.com/electron/electron/issues/5869
 		menuTpl = delUnusedElements(menuTpl);
