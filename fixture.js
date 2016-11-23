@@ -23,7 +23,8 @@ require('.')({
 		type: 'separator'
 	}, {
 		type: 'separator'
-	}]
+	}],
+	showCopyImageAddress: true
 });
 
 electron.app.on('ready', () => {
