@@ -68,11 +68,19 @@ function create(win, opts) {
 		}
 
 		if (opts.prepend) {
-			menuTpl.unshift(...opts.prepend(props, win));
+			const result = opts.prepend(props, win);
+
+			if (Array.isArray(result)) {
+				menuTpl.unshift(...result);
+			}
 		}
 
 		if (opts.append) {
-			menuTpl.push(...opts.append(props, win));
+			const result = opts.append(props, win);
+
+			if (Array.isArray(result)) {
+				menuTpl.push(...result);
+			}
 		}
 
 		if (opts.showInspectElement || (opts.showInspectElement !== false && isDev)) {

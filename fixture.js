@@ -23,7 +23,8 @@ require('.')({
 		type: 'separator'
 	}, {
 		type: 'separator'
-	}]
+	}],
+	append: () => {}
 });
 
 electron.app.on('ready', () => {
