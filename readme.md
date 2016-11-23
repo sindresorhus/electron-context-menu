@@ -22,7 +22,7 @@ $ npm install --save electron-context-menu
 const {app, BrowserWindow} = require('electron');
 
 require('electron-context-menu')({
-	prepend: params => [{
+	prepend: (params, browserWindow) => [{
 		label: 'Rainbow',
 		// only show it when right-clicking images
 		visible: params.mediaType === 'image'
@@ -55,13 +55,13 @@ When not specified, the context menu will be added to all existing and new windo
 
 Type: `Function`
 
-Should return an array of [MenuItem](http://electron.atom.io/docs/api/menu-item/)'s to be prepended to the context menu. The first argument is [this `params` object](http://electron.atom.io/docs/api/web-contents/#event-context-menu).
+Should return an array of [MenuItem](http://electron.atom.io/docs/api/menu-item/)'s to be prepended to the context menu. The first argument is [this `params` object](http://electron.atom.io/docs/api/web-contents/#event-context-menu). The second argument is the [BrowserWindow](http://electron.atom.io/docs/api/browser-window/) the context menu was requested for.
 
 #### append
 
 Type: `Function`
 
-Should return an array of [MenuItem](http://electron.atom.io/docs/api/menu-item/)'s to be appended to the context menu. The first argument is [this `params` object](http://electron.atom.io/docs/api/web-contents/#event-context-menu).
+Should return an array of [MenuItem](http://electron.atom.io/docs/api/menu-item/)'s to be appended to the context menu. The first argument is [this `params` object](http://electron.atom.io/docs/api/web-contents/#event-context-menu). The second argument is the [BrowserWindow](http://electron.atom.io/docs/api/browser-window/) the context menu was requested for.
 
 #### showInspectElement
 

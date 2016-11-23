@@ -68,11 +68,11 @@ function create(win, opts) {
 		}
 
 		if (opts.prepend) {
-			menuTpl.unshift(...opts.prepend(props));
+			menuTpl.unshift(...opts.prepend(props, win));
 		}
 
 		if (opts.append) {
-			menuTpl.push(...opts.append(props));
+			menuTpl.push(...opts.append(props, win));
 		}
 
 		if (opts.showInspectElement || (opts.showInspectElement !== false && isDev)) {
