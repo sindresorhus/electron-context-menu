@@ -90,6 +90,19 @@ labels: {
 }
 ```
 
+#### shouldShowMenu
+
+Type: `Function`
+
+Determines whether or not to show the menu
+
+```js
+// disable menu if element is editable
+shouldShowMenu: function(event, props) {
+  return !props.isEditable;
+}
+```
+
 ## Related
 
 - [electron-debug](https://github.com/sindresorhus/electron-debug) - Adds useful debug features to your Electron app

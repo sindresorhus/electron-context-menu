@@ -5,6 +5,9 @@ const isDev = require('electron-is-dev');
 
 function create(win, opts) {
 	(win.webContents || win.getWebContents()).on('context-menu', (e, props) => {
+		if (typeof opts.shouldShowMenu === 'function' && opts.shouldShowMenu(e, props) === false) {
+			return;
+		}
 		const editFlags = props.editFlags;
 		const hasText = props.selectionText.trim().length > 0;
 		const can = type => editFlags[`can${type}`] && hasText;
