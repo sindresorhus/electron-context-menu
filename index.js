@@ -14,7 +14,7 @@ function create(win, opts) {
 		}, {
 			id: 'cut',
 			label: 'Cut',
-			// needed because of macOS limitation:
+			// Needed because of macOS limitation:
 			// https://github.com/electron/electron/issues/5860
 			role: can('Cut') ? 'cut' : '',
 			enabled: can('Cut'),
@@ -101,7 +101,7 @@ function create(win, opts) {
 			});
 		}
 
-		// apply custom labels for default menu items
+		// Apply custom labels for default menu items
 		if (opts.labels) {
 			for (const menuItem of menuTpl) {
 				if (opts.labels[menuItem.id]) {
@@ -110,7 +110,7 @@ function create(win, opts) {
 			}
 		}
 
-		// filter out leading/trailing separators
+		// Filter out leading/trailing separators
 		// TODO: https://github.com/electron/electron/issues/5869
 		menuTpl = delUnusedElements(menuTpl);
 
