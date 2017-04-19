@@ -8,6 +8,7 @@ function create(win, opts) {
 		if (typeof opts.shouldShowMenu === 'function' && opts.shouldShowMenu(e, props) === false) {
 			return;
 		}
+
 		const editFlags = props.editFlags;
 		const hasText = props.selectionText.trim().length > 0;
 		const can = type => editFlags[`can${type}`] && hasText;

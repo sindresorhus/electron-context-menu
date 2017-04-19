@@ -94,13 +94,13 @@ labels: {
 
 Type: `Function`
 
-Determines whether or not to show the menu
+Determines whether or not to show the menu. Can be useful if you for example have other code presenting a context menu in some contexts. The second argument is [this `params` object](http://electron.atom.io/docs/api/web-contents/#event-context-menu).
+
+Example:
 
 ```js
-// disable menu if element is editable
-shouldShowMenu: function(event, props) {
-  return !props.isEditable;
-}
+// Doesn't show the menu if the element is editable
+shouldShowMenu: (event, params) => !params.isEditable
 ```
 
 ## Related
