@@ -24,7 +24,7 @@ const {app, BrowserWindow} = require('electron');
 require('electron-context-menu')({
 	prepend: (params, browserWindow) => [{
 		label: 'Rainbow',
-		// only show it when right-clicking images
+		// Only show it when right-clicking images
 		visible: params.mediaType === 'image'
 	}]
 });
