@@ -8,6 +8,7 @@ require('.')({
 		paste: 'Configured Paste',
 		save: 'Configured Save Image',
 		copyLink: 'Configured Copy Link',
+		copyImageLink: 'Configured Copy Image Link',
 		inspect: 'Configured Inspect'
 	},
 	prepend: () => [{
@@ -16,6 +17,9 @@ require('.')({
 		type: 'separator'
 	}, {
 		type: 'separator'
+	}, {
+		label: 'Invisible',
+		visible: false
 	}, {
 		label: 'Invisible',
 		visible: false

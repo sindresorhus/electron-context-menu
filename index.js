@@ -49,6 +49,12 @@ function create(win, opts) {
 					download(win, props.srcURL);
 				}
 			}, {
+				id: 'copyImageLink',
+				label: 'Copy Image Link',
+				click() {
+					electron.clipboard.writeText(props.srcURL);
+				}
+			}, {
 				type: 'separator'
 			}];
 		}
