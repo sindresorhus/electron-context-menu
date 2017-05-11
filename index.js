@@ -52,7 +52,11 @@ function create(win, opts) {
 				id: 'copyImageLink',
 				label: 'Copy Image Link',
 				click() {
-					electron.clipboard.writeText(props.srcURL);
+					if (process.platform === 'darwin') {
+						electron.clipboard.writeBookmark(props.srcURL, props.srcURL);
+					} else {
+						electron.clipboard.writeText(props.srcURL);
+					}
 				}
 			}, {
 				type: 'separator'
