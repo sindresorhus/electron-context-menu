@@ -107,6 +107,7 @@ shouldShowMenu: (event, params) => !params.isEditable
 
 - [electron-debug](https://github.com/sindresorhus/electron-debug) - Adds useful debug features to your Electron app
 - [electron-config](https://github.com/sindresorhus/electron-config) - Simple config handling for your Electron app or module
+- [electron-unhandled](https://github.com/sindresorhus/electron-unhandled) - Catch unhandled errors and promise rejections in your Electron app
 
 
 ## License
