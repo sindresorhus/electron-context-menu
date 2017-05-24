@@ -3,8 +3,7 @@ const electron = require('electron');
 const {download} = require('electron-dl');
 const isDev = require('electron-is-dev');
 
-function webContents(win)
-{
+function webContents(win) {
 	return win.webContents || win.getWebContents();
 }
 
@@ -98,7 +97,7 @@ function create(win, opts) {
 		}, {
 			id: 'inspect',
 			label: 'Inspect Element',
-			click(item) {
+			click() {
 				win.inspectElement(props.x, props.y);
 
 				if (webContents(win).isDevToolsOpened()) {
@@ -150,7 +149,7 @@ function delUnusedElements(menuTpl) {
 module.exports = (opts = {}) => {
 	if (opts.window) {
 		const win = opts.window;
-		const wc = webContents(win)
+		const wc = webContents(win);
 
 		// When window is a webview that has not yet finished loading webContents is not available
 		if (wc === undefined) {
