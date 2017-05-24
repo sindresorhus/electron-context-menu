@@ -3,9 +3,7 @@ const electron = require('electron');
 const {download} = require('electron-dl');
 const isDev = require('electron-is-dev');
 
-function webContents(win) {
-	return win.webContents || win.getWebContents();
-}
+const webContents = win => win.webContents || win.getWebContents();
 
 function create(win, opts) {
 	webContents(win).on('context-menu', (e, props) => {
@@ -22,8 +20,8 @@ function create(win, opts) {
 		}, {
 			id: 'cut',
 			label: 'Cut',
-		// Needed because of macOS limitation:
-		// https://github.com/electron/electron/issues/5860
+			// Needed because of macOS limitation:
+			// https://github.com/electron/electron/issues/5860
 			role: can('Cut') ? 'cut' : '',
 			enabled: can('Cut'),
 			visible: props.isEditable
@@ -109,7 +107,7 @@ function create(win, opts) {
 			});
 		}
 
-	// Apply custom labels for default menu items
+		// Apply custom labels for default menu items
 		if (opts.labels) {
 			for (const menuItem of menuTpl) {
 				if (opts.labels[menuItem.id]) {
@@ -118,20 +116,20 @@ function create(win, opts) {
 			}
 		}
 
-	// Filter out leading/trailing separators
-	// TODO: https://github.com/electron/electron/issues/5869
+		// Filter out leading/trailing separators
+		// TODO: https://github.com/electron/electron/issues/5869
 		menuTpl = delUnusedElements(menuTpl);
 
 		if (menuTpl.length > 0) {
 			const menu = (electron.remote ? electron.remote.Menu : electron.Menu).buildFromTemplate(menuTpl);
 
-		/*
-		 * When electron.remote is not available this runs in the browser process.
-		 * We can safely use win in this case as it refers to the window the
-		 * context-menu should open in.
-		 * When this is being called from a webView, we can't use win as this
-		 * would refere to the webView which is not allowed to render a popup menu.
-		 */
+			/*
+			 * When electron.remote is not available this runs in the browser process.
+			 * We can safely use win in this case as it refers to the window the
+			 * context-menu should open in.
+			 * When this is being called from a webView, we can't use win as this
+			 * would refere to the webView which is not allowed to render a popup menu.
+			 */
 			menu.popup(electron.remote ? electron.remote.getCurrentWindow() : win);
 		}
 	});
