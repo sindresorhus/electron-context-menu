@@ -3,8 +3,10 @@ const electron = require('electron');
 const {download} = require('electron-dl');
 const isDev = require('electron-is-dev');
 
+const webContents = win => win.webContents || win.getWebContents();
+
 function create(win, opts) {
-	(win.webContents || win.getWebContents()).on('context-menu', (e, props) => {
+	webContents(win).on('context-menu', (e, props) => {
 		if (typeof opts.shouldShowMenu === 'function' && opts.shouldShowMenu(e, props) === false) {
 			return;
 		}
@@ -45,7 +47,7 @@ function create(win, opts) {
 			}, {
 				id: 'save',
 				label: 'Save Image',
-				click(item, win) {
+				click() {
 					download(win, props.srcURL);
 				}
 			}, {
@@ -93,11 +95,11 @@ function create(win, opts) {
 			}, {
 				id: 'inspect',
 				label: 'Inspect Element',
-				click(item, win) {
-					win.webContents.inspectElement(props.x, props.y);
+				click() {
+					win.inspectElement(props.x, props.y);
 
-					if (win.webContents.isDevToolsOpened()) {
-						win.webContents.devToolsWebContents.focus();
+					if (webContents(win).isDevToolsOpened()) {
+						webContents(win).devToolsWebContents.focus();
 					}
 				}
 			}, {
@@ -119,7 +121,7 @@ function create(win, opts) {
 		menuTpl = delUnusedElements(menuTpl);
 
 		if (menuTpl.length > 0) {
-			const menu = (electron.Menu || electron.remote.Menu).buildFromTemplate(menuTpl);
+			const menu = (electron.remote ? electron.remote.Menu : electron.Menu).buildFromTemplate(menuTpl);
 
 			/*
 			 * When electron.remote is not available this runs in the browser process.
@@ -145,10 +147,10 @@ function delUnusedElements(menuTpl) {
 module.exports = (opts = {}) => {
 	if (opts.window) {
 		const win = opts.window;
-		const webContents = win.webContents || win.getWebContents();
+		const wc = webContents(win);
 
 		// When window is a webview that has not yet finished loading webContents is not available
-		if (webContents === undefined) {
+		if (wc === undefined) {
 			win.addEventListener('dom-ready', () => {
 				create(win, opts);
 			}, {once: true});
