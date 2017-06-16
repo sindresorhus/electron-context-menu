@@ -51,6 +51,16 @@ function create(win, opts) {
 					download(win, props.srcURL);
 				}
 			}, {
+				id: 'copyImageLink',
+				label: 'Copy Image Link',
+				click() {
+					if (process.platform === 'darwin') {
+						electron.clipboard.writeBookmark(props.srcURL, props.srcURL);
+					} else {
+						electron.clipboard.writeText(props.srcURL);
+					}
+				}
+			}, {
 				type: 'separator'
 			}];
 		}

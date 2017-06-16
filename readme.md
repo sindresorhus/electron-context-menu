@@ -86,6 +86,7 @@ labels: {
 	paste: 'Configured Paste',
 	save: 'Configured Save Image',
 	copyLink: 'Configured Copy Link',
+	copyImageLink: 'Configured Copy Image Link',
 	inspect: 'Configured Inspect'
 }
 ```
