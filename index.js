@@ -70,7 +70,7 @@ function create(win, opts) {
 			INSPECT: decorateMenuItem({
 				id: 'inspect',
 				label: 'Inspect Element',
-				click(menuItem) {
+				click() {
 					win.inspectElement(props.x, props.y);
 
 					if (webContents(win).isDevToolsOpened()) {
@@ -93,7 +93,6 @@ function create(win, opts) {
 			COPY_LINK: decorateMenuItem({
 				id: 'copyLink',
 				label: 'Copy Link',
-				// visible: props.linkURL && props.mediaType === 'none',
 				visible: props.linkURL.length !== 0 && props.mediaType === 'none',
 				click(menuItem) {
 					props.linkURL = menuItem.transform ? menuItem.transform(props.linkURL) : props.linkURL;
@@ -105,9 +104,9 @@ function create(win, opts) {
 					}
 				}
 			})
-		}
+		};
 
-		const defaultMenu = [defaultActions.SEPARATOR(), defaultActions.CUT(), defaultActions.COPY(), defaultActions.PASTE(), defaultActions.SEPARATOR()]
+		const defaultMenu = [defaultActions.SEPARATOR(), defaultActions.CUT(), defaultActions.COPY(), defaultActions.PASTE(), defaultActions.SEPARATOR()];
 
 		let menuTpl = defaultMenu;
 
@@ -173,16 +172,16 @@ function create(win, opts) {
 
 function decorateMenuItem(menuItem) {
 	return (opts = {}) => {
-		if(opts.transform && !opts.click){
+		if (opts.transform && !opts.click) {
 			menuItem.transform = opts.transform;
 		}
 
-		if(opts.click) {
+		if (opts.click) {
 			menuItem.click = opts.click;
 		}
 
 		return menuItem;
-	}
+	};
 }
 
 function delUnusedElements(menuTpl) {
