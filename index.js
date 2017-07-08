@@ -16,7 +16,7 @@ function create(win, opts) {
 		const can = type => editFlags[`can${type}`] && hasText;
 
 		const defaultActions = {
-			CUT: decorateMenuItem({
+			cut: decorateMenuItem({
 				id: 'cut',
 				label: 'Cut',
 				enabled: can('Cut'),
@@ -33,7 +33,7 @@ function create(win, opts) {
 					win.webContents.delete();
 				}
 			}),
-			COPY: decorateMenuItem({
+			copy: decorateMenuItem({
 				id: 'copy',
 				label: 'Copy',
 				enabled: can('Copy'),
@@ -48,7 +48,7 @@ function create(win, opts) {
 					}
 				}
 			}),
-			PASTE: decorateMenuItem({
+			paste: decorateMenuItem({
 				id: 'paste',
 				label: 'Paste',
 				enabled: editFlags.canPaste,
@@ -67,7 +67,7 @@ function create(win, opts) {
 				}
 
 			}),
-			INSPECT: decorateMenuItem({
+			inspect: decorateMenuItem({
 				id: 'inspect',
 				label: 'Inspect Element',
 				click() {
@@ -78,10 +78,10 @@ function create(win, opts) {
 					}
 				}
 			}),
-			SEPARATOR: decorateMenuItem({
+			separator: decorateMenuItem({
 				type: 'separator'
 			}),
-			SAVE_IMAGE: decorateMenuItem({
+			saveImage: decorateMenuItem({
 				id: 'save',
 				label: 'Save Image',
 				visible: props.mediaType === 'image',
@@ -90,7 +90,7 @@ function create(win, opts) {
 					download(win, props.srcURL);
 				}
 			}),
-			COPY_LINK: decorateMenuItem({
+			copyLink: decorateMenuItem({
 				id: 'copyLink',
 				label: 'Copy Link',
 				visible: props.linkURL.length !== 0 && props.mediaType === 'none',
@@ -106,20 +106,20 @@ function create(win, opts) {
 			})
 		};
 
-		const defaultMenu = [defaultActions.SEPARATOR(), defaultActions.CUT(), defaultActions.COPY(), defaultActions.PASTE(), defaultActions.SEPARATOR()];
-
-		let menuTpl = defaultMenu;
+		let menuTpl = [
+			defaultActions.separator(),
+			defaultActions.cut(),
+			defaultActions.copy(),
+			defaultActions.paste(),
+			defaultActions.separator(),
+			defaultActions.saveImage(),
+			defaultActions.separator(),
+			defaultActions.copyLink(),
+			defaultActions.separator()
+		];
 
 		if (opts.menu) {
 			menuTpl = opts.menu(defaultActions, props, win);
-		}
-
-		if (!opts.menu && props.mediaType === 'image') {
-			menuTpl = [defaultActions.SEPARATOR(), defaultActions.SAVE_IMAGE(), defaultActions.SEPARATOR()];
-		}
-
-		if (!opts.menu && props.linkURL && props.mediaType === 'none') {
-			menuTpl = [defaultActions.SEPARATOR(), defaultActions.COPY_LINK(), defaultActions.SEPARATOR()];
 		}
 
 		if (opts.prepend) {
@@ -139,7 +139,7 @@ function create(win, opts) {
 		}
 
 		if (opts.showInspectElement || (opts.showInspectElement !== false && isDev)) {
-			menuTpl.push(defaultActions.SEPARATOR(), defaultActions.INSPECT(), defaultActions.SEPARATOR());
+			menuTpl.push(defaultActions.separator(), defaultActions.inspect(), defaultActions.separator());
 		}
 
 		// Apply custom labels for default menu items
@@ -174,10 +174,6 @@ function decorateMenuItem(menuItem) {
 	return (opts = {}) => {
 		if (opts.transform && !opts.click) {
 			menuItem.transform = opts.transform;
-		}
-
-		if (opts.click) {
-			menuItem.click = opts.click;
 		}
 
 		return menuItem;

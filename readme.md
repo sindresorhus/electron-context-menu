@@ -51,17 +51,50 @@ Window or WebView to add the context menu to.
 
 When not specified, the context menu will be added to all existing and new windows.
 
+#### menu
+Type: `Function`
+
+Should return an array of [MenuItem](http://electron.atom.io/docs/api/menu-item/)'s to be shown in the context menu. The first argument is an array of default actions that can be used. These actions are functions that can take an object with a transform property. The transform function will get the content of what will be copied and can modify it if needed. If no menu property is defined, the default menu will be used.
+
+Default actions:
+- `cut`
+- `copy`
+- `paste`
+- `cut`
+- `inspect`
+- `separator`
+- `saveImage`
+- `copyLink`
+
+```js
+menu: (actions) => [
+	actions.separator(),
+	actions.copyLink({transform: (content) => "modified_link_" + content}),
+	actions.separator(),
+	{
+		label: 'Unicorn'
+	},
+	actions.separator(),
+	actions.copy({transform: (content) => "modified_copy_" + content}),
+	{
+		label: 'Invisible',
+		visible: false
+	},
+	actions.paste({transform: (content) => "modified_paste_" + content})
+	]
+```
+
 #### prepend
 
 Type: `Function`
 
-Should return an array of [MenuItem](http://electron.atom.io/docs/api/menu-item/)'s to be prepended to the context menu. The first argument is [this `params` object](http://electron.atom.io/docs/api/web-contents/#event-context-menu). The second argument is the [BrowserWindow](http://electron.atom.io/docs/api/browser-window/) the context menu was requested for.
+Should return an array of [MenuItem](http://electron.atom.io/docs/api/menu-item/)'s to be prepended to the context menu. The first argument is an array of default actions that can be used. The first argument is [this `params` object](http://electron.atom.io/docs/api/web-contents/#event-context-menu). The second argument is the [BrowserWindow](http://electron.atom.io/docs/api/browser-window/) the context menu was requested for.
 
 #### append
 
 Type: `Function`
 
-Should return an array of [MenuItem](http://electron.atom.io/docs/api/menu-item/)'s to be appended to the context menu. The first argument is [this `params` object](http://electron.atom.io/docs/api/web-contents/#event-context-menu). The second argument is the [BrowserWindow](http://electron.atom.io/docs/api/browser-window/) the context menu was requested for.
+Should return an array of [MenuItem](http://electron.atom.io/docs/api/menu-item/)'s to be appended to the context menu. The first argument is an array of default actions that can be used. The second argument is [this `params` object](http://electron.atom.io/docs/api/web-contents/#event-context-menu). The third argument is the [BrowserWindow](http://electron.atom.io/docs/api/browser-window/) the context menu was requested for.
 
 #### showInspectElement
 

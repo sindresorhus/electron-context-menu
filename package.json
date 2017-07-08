@@ -39,13 +39,6 @@
     "envs": [
       "node",
       "browser"
-    ],
-    "rules": {
-      "new-cap": ["error", {
-          "newIsCap": true,
-          "capIsNew": true,
-          "properties": false
-      }]
-    }
+    ]
   }
 }

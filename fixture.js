@@ -10,23 +10,23 @@ require('.')({
 		copyLink: 'Configured Copy Link',
 		inspect: 'Configured Inspect'
 	},
-	prepend: (x) => [x.CUT({transform: (content) => "modified_cut_" + content})],
-	menu: (x) => [
-		x.SEPARATOR(),
-		x.COPY_LINK({transform: (content) => "modified_link_" + content}),
-		x.SEPARATOR(),
+	prepend: (actions) => [actions.cut({transform: (content) => "modified_cut_" + content})],
+	menu: (actions) => [
+		actions.separator(),
+		actions.copyLink({transform: (content) => "modified_link_" + content}),
+		actions.separator(),
 		{
 			label: 'Unicorn'
 		},
-		x.SEPARATOR(),
-		x.COPY({transform: (content) => "modified_copy_" + content}),
+		actions.separator(),
+		actions.copy({transform: (content) => "modified_copy_" + content}),
 		{
 			label: 'Invisible',
 			visible: false
 		},
-		x.PASTE({transform: (content) => "modified_paste_" + content})
+		actions.paste({transform: (content) => "modified_paste_" + content})
 	],
-	append: (x) => [x.SAVE_IMAGE()]
+	append: (actions) => [actions.saveImage()]
 });
 
 electron.app.on('ready', () => {
