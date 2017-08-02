@@ -88,7 +88,7 @@ menu: (actions) => [
 
 Type: `Function`
 
-Should return an array of [MenuItem](http://electron.atom.io/docs/api/menu-item/)'s to be prepended to the context menu. The first argument is an array of default actions that can be used. The first argument is [this `params` object](http://electron.atom.io/docs/api/web-contents/#event-context-menu). The second argument is the [BrowserWindow](http://electron.atom.io/docs/api/browser-window/) the context menu was requested for.
+Should return an array of [MenuItem](http://electron.atom.io/docs/api/menu-item/)'s to be prepended to the context menu. The first argument is an array of default actions that can be used. The second argument is [this `params` object](http://electron.atom.io/docs/api/web-contents/#event-context-menu). The third argument is the [BrowserWindow](http://electron.atom.io/docs/api/browser-window/) the context menu was requested for.
 
 #### append
 
