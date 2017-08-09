@@ -24,7 +24,8 @@ require('.')({
 	}, {
 		type: 'separator'
 	}],
-	append: () => {}
+	append: () => {},
+	showCopyImageAddress: true
 });
 
 electron.app.on('ready', () => {

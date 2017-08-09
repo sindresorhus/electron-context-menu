@@ -89,6 +89,24 @@ function create(win, opts) {
 			}
 		}
 
+		if (opts.showCopyImageAddress && props.mediaType === 'image') {
+			menuTpl.push({
+				type: 'separator'
+			}, {
+				id: 'showCopyImageAddress',
+				label: 'Copy Image Address',
+				click() {
+					if (process.platform === 'darwin') {
+						electron.clipboard.writeBookmark(props.srcURL, props.srcURL);
+					} else {
+						electron.clipboard.writeText(props.srcURL);
+					}
+				}
+			}, {
+				type: 'separator'
+			});
+		}
+
 		if (opts.showInspectElement || (opts.showInspectElement !== false && isDev)) {
 			menuTpl.push({
 				type: 'separator'

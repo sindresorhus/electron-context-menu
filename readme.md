@@ -63,6 +63,13 @@ Type: `Function`
 
 Should return an array of [MenuItem](http://electron.atom.io/docs/api/menu-item/)'s to be appended to the context menu. The first argument is [this `params` object](http://electron.atom.io/docs/api/web-contents/#event-context-menu). The second argument is the [BrowserWindow](http://electron.atom.io/docs/api/browser-window/) the context menu was requested for.
 
+#### showCopyImageAddress
+
+Type: `boolean`<br>
+Default: false
+
+Allows to enable or disable the `Copy Image Address` menu item.
+
 #### showInspectElement
 
 Type: `boolean`<br>
