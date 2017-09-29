@@ -130,7 +130,7 @@ function create(win, opts) {
 			 * When this is being called from a webView, we can't use win as this
 			 * would refere to the webView which is not allowed to render a popup menu.
 			 */
-			menu.popup(electron.remote ? electron.remote.getCurrentWindow() : win);
+			menu.popup(electron.remote ? electron.remote.getCurrentWindow() : win, {async: opts.async});
 		}
 	});
 }
