@@ -103,6 +103,13 @@ Example:
 shouldShowMenu: (event, params) => !params.isEditable
 ```
 
+#### async
+
+Type: `boolean`<br>
+Default: `false`
+
+Exposed `async` option for [`menu.popup`](https://github.com/electron/electron/blob/master/docs/api/menu.md#menupopupbrowserwindow-options).
+
 ## Related
 
 - [electron-debug](https://github.com/sindresorhus/electron-debug) - Adds useful debug features to your Electron app
