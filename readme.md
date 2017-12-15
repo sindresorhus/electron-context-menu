@@ -1,6 +1,6 @@
 # electron-context-menu [![Build Status](https://travis-ci.org/sindresorhus/electron-context-menu.svg?branch=master)](https://travis-ci.org/sindresorhus/electron-context-menu)
 
-> Context menu for your [Electron](http://electron.atom.io) app
+> Context menu for your [Electron](https://electronjs.org) app
 
 <img src="screenshot.png" width="125" align="right">
 
@@ -55,13 +55,13 @@ When not specified, the context menu will be added to all existing and new windo
 
 Type: `Function`
 
-Should return an array of [MenuItem](http://electron.atom.io/docs/api/menu-item/)'s to be prepended to the context menu. The first argument is [this `params` object](http://electron.atom.io/docs/api/web-contents/#event-context-menu). The second argument is the [BrowserWindow](http://electron.atom.io/docs/api/browser-window/) the context menu was requested for.
+Should return an array of [MenuItem](https://electronjs.org/docs/api/menu-item)'s to be prepended to the context menu. The first argument is [this `params` object](https://electronjs.org/docs/api/web-contents#event-context-menu). The second argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window) the context menu was requested for.
 
 #### append
 
 Type: `Function`
 
-Should return an array of [MenuItem](http://electron.atom.io/docs/api/menu-item/)'s to be appended to the context menu. The first argument is [this `params` object](http://electron.atom.io/docs/api/web-contents/#event-context-menu). The second argument is the [BrowserWindow](http://electron.atom.io/docs/api/browser-window/) the context menu was requested for.
+Should return an array of [MenuItem](https://electronjs.org/docs/api/browser-window)'s to be appended to the context menu. The first argument is [this `params` object](https://electronjs.org/docs/api/browser-window). The second argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window) the context menu was requested for.
 
 #### showInspectElement
 
@@ -94,7 +94,7 @@ labels: {
 
 Type: `Function`
 
-Determines whether or not to show the menu. Can be useful if you for example have other code presenting a context menu in some contexts. The second argument is [this `params` object](http://electron.atom.io/docs/api/web-contents/#event-context-menu).
+Determines whether or not to show the menu. Can be useful if you for example have other code presenting a context menu in some contexts. The second argument is [this `params` object](https://electronjs.org/docs/api/web-contents#event-context-menu).
 
 Example:
 
