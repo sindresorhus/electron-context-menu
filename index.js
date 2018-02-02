@@ -3,10 +3,10 @@ const electron = require('electron');
 const {download} = require('electron-dl');
 const isDev = require('electron-is-dev');
 
-const webContents = win => win.webContents || win.getWebContents();
+const getWebContents = from => from.webContents || from.getWebContents();
 
-function create(win, opts) {
-	webContents(win).on('context-menu', (e, props) => {
+function create(window, webContents, opts) {
+	webContents.on('context-menu', (e, props) => {
 		if (typeof opts.shouldShowMenu === 'function' && opts.shouldShowMenu(e, props) === false) {
 			return;
 		}
@@ -48,7 +48,7 @@ function create(win, opts) {
 				id: 'save',
 				label: 'Save Image',
 				click() {
-					download(win, props.srcURL);
+					download(window, props.srcURL);
 				}
 			}, {
 				type: 'separator'
@@ -74,7 +74,7 @@ function create(win, opts) {
 		}
 
 		if (opts.prepend) {
-			const result = opts.prepend(props, win);
+			const result = opts.prepend(props, window);
 
 			if (Array.isArray(result)) {
 				menuTpl.unshift(...result);
@@ -82,7 +82,7 @@ function create(win, opts) {
 		}
 
 		if (opts.append) {
-			const result = opts.append(props, win);
+			const result = opts.append(props, window);
 
 			if (Array.isArray(result)) {
 				menuTpl.push(...result);
@@ -96,10 +96,10 @@ function create(win, opts) {
 				id: 'inspect',
 				label: 'Inspect Element',
 				click() {
-					win.inspectElement(props.x, props.y);
+					webContents.inspectElement(props.x, props.y);
 
-					if (webContents(win).isDevToolsOpened()) {
-						webContents(win).devToolsWebContents.focus();
+					if (webContents.isDevToolsOpened()) {
+						webContents.devToolsWebContents.focus();
 					}
 				}
 			}, {
@@ -130,7 +130,7 @@ function create(win, opts) {
 			 * When this is being called from a webView, we can't use win as this
 			 * would refere to the webView which is not allowed to render a popup menu.
 			 */
-			menu.popup(electron.remote ? electron.remote.getCurrentWindow() : win);
+			menu.popup(electron.remote ? electron.remote.getCurrentWindow() : window);
 		}
 	});
 }
@@ -145,26 +145,30 @@ function delUnusedElements(menuTpl) {
 }
 
 module.exports = (opts = {}) => {
+	if (opts.browserView && opts.window) {
+		return create(opts.window, getWebContents(opts.browserView), opts);
+	}
+
 	if (opts.window) {
 		const win = opts.window;
-		const wc = webContents(win);
+		const wc = getWebContents(win);
 
 		// When window is a webview that has not yet finished loading webContents is not available
 		if (wc === undefined) {
 			win.addEventListener('dom-ready', () => {
-				create(win, opts);
+				create(win, getWebContents(win), opts);
 			}, {once: true});
 			return;
 		}
 
-		return create(win, opts);
+		return create(win, wc, opts);
 	}
 
 	(electron.BrowserWindow || electron.remote.BrowserWindow).getAllWindows().forEach(win => {
-		create(win, opts);
+		create(win, getWebContents(win), opts);
 	});
 
 	(electron.app || electron.remote.app).on('browser-window-created', (e, win) => {
-		create(win, opts);
+		create(win, getWebContents(win), opts);
 	});
 };
