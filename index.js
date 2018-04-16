@@ -3,7 +3,7 @@ const electron = require('electron');
 const {download} = require('electron-dl');
 const isDev = require('electron-is-dev');
 
-const webContents = win => win.webContents || win.getWebContents();
+const webContents = win => win.webContents || (win.getWebContents && win.getWebContents()) || undefined;
 
 function create(win, opts) {
 	webContents(win).on('context-menu', (e, props) => {
