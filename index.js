@@ -62,11 +62,10 @@ function create(win, opts) {
 				id: 'copyLink',
 				label: 'Copy Link',
 				click() {
-					if (process.platform === 'darwin') {
-						electron.clipboard.writeBookmark(props.linkText, props.linkURL);
-					} else {
-						electron.clipboard.writeText(props.linkURL);
-					}
+					electron.clipboard.write({
+						bookmark: props.linkText,
+						text: props.linkURL
+					});
 				}
 			}, {
 				type: 'separator'
