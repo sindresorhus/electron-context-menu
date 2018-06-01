@@ -11,7 +11,7 @@ function create(win, opts) {
 			return;
 		}
 
-		const editFlags = props.editFlags;
+		const {editFlags} = props;
 		const hasText = props.selectionText.trim().length > 0;
 		const can = type => editFlags[`can${type}`] && hasText;
 
