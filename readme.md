@@ -66,9 +66,9 @@ Should return an array of [MenuItem](http://electron.atom.io/docs/api/menu-item/
 #### showCopyImageAddress
 
 Type: `boolean`<br>
-Default: false
+Default: `false`
 
-Allows to enable or disable the `Copy Image Address` menu item.
+Show the `Copy Image Address` menu item when right-clicking on an image.
 
 #### showInspectElement
 
