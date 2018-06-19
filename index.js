@@ -11,7 +11,7 @@ function create(win, opts) {
 			return;
 		}
 
-		const editFlags = props.editFlags;
+		const {editFlags} = props;
 		const hasText = props.selectionText.trim().length > 0;
 		const can = type => editFlags[`can${type}`] && hasText;
 
@@ -62,11 +62,10 @@ function create(win, opts) {
 				id: 'copyLink',
 				label: 'Copy Link',
 				click() {
-					if (process.platform === 'darwin') {
-						electron.clipboard.writeBookmark(props.linkText, props.linkURL);
-					} else {
-						electron.clipboard.writeText(props.linkURL);
-					}
+					electron.clipboard.write({
+						bookmark: props.linkText,
+						text: props.linkURL
+					});
 				}
 			}, {
 				type: 'separator'
