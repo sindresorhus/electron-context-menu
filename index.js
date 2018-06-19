@@ -73,22 +73,6 @@ function create(win, opts) {
 			}];
 		}
 
-		if (opts.prepend) {
-			const result = opts.prepend(props, win);
-
-			if (Array.isArray(result)) {
-				menuTpl.unshift(...result);
-			}
-		}
-
-		if (opts.append) {
-			const result = opts.append(props, win);
-
-			if (Array.isArray(result)) {
-				menuTpl.push(...result);
-			}
-		}
-
 		if (opts.showCopyImageAddress && props.mediaType === 'image') {
 			menuTpl.push({
 				type: 'separator'
@@ -104,6 +88,22 @@ function create(win, opts) {
 			}, {
 				type: 'separator'
 			});
+		}
+
+		if (opts.prepend) {
+			const result = opts.prepend(props, win);
+
+			if (Array.isArray(result)) {
+				menuTpl.unshift(...result);
+			}
+		}
+
+		if (opts.append) {
+			const result = opts.append(props, win);
+
+			if (Array.isArray(result)) {
+				menuTpl.push(...result);
+			}
 		}
 
 		if (opts.showInspectElement || (opts.showInspectElement !== false && isDev)) {
