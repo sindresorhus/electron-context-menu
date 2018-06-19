@@ -63,6 +63,13 @@ Type: `Function`
 
 Should return an array of [MenuItem](https://electronjs.org/docs/api/browser-window)'s to be appended to the context menu. The first argument is [this `params` object](https://electronjs.org/docs/api/browser-window). The second argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window) the context menu was requested for.
 
+#### showCopyImageAddress
+
+Type: `boolean`<br>
+Default: `false`
+
+Show the `Copy Image Address` menu item when right-clicking on an image.
+
 #### showInspectElement
 
 Type: `boolean`<br>
