@@ -96,11 +96,10 @@ function create(win, opts) {
 				id: 'showCopyImageAddress',
 				label: 'Copy Image Address',
 				click() {
-					if (process.platform === 'darwin') {
-						electron.clipboard.writeBookmark(props.srcURL, props.srcURL);
-					} else {
-						electron.clipboard.writeText(props.srcURL);
-					}
+					electron.clipboard.write({
+						bookmark: props.srcURL,
+						text: props.srcURL
+					});
 				}
 			}, {
 				type: 'separator'
