@@ -47,7 +47,7 @@ function create(win, opts) {
 			}, {
 				id: 'save',
 				label: 'Save Image',
-				click() {
+				click(item, win) {
 					download(win, props.srcURL);
 				}
 			}, {
