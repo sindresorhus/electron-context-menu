@@ -5,9 +5,9 @@ const isDev = require('electron-is-dev');
 
 const webContents = win => win.webContents || win.getWebContents();
 
-function create(win, opts) {
-	webContents(win).on('context-menu', (e, props) => {
-		if (typeof opts.shouldShowMenu === 'function' && opts.shouldShowMenu(e, props) === false) {
+function create(win, options) {
+	webContents(win).on('context-menu', (event, props) => {
+		if (typeof options.shouldShowMenu === 'function' && options.shouldShowMenu(event, props) === false) {
 			return;
 		}
 
@@ -72,11 +72,11 @@ function create(win, opts) {
 			}];
 		}
 
-		if (opts.showCopyImageAddress && props.mediaType === 'image') {
+		if (options.showCopyImageAddress && props.mediaType === 'image') {
 			menuTpl.push({
 				type: 'separator'
 			}, {
-				id: 'showCopyImageAddress',
+				id: 'copyImageAddress',
 				label: 'Copy Image Address',
 				click() {
 					electron.clipboard.write({
@@ -89,23 +89,23 @@ function create(win, opts) {
 			});
 		}
 
-		if (opts.prepend) {
-			const result = opts.prepend(props, win);
+		if (options.prepend) {
+			const result = options.prepend(props, win);
 
 			if (Array.isArray(result)) {
 				menuTpl.unshift(...result);
 			}
 		}
 
-		if (opts.append) {
-			const result = opts.append(props, win);
+		if (options.append) {
+			const result = options.append(props, win);
 
 			if (Array.isArray(result)) {
 				menuTpl.push(...result);
 			}
 		}
 
-		if (opts.showInspectElement || (opts.showInspectElement !== false && isDev)) {
+		if (options.showInspectElement || (options.showInspectElement !== false && isDev)) {
 			menuTpl.push({
 				type: 'separator'
 			}, {
@@ -124,10 +124,10 @@ function create(win, opts) {
 		}
 
 		// Apply custom labels for default menu items
-		if (opts.labels) {
+		if (options.labels) {
 			for (const menuItem of menuTpl) {
-				if (opts.labels[menuItem.id]) {
-					menuItem.label = opts.labels[menuItem.id];
+				if (options.labels[menuItem.id]) {
+					menuItem.label = options.labels[menuItem.id];
 				}
 			}
 		}
@@ -153,34 +153,34 @@ function create(win, opts) {
 
 function delUnusedElements(menuTpl) {
 	let notDeletedPrevEl;
-	return menuTpl.filter(el => el.visible !== false).filter((el, i, arr) => {
-		const toDelete = el.type === 'separator' && (!notDeletedPrevEl || i === arr.length - 1 || arr[i + 1].type === 'separator');
+	return menuTpl.filter(el => el.visible !== false).filter((el, i, array) => {
+		const toDelete = el.type === 'separator' && (!notDeletedPrevEl || i === array.length - 1 || array[i + 1].type === 'separator');
 		notDeletedPrevEl = toDelete ? notDeletedPrevEl : el;
 		return !toDelete;
 	});
 }
 
-module.exports = (opts = {}) => {
-	if (opts.window) {
-		const win = opts.window;
+module.exports = (options = {}) => {
+	if (options.window) {
+		const win = options.window;
 		const wc = webContents(win);
 
 		// When window is a webview that has not yet finished loading webContents is not available
 		if (wc === undefined) {
 			win.addEventListener('dom-ready', () => {
-				create(win, opts);
+				create(win, options);
 			}, {once: true});
 			return;
 		}
 
-		return create(win, opts);
+		return create(win, options);
 	}
 
-	(electron.BrowserWindow || electron.remote.BrowserWindow).getAllWindows().forEach(win => {
-		create(win, opts);
-	});
+	for (const win of (electron.BrowserWindow || electron.remote.BrowserWindow).getAllWindows()) {
+		create(win, options);
+	}
 
-	(electron.app || electron.remote.app).on('browser-window-created', (e, win) => {
-		create(win, opts);
+	(electron.app || electron.remote.app).on('browser-window-created', (event, win) => {
+		create(win, options);
 	});
 };
