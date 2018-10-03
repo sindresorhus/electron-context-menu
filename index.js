@@ -55,7 +55,7 @@ function create(win, options) {
 			}];
 		}
 
-		if (props.linkURL && props.mediaType === 'none') {
+		if (options.showCopyLink && props.linkURL && props.mediaType === 'none') {
 			menuTpl = [{
 				type: 'separator'
 			}, {

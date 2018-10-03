@@ -77,6 +77,13 @@ Default: `false`
 
 Show the `Copy Image Address` menu item when right-clicking on an image.
 
+#### showCopyLink
+
+Type: `boolean`<br>
+Default: `false`
+
+Show the `Copy Link` menu item when right-clicking on a link.
+
 #### showInspectElement
 
 Type: `boolean`<br>
