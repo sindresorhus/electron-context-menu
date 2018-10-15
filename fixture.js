@@ -1,5 +1,5 @@
-'use strict';
-const electron = require('electron');
+'use strict'
+const electron = require('electron')
 
 require('.')({
 	labels: {
@@ -10,25 +10,32 @@ require('.')({
 		copyLink: 'Configured Copy Link',
 		inspect: 'Configured Inspect'
 	},
-	prepend: () => [{
-		label: 'Unicorn'
-	}, {
-		type: 'separator'
-	}, {
-		type: 'separator'
-	}, {
-		label: 'Invisible',
-		visible: false
-	}, {
-		type: 'separator'
-	}, {
-		type: 'separator'
-	}],
+	prepend: () => [
+		{
+			label: 'Unicorn'
+		},
+		{
+			type: 'separator'
+		},
+		{
+			type: 'separator'
+		},
+		{
+			label: 'Invisible',
+			visible: false
+		},
+		{
+			type: 'separator'
+		},
+		{
+			type: 'separator'
+		}
+	],
 	append: () => {},
-	showCopyImageAddress: true
-});
+	showCopyImageAddress: true,
+	saveImageAs: false
+})
 
 electron.app.on('ready', () => {
-	(new electron.BrowserWindow())
-		.loadURL(`file://${__dirname}/fixture.html`);
-});
+	new electron.BrowserWindow().loadURL(`file://${__dirname}/fixture.html`)
+})
