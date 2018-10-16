@@ -70,26 +70,26 @@ function create(win, options) {
 		}
 
 		if (props.linkURL && props.mediaType === 'none') {
-			menuTpl = [{
-				type: 'separator'
-			}, {
-				id: 'copyLink',
-				label: 'Copy Link',
-				click() {
-					electron.clipboard.write({
-						bookmark: props.linkText,
-						text: props.linkURL
-					});
-				}
-			}, {
-				type: 'separator'
-			}];
+				menuTpl = [{
+					type: 'separator'
+				}, {
+					id: 'copyLink',
+					label: 'Copy Link',
+					click() {
+						electron.clipboard.write({
+							bookmark: props.linkText,
+							text: props.linkURL
+						});
+					}
+				}, {
+					type: 'separator'
+				}];
 		}
 
 		if (options.showCopyImageAddress && props.mediaType === 'image') {
-			menuTpl.push({
-				type: 'separator'
-			}, {
+				menuTpl.push({
+					type: 'separator'
+				}, {
 					id: 'copyImageAddress',
 					label: 'Copy Image Address',
 					click() {
@@ -123,18 +123,18 @@ function create(win, options) {
 			menuTpl.push({
 				type: 'separator'
 			}, {
-					id: 'inspect',
-					label: 'Inspect Element',
-					click() {
-						win.inspectElement(props.x, props.y);
+				id: 'inspect',
+				label: 'Inspect Element',
+				click() {
+					win.inspectElement(props.x, props.y);
 
-						if (webContents(win).isDevToolsOpened()) {
-							webContents(win).devToolsWebContents.focus();
-						}
+					if (webContents(win).isDevToolsOpened()) {
+						webContents(win).devToolsWebContents.focus();
 					}
-				}, {
-					type: 'separator'
-				});
+				}
+			}, {
+				type: 'separator'
+			});
 		}
 
 		// Apply custom labels for default menu items
