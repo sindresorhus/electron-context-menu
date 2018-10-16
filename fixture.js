@@ -8,7 +8,8 @@ require('.')({
 		paste: 'Configured Paste',
 		save: 'Configured Save Image',
 		copyLink: 'Configured Copy Link',
-		inspect: 'Configured Inspect'
+		inspect: 'Configured Inspect',
+		saveImageAs: 'Save Image As'
 	},
 	prepend: () => [{
 		label: 'Unicorn'

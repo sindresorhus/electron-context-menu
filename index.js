@@ -55,6 +55,20 @@ function create(win, options) {
 			}];
 		}
 
+		if (options.saveImageAs && props.mediaType === 'image') {
+			menuTpl = [{
+				type: 'separator'
+			}, {
+				id: 'saveImageAS',
+				label: 'Save Image AS',
+				click(item, win) {
+					download(win, props.srcURL, {saveAs: true});
+				}
+			}, {
+				type: 'separator'
+			}];
+		}
+
 		if (props.linkURL && props.mediaType === 'none') {
 			menuTpl = [{
 				type: 'separator'
@@ -76,17 +90,17 @@ function create(win, options) {
 			menuTpl.push({
 				type: 'separator'
 			}, {
-				id: 'copyImageAddress',
-				label: 'Copy Image Address',
-				click() {
-					electron.clipboard.write({
-						bookmark: props.srcURL,
-						text: props.srcURL
-					});
-				}
-			}, {
-				type: 'separator'
-			});
+					id: 'copyImageAddress',
+					label: 'Copy Image Address',
+					click() {
+						electron.clipboard.write({
+							bookmark: props.srcURL,
+							text: props.srcURL
+						});
+					}
+				}, {
+					type: 'separator'
+				});
 		}
 
 		if (options.prepend) {
@@ -109,18 +123,18 @@ function create(win, options) {
 			menuTpl.push({
 				type: 'separator'
 			}, {
-				id: 'inspect',
-				label: 'Inspect Element',
-				click() {
-					win.inspectElement(props.x, props.y);
+					id: 'inspect',
+					label: 'Inspect Element',
+					click() {
+						win.inspectElement(props.x, props.y);
 
-					if (webContents(win).isDevToolsOpened()) {
-						webContents(win).devToolsWebContents.focus();
+						if (webContents(win).isDevToolsOpened()) {
+							webContents(win).devToolsWebContents.focus();
+						}
 					}
-				}
-			}, {
-				type: 'separator'
-			});
+				}, {
+					type: 'separator'
+				});
 		}
 
 		// Apply custom labels for default menu items
