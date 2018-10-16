@@ -70,37 +70,37 @@ function create(win, options) {
 		}
 
 		if (props.linkURL && props.mediaType === 'none') {
-				menuTpl = [{
-					type: 'separator'
-				}, {
-					id: 'copyLink',
-					label: 'Copy Link',
-					click() {
-						electron.clipboard.write({
-							bookmark: props.linkText,
-							text: props.linkURL
-						});
-					}
-				}, {
-					type: 'separator'
-				}];
+			menuTpl = [{
+				type: 'separator'
+			}, {
+				id: 'copyLink',
+				label: 'Copy Link',
+				click() {
+					electron.clipboard.write({
+						bookmark: props.linkText,
+						text: props.linkURL
+					});
+				}
+			}, {
+				type: 'separator'
+			}];
 		}
 
 		if (options.showCopyImageAddress && props.mediaType === 'image') {
-				menuTpl.push({
-					type: 'separator'
-				}, {
-					id: 'copyImageAddress',
-					label: 'Copy Image Address',
-					click() {
-						electron.clipboard.write({
-							bookmark: props.srcURL,
-							text: props.srcURL
-						});
-					}
-				}, {
-					type: 'separator'
-				});
+			menuTpl.push({
+				type: 'separator'
+			}, {
+				id: 'copyImageAddress',
+				label: 'Copy Image Address',
+				click() {
+					electron.clipboard.write({
+						bookmark: props.srcURL,
+						text: props.srcURL
+					});
+				}
+			}, {
+				type: 'separator'
+			});
 		}
 
 		if (options.prepend) {
