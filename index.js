@@ -60,7 +60,7 @@ function create(win, options) {
 				type: 'separator'
 			}, {
 				id: 'saveImageAS',
-				label: 'Save Image AS',
+				label: 'Save Image As',
 				click(item, win) {
 					download(win, props.srcURL, {saveAs: true});
 				}

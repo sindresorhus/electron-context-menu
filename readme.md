@@ -84,6 +84,13 @@ Default: [Only in development](https://github.com/sindresorhus/electron-is-dev)
 
 Force enable or disable the `Inspect Element` menu item.
 
+#### saveImageAs
+
+Type: `boolean`<br>
+Default: `false`
+
+Show the `show Save Image As` menu item when right-clicking on an image.
+
 #### labels
 
 Type: `Object`<br>
@@ -101,7 +108,8 @@ labels: {
 	save: 'Configured Save Image',
 	copyLink: 'Configured Copy Link',
 	copyImageAddress: 'Configured Copy Image Address',
-	inspect: 'Configured Inspect'
+	inspect: 'Configured Inspect',
+	saveImageAs: 'Configured saveImageAs'
 }
 ```
 
