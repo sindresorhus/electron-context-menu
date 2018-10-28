@@ -7,6 +7,7 @@ require('.')({
 		copy: 'Configured Copy',
 		paste: 'Configured Paste',
 		save: 'Configured Save Image',
+		saveImageAs: 'Configured Save Image As…',
 		copyLink: 'Configured Copy Link',
 		inspect: 'Configured Inspect'
 	},
@@ -25,7 +26,8 @@ require('.')({
 		type: 'separator'
 	}],
 	append: () => {},
-	showCopyImageAddress: true
+	showCopyImageAddress: true,
+	showSaveImageAs: true
 });
 
 electron.app.on('ready', () => {

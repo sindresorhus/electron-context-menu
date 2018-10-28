@@ -50,9 +50,21 @@ function create(win, options) {
 				click(item, win) {
 					download(win, props.srcURL);
 				}
-			}, {
-				type: 'separator'
 			}];
+
+			if (options.showSaveImageAs) {
+				menuTpl.push({
+					id: 'saveImageAs',
+					label: 'Save Image As…',
+					click(item, win) {
+						download(win, props.srcURL, {saveAs: true});
+					}
+				});
+			}
+
+			menuTpl.push({
+				type: 'separator'
+			});
 		}
 
 		if (props.linkURL && props.mediaType === 'none') {
