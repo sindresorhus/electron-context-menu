@@ -28,11 +28,11 @@
 	],
 	"dependencies": {
 		"electron-dl": "^1.2.0",
-		"electron-is-dev": "^0.3.0"
+		"electron-is-dev": "^1.0.1"
 	},
 	"devDependencies": {
 		"ava": "*",
-		"electron": "^2.0.2",
+		"electron": "^3.0.6",
 		"xo": "*"
 	},
 	"xo": {
