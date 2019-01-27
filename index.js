@@ -196,3 +196,5 @@ module.exports = (options = {}) => {
 		create(win, options);
 	});
 };
+
+module.exports.default = module.exports;
