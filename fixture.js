@@ -1,7 +1,8 @@
 'use strict';
-const electron = require('electron');
+const {app, BrowserWindow} = require('electron');
+const contextMenu = require('.');
 
-require('.')({
+contextMenu({
 	labels: {
 		cut: 'Configured Cut',
 		copy: 'Configured Copy',
@@ -11,26 +12,34 @@ require('.')({
 		copyLink: 'Configured Copy Link',
 		inspect: 'Configured Inspect'
 	},
-	prepend: () => [{
-		label: 'Unicorn'
-	}, {
-		type: 'separator'
-	}, {
-		type: 'separator'
-	}, {
-		label: 'Invisible',
-		visible: false
-	}, {
-		type: 'separator'
-	}, {
-		type: 'separator'
-	}],
+	prepend: () => [
+		{
+			label: 'Unicorn'
+		},
+		{
+			type: 'separator'
+		},
+		{
+			type: 'separator'
+		},
+		{
+			label: 'Invisible',
+			visible: false
+		},
+		{
+			type: 'separator'
+		},
+		{
+			type: 'separator'
+		}
+	],
 	append: () => {},
 	showCopyImageAddress: true,
 	showSaveImageAs: true
 });
 
-electron.app.on('ready', () => {
-	(new electron.BrowserWindow())
-		.loadURL(`file://${__dirname}/fixture.html`);
-});
+(async () => {
+	await app.whenReady();
+
+	new BrowserWindow().loadURL(`file://${__dirname}/fixture.html`);
+})();

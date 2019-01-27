@@ -32,10 +32,10 @@
 		"electron-is-dev": "^1.0.1"
 	},
 	"devDependencies": {
-		"ava": "*",
-		"electron": "^3.0.6",
+		"ava": "^1.2.0",
+		"electron": "^4.0.2",
 		"tsd-check": "^0.3.0",
-		"xo": "*"
+		"xo": "^0.24.0"
 	},
 	"xo": {
 		"envs": [

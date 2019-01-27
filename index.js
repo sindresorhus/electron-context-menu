@@ -15,42 +15,51 @@ function create(win, options) {
 		const hasText = props.selectionText.trim().length > 0;
 		const can = type => editFlags[`can${type}`] && hasText;
 
-		let menuTpl = [{
-			type: 'separator'
-		}, {
-			id: 'cut',
-			label: 'Cut',
-			// Needed because of macOS limitation:
-			// https://github.com/electron/electron/issues/5860
-			role: can('Cut') ? 'cut' : '',
-			enabled: can('Cut'),
-			visible: props.isEditable
-		}, {
-			id: 'copy',
-			label: 'Copy',
-			role: can('Copy') ? 'copy' : '',
-			enabled: can('Copy'),
-			visible: props.isEditable || hasText
-		}, {
-			id: 'paste',
-			label: 'Paste',
-			role: editFlags.canPaste ? 'paste' : '',
-			enabled: editFlags.canPaste,
-			visible: props.isEditable
-		}, {
-			type: 'separator'
-		}];
+		let menuTpl = [
+			{
+				type: 'separator'
+			},
+			{
+				id: 'cut',
+				label: 'Cut',
+				// Needed because of macOS limitation:
+				// https://github.com/electron/electron/issues/5860
+				role: can('Cut') ? 'cut' : '',
+				enabled: can('Cut'),
+				visible: props.isEditable
+			},
+			{
+				id: 'copy',
+				label: 'Copy',
+				role: can('Copy') ? 'copy' : '',
+				enabled: can('Copy'),
+				visible: props.isEditable || hasText
+			},
+			{
+				id: 'paste',
+				label: 'Paste',
+				role: editFlags.canPaste ? 'paste' : '',
+				enabled: editFlags.canPaste,
+				visible: props.isEditable
+			},
+			{
+				type: 'separator'
+			}
+		];
 
 		if (props.mediaType === 'image') {
-			menuTpl = [{
-				type: 'separator'
-			}, {
-				id: 'save',
-				label: 'Save Image',
-				click(item, win) {
-					download(win, props.srcURL);
+			menuTpl = [
+				{
+					type: 'separator'
+				},
+				{
+					id: 'save',
+					label: 'Save Image',
+					click(item, win) {
+						download(win, props.srcURL);
+					}
 				}
-			}];
+			];
 
 			if (options.showSaveImageAs) {
 				menuTpl.push({
@@ -68,37 +77,45 @@ function create(win, options) {
 		}
 
 		if (props.linkURL && props.mediaType === 'none') {
-			menuTpl = [{
-				type: 'separator'
-			}, {
-				id: 'copyLink',
-				label: 'Copy Link',
-				click() {
-					electron.clipboard.write({
-						bookmark: props.linkText,
-						text: props.linkURL
-					});
+			menuTpl = [
+				{
+					type: 'separator'
+				},
+				{
+					id: 'copyLink',
+					label: 'Copy Link',
+					click() {
+						electron.clipboard.write({
+							bookmark: props.linkText,
+							text: props.linkURL
+						});
+					}
+				},
+				{
+					type: 'separator'
 				}
-			}, {
-				type: 'separator'
-			}];
+			];
 		}
 
 		if (options.showCopyImageAddress && props.mediaType === 'image') {
-			menuTpl.push({
-				type: 'separator'
-			}, {
-				id: 'copyImageAddress',
-				label: 'Copy Image Address',
-				click() {
-					electron.clipboard.write({
-						bookmark: props.srcURL,
-						text: props.srcURL
-					});
+			menuTpl.push(
+				{
+					type: 'separator'
+				},
+				{
+					id: 'copyImageAddress',
+					label: 'Copy Image Address',
+					click() {
+						electron.clipboard.write({
+							bookmark: props.srcURL,
+							text: props.srcURL
+						});
+					}
+				},
+				{
+					type: 'separator'
 				}
-			}, {
-				type: 'separator'
-			});
+			);
 		}
 
 		if (options.prepend) {
@@ -118,21 +135,25 @@ function create(win, options) {
 		}
 
 		if (options.showInspectElement || (options.showInspectElement !== false && isDev)) {
-			menuTpl.push({
-				type: 'separator'
-			}, {
-				id: 'inspect',
-				label: 'Inspect Element',
-				click() {
-					win.inspectElement(props.x, props.y);
+			menuTpl.push(
+				{
+					type: 'separator'
+				},
+				{
+					id: 'inspect',
+					label: 'Inspect Element',
+					click() {
+						win.inspectElement(props.x, props.y);
 
-					if (webContents(win).isDevToolsOpened()) {
-						webContents(win).devToolsWebContents.focus();
+						if (webContents(win).isDevToolsOpened()) {
+							webContents(win).devToolsWebContents.focus();
+						}
 					}
+				},
+				{
+					type: 'separator'
 				}
-			}, {
-				type: 'separator'
-			});
+			);
 		}
 
 		// Apply custom labels for default menu items

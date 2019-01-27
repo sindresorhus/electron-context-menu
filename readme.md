@@ -26,8 +26,9 @@ $ npm install electron-context-menu
 
 ```js
 const {app, BrowserWindow} = require('electron');
+const contextMenu = require('electron-context-menu');
 
-require('electron-context-menu')({
+contextMenu({
 	prepend: (params, browserWindow) => [{
 		label: 'Rainbow',
 		// Only show it when right-clicking images
@@ -35,10 +36,11 @@ require('electron-context-menu')({
 	}]
 });
 
-let mainWindow;
-app.on('ready', () => {
-	mainWindow = new BrowserWindow();
-});
+let win;
+(async () => {
+	await app.whenReady();
+	win = new BrowserWindow();
+})();
 ```
 
 
