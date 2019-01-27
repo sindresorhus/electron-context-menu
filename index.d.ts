@@ -83,7 +83,7 @@ export interface Options {
    *
    * @default {}
    */
-  labels: Labels;
+  labels?: Labels;
 
   /**
    * Determines whether or not to show the menu.
@@ -94,7 +94,7 @@ export interface Options {
    * // Doesn't show the menu if the element is editable
    * shouldShowMenu: (event, params) => !params.isEditable
    */
-  shouldShowMenu: (event: Electron.Event, params: Electron.ContextMenuParams) => boolean;
+  shouldShowMenu?: (event: Electron.Event, params: Electron.ContextMenuParams) => boolean;
 }
 
 /**
