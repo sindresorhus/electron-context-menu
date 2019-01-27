@@ -38,8 +38,8 @@ export interface Options {
 
   /**
    * Overwrite labels for the default menu items. Useful for i18n.
-	 *
-	 * @default {}
+   *
+   * @default {}
    *
    * @example
    *
