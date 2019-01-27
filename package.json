@@ -11,10 +11,11 @@
 	},
 	"scripts": {
 		"start": "electron fixture.js",
-		"test": "xo && ava"
+		"test": "xo && ava && tsd-check"
 	},
 	"files": [
-		"index.js"
+		"index.js",
+		"index.d.ts"
 	],
 	"keywords": [
 		"electron",
@@ -33,6 +34,7 @@
 	"devDependencies": {
 		"ava": "*",
 		"electron": "^3.0.6",
+		"tsd-check": "^0.3.0",
 		"xo": "*"
 	},
 	"xo": {

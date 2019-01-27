@@ -68,7 +68,7 @@ Should return an array of [MenuItem](https://electronjs.org/docs/api/menu-item)'
 
 Type: `Function`
 
-Should return an array of [MenuItem](https://electronjs.org/docs/api/browser-window)'s to be appended to the context menu. The first argument is [this `params` object](https://electronjs.org/docs/api/browser-window). The second argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window) the context menu was requested for.
+Should return an array of [MenuItem](https://electronjs.org/docs/api/menu-item)'s to be appended to the context menu. The first argument is [this `params` object](https://electronjs.org/docs/api/web-contents#event-context-menu). The second argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window) the context menu was requested for.
 
 #### showCopyImageAddress
 
