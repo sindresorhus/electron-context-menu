@@ -1,3 +1,45 @@
+export interface Labels {
+  /**
+   * @default 'Cut'
+   */
+  cut?: string;
+
+  /**
+   * @default 'Copy'
+   */
+  copy?: string;
+
+  /**
+   * @default 'Paste'
+   */
+  paste?: string;
+
+  /**
+   * @default 'Save Image'
+   */
+  save?: string;
+
+  /**
+   * @default 'Save Image As…'
+   */
+  saveImageAs?: string;
+
+  /**
+   * @default 'Copy Link'
+   */
+  copyLink?: string;
+
+  /**
+   * @default 'Copy Image Address'
+   */
+  copyImageAddress?: string;
+
+  /**
+   * @default 'Inspect Element'
+   */
+  inspect?: string;
+}
+
 export interface Options {
   /**
    * Window or WebView to add the context menu to.
@@ -40,21 +82,8 @@ export interface Options {
    * Overwrite labels for the default menu items. Useful for i18n.
    *
    * @default {}
-   *
-   * @example
-   *
-   * labels: {
-   * 	cut: 'Configured Cut',
-   * 	copy: 'Configured Copy',
-   * 	paste: 'Configured Paste',
-   * 	save: 'Configured Save Image',
-   * 	saveImageAs: 'Configured Save Image As…'
-   * 	copyLink: 'Configured Copy Link',
-   * 	copyImageAddress: 'Configured Copy Image Address',
-   * 	inspect: 'Configured Inspect'
-   * }
    */
-  labels: object;
+  labels: Labels;
 
   /**
    * Determines whether or not to show the menu.
