@@ -1,43 +1,51 @@
+import {
+	BrowserWindow,
+	WebviewTag,
+	ContextMenuParams,
+	MenuItem,
+	Event as ElectronEvent
+} from 'electron';
+
 export interface Labels {
 	/**
 	 * @default 'Cut'
 	 */
-	cut?: string;
+	readonly cut?: string;
 
 	/**
 	 * @default 'Copy'
 	 */
-	copy?: string;
+	readonly copy?: string;
 
 	/**
 	 * @default 'Paste'
 	 */
-	paste?: string;
+	readonly paste?: string;
 
 	/**
 	 * @default 'Save Image'
 	 */
-	save?: string;
+	readonly save?: string;
 
 	/**
 	 * @default 'Save Image As…'
 	 */
-	saveImageAs?: string;
+	readonly saveImageAs?: string;
 
 	/**
 	 * @default 'Copy Link'
 	 */
-	copyLink?: string;
+	readonly copyLink?: string;
 
 	/**
 	 * @default 'Copy Image Address'
 	 */
-	copyImageAddress?: string;
+	readonly copyImageAddress?: string;
 
 	/**
 	 * @default 'Inspect Element'
 	 */
-	inspect?: string;
+	readonly inspect?: string;
 }
 
 export interface Options {
@@ -45,45 +53,45 @@ export interface Options {
 	 * Window or WebView to add the context menu to.
 	 * When not specified, the context menu will be added to all existing and new windows.
 	 */
-	window?: Electron.BrowserWindow | Electron.WebviewTag;
+	readonly window?: BrowserWindow | WebviewTag;
 
 	/**
 	 * Should return an array of [menu items](https://electronjs.org/docs/api/menu-item) to be prepended to the context menu.
 	 */
-	prepend?: (params: Electron.ContextMenuParams, browserWindow: Electron.BrowserWindow | Electron.WebviewTag) => Electron.MenuItem[];
+	readonly prepend?: (params: ContextMenuParams, browserWindow: BrowserWindow | WebviewTag) => MenuItem[];
 
 	/**
 	 * Should return an array of [menu items](https://electronjs.org/docs/api/menu-item) to be appended to the context menu.
 	 */
-	append?: (param: Electron.ContextMenuParams, browserWindow: Electron.BrowserWindow | Electron.WebviewTag) => Electron.MenuItem[];
+	readonly append?: (param: ContextMenuParams, browserWindow: BrowserWindow | WebviewTag) => MenuItem[];
 
 	/**
 	 * Show the `Copy Image Address` menu item when right-clicking on an image.
 	 *
 	 * @default false
 	 */
-	showCopyImageAddress?: boolean;
+	readonly showCopyImageAddress?: boolean;
 
 	/**
 	 * Show the `Save Image As…` menu item when right-clicking on an image.
 	 *
 	 * @default false
 	 */
-	showSaveImageAs?: boolean;
+	readonly showSaveImageAs?: boolean;
 
 	/**
 	 * Force enable or disable the `Inspect Element` menu item.
 	 *
 	 * Default: [Only in development](https://github.com/sindresorhus/electron-is-dev)
 	 */
-	showInspectElement?: boolean;
+	readonly showInspectElement?: boolean;
 
 	/**
 	 * Overwrite labels for the default menu items. Useful for i18n.
 	 *
 	 * @default {}
 	 */
-	labels?: Labels;
+	readonly labels?: Labels;
 
 	/**
 	 * Determines whether or not to show the menu.
@@ -94,7 +102,7 @@ export interface Options {
 	 * // Doesn't show the menu if the element is editable
 	 * shouldShowMenu: (event, params) => !params.isEditable
 	 */
-	shouldShowMenu?: (event: Electron.Event, params: Electron.ContextMenuParams) => boolean;
+	readonly shouldShowMenu?: (event: ElectronEvent, params: ContextMenuParams) => boolean;
 }
 
 /**
