@@ -23,12 +23,7 @@ function create(win, options) {
 				visible: props.isEditable,
 				click(menuItem) {
 					props.selectionText = menuItem.transform ? menuItem.transform(props.selectionText) : props.selectionText;
-
-					electron.clipboard.write({
-						bookmark: props.linkText,
-						text: props.linkUrl
-					});
-
+					electron.clipboard.writeText(props.selectionText);
 					win.webContents.delete();
 				}
 			}),
@@ -39,11 +34,7 @@ function create(win, options) {
 				visible: props.isEditable || hasText,
 				click(menuItem) {
 					props.selectionText = menuItem.transform ? menuItem.transform(props.selectionText) : props.selectionText;
-
-					electron.clipboard.write({
-						bookmark: props.linkText,
-						text: props.linkUrl
-					});
+					electron.clipboard.writeText(props.selectionText);
 				}
 			}),
 			paste: decorateMenuItem({
@@ -52,16 +43,8 @@ function create(win, options) {
 				enabled: editFlags.canPaste,
 				visible: props.isEditable,
 				click(menuItem) {
-					let clipboardContent;
-					if (process.platform === 'darwin') {
-						clipboardContent = electron.clipboard.readBookmark();
-					} else {
-						clipboardContent = electron.clipboard.readText(props.selectionText);
-					}
-
-
+					let clipboardContent = electron.clipboard.readText(props.selectionText);
 					clipboardContent = menuItem.transform ? menuItem.transform(clipboardContent) : clipboardContent;
-
 					win.webContents.insertText(clipboardContent);
 				}
 			}),
