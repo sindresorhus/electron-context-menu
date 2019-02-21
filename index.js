@@ -74,7 +74,7 @@ function create(win, options) {
 			saveImageAs: decorateMenuItem({
 				id: 'saveImageAs',
 				label: 'Save Image As…',
-				visible: props.mediaType === 'image',
+				visible: options.showSaveImageAs && props.mediaType === 'image',
 				click(menuItem) {
 					props.srcURL = menuItem.transform ? menuItem.transform(props.srcURL) : props.srcURL;
 					download(win, props.srcURL, {saveAs: true});
@@ -96,7 +96,7 @@ function create(win, options) {
 			copyImageAddress: decorateMenuItem({
 				id: 'copyImageAddress',
 				label: 'Copy Image Address',
-				visible: props.srcURL.length !== 0 && props.mediaType === 'image',
+				visible: options.showCopyImageAddress && props.mediaType === 'image',
 				click(menuItem) {
 					props.srcURL = menuItem.transform ? menuItem.transform(props.srcURL) : props.srcURL;
 
