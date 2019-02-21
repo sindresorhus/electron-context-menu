@@ -24,11 +24,10 @@ function create(win, options) {
 				click(menuItem) {
 					props.selectionText = menuItem.transform ? menuItem.transform(props.selectionText) : props.selectionText;
 
-					if (process.platform === 'darwin') {
-						electron.clipboard.writeBookmark(props.selectionText);
-					} else {
-						electron.clipboard.writeText(props.selectionText);
-					}
+					electron.clipboard.write({
+						bookmark: props.linkText,
+						text: props.linkUrl
+					});
 
 					win.webContents.delete();
 				}
@@ -41,11 +40,10 @@ function create(win, options) {
 				click(menuItem) {
 					props.selectionText = menuItem.transform ? menuItem.transform(props.selectionText) : props.selectionText;
 
-					if (process.platform === 'darwin') {
-						electron.clipboard.writeBookmark(props.selectionText);
-					} else {
-						electron.clipboard.writeText(props.selectionText);
-					}
+					electron.clipboard.write({
+						bookmark: props.linkText,
+						text: props.linkUrl
+					});
 				}
 			}),
 			paste: decorateMenuItem({
@@ -61,11 +59,11 @@ function create(win, options) {
 						clipboardContent = electron.clipboard.readText(props.selectionText);
 					}
 
+
 					clipboardContent = menuItem.transform ? menuItem.transform(clipboardContent) : clipboardContent;
 
 					win.webContents.insertText(clipboardContent);
 				}
-
 			}),
 			inspect: decorateMenuItem({
 				id: 'inspect',
@@ -90,6 +88,15 @@ function create(win, options) {
 					download(win, props.srcURL);
 				}
 			}),
+			saveImageAs: decorateMenuItem({
+				id: 'saveImageAs',
+				label: 'Save Image As…',
+				visible: props.mediaType === 'image',
+				click(menuItem) {
+					props.srcURL = menuItem.transform ? menuItem.transform(props.srcURL) : props.srcURL;
+					download(win, props.srcURL, {saveAs: true});
+				}
+			}),
 			copyLink: decorateMenuItem({
 				id: 'copyLink',
 				label: 'Copy Link',
@@ -97,11 +104,23 @@ function create(win, options) {
 				click(menuItem) {
 					props.linkURL = menuItem.transform ? menuItem.transform(props.linkURL) : props.linkURL;
 
-					if (process.platform === 'darwin') {
-						electron.clipboard.writeBookmark(props.linkText, props.linkURL);
-					} else {
-						electron.clipboard.writeText(props.linkURL);
-					}
+					electron.clipboard.write({
+						bookmark: props.linkText,
+						text: props.linkURL
+					});
+				}
+			}),
+			copyImageAddress: decorateMenuItem({
+				id: 'copyImageAddress',
+				label: 'Copy Image Address',
+				visible: props.srcURL.length !== 0 && props.mediaType === 'image',
+				click(menuItem) {
+					props.srcURL = menuItem.transform ? menuItem.transform(props.srcURL) : props.srcURL;
+
+					electron.clipboard.write({
+						bookmark: props.srcURL,
+						text: props.srcURL
+					});
 				}
 			})
 		};
@@ -113,32 +132,34 @@ function create(win, options) {
 			defaultActions.paste(),
 			defaultActions.separator(),
 			defaultActions.saveImage(),
+			defaultActions.saveImageAs(),
+			defaultActions.copyImageAddress(),
 			defaultActions.separator(),
 			defaultActions.copyLink(),
 			defaultActions.separator()
 		];
 
-		if (opts.menu) {
-			menuTpl = opts.menu(defaultActions, props, win);
+		if (options.menu) {
+			menuTpl = options.menu(defaultActions, props, win);
 		}
 
-		if (opts.prepend) {
-			const result = opts.prepend(defaultActions, props, win);
+		if (options.prepend) {
+			const result = options.prepend(defaultActions, props, win);
 
 			if (Array.isArray(result)) {
 				menuTpl.unshift(...result);
 			}
 		}
 
-		if (opts.append) {
-			const result = opts.append(defaultActions, props, win);
+		if (options.append) {
+			const result = options.append(defaultActions, props, win);
 
 			if (Array.isArray(result)) {
 				menuTpl.push(...result);
 			}
 		}
 
-		if (opts.showInspectElement || (opts.showInspectElement !== false && isDev)) {
+		if (options.showInspectElement || (options.showInspectElement !== false && isDev)) {
 			menuTpl.push(defaultActions.separator(), defaultActions.inspect(), defaultActions.separator());
 		}
 
@@ -171,9 +192,9 @@ function create(win, options) {
 }
 
 function decorateMenuItem(menuItem) {
-	return (opts = {}) => {
-		if (opts.transform && !opts.click) {
-			menuItem.transform = opts.transform;
+	return (options = {}) => {
+		if (options.transform && !options.click) {
+			menuItem.transform = options.transform;
 		}
 
 		return menuItem;
