@@ -1,35 +1,44 @@
 'use strict';
-const electron = require('electron');
+const {
+	app,
+	BrowserWindow
+} = require('electron');
+const contextMenu = require('.');
 
-require('.')({
+contextMenu({
 	labels: {
 		cut: 'Configured Cut',
 		copy: 'Configured Copy',
 		paste: 'Configured Paste',
 		save: 'Configured Save Image',
+		saveImageAs: 'Configured Save Image As…',
 		copyLink: 'Configured Copy Link',
+		copyImageAddress: 'Configured Copy Image Address',
 		inspect: 'Configured Inspect'
 	},
-	prepend: (actions) => [actions.cut({transform: (content) => "modified_cut_" + content})],
-	menu: (actions) => [
+	prepend: actions => [actions.cut({transform: content => 'modified_cut_' + content})],
+	menu: actions => [
 		actions.separator(),
-		actions.copyLink({transform: (content) => "modified_link_" + content}),
+		actions.copyLink({transform: content => 'modified_link_' + content}),
 		actions.separator(),
 		{
 			label: 'Unicorn'
 		},
 		actions.separator(),
-		actions.copy({transform: (content) => "modified_copy_" + content}),
+		actions.copy({transform: content => 'modified_copy_' + content}),
 		{
 			label: 'Invisible',
 			visible: false
 		},
-		actions.paste({transform: (content) => "modified_paste_" + content})
+		actions.paste({transform: content => 'modified_paste_' + content})
 	],
-	append: (actions) => [actions.saveImage()]
+	append: actions => [actions.saveImage(), actions.saveImageAs()],
+	showCopyImageAddress: true,
+	showSaveImageAs: true
 });
 
-electron.app.on('ready', () => {
-	(new electron.BrowserWindow())
-		.loadURL(`file://${__dirname}/fixture.html`);
-});
+(async () => {
+	await app.whenReady();
+
+	new BrowserWindow().loadURL(`file://${__dirname}/fixture.html`);
+})();

@@ -5,7 +5,9 @@
 		<title>Fixture</title>
 		<script>
 			window.addEventListener('load', () => {
-				require('.')({
+				const contextmenu = require('.');
+
+				contextMenu({
 					window: document.getElementById('webview')
 				});
 			});

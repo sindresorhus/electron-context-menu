@@ -1,44 +1,46 @@
 {
-  "name": "electron-context-menu",
-  "version": "0.9.1",
-  "description": "Context menu for your Electron app",
-  "license": "MIT",
-  "repository": "sindresorhus/electron-context-menu",
-  "author": {
-    "name": "Sindre Sorhus",
-    "email": "sindresorhus@gmail.com",
-    "url": "sindresorhus.com"
-  },
-  "scripts": {
-    "start": "electron fixture.js",
-    "test": "xo && ava"
-  },
-  "files": [
-    "index.js"
-  ],
-  "keywords": [
-    "electron",
-    "app",
-    "context",
-    "right-click",
-    "menu",
-    "extensible",
-    "save",
-    "image"
-  ],
-  "dependencies": {
-    "electron-dl": "^1.2.0",
-    "electron-is-dev": "^0.1.1"
-  },
-  "devDependencies": {
-    "ava": "*",
-    "electron": "^1.3.3",
-    "xo": "*"
-  },
-  "xo": {
-    "envs": [
-      "node",
-      "browser"
-    ]
-  }
+	"name": "electron-context-menu",
+	"version": "0.11.0",
+	"description": "Context menu for your Electron app",
+	"license": "MIT",
+	"repository": "sindresorhus/electron-context-menu",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "sindresorhus.com"
+	},
+	"scripts": {
+		"start": "electron fixture.js",
+		"test": "xo && ava && tsd-check"
+	},
+	"files": [
+		"index.js",
+		"index.d.ts"
+	],
+	"keywords": [
+		"electron",
+		"app",
+		"context",
+		"right-click",
+		"menu",
+		"extensible",
+		"save",
+		"image"
+	],
+	"dependencies": {
+		"electron-dl": "^1.2.0",
+		"electron-is-dev": "^1.0.1"
+	},
+	"devDependencies": {
+		"ava": "^1.2.0",
+		"electron": "^4.0.2",
+		"tsd-check": "^0.3.0",
+		"xo": "^0.24.0"
+	},
+	"xo": {
+		"envs": [
+			"node",
+			"browser"
+		]
+	}
 }

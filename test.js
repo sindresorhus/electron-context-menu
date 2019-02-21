@@ -1,6 +1,3 @@
 import test from 'ava';
-import contextMenu from '.'; // eslint-disable-line no-unused-vars
 
-test(t => {
-	t.pass();
-});
+test.todo('write tests with Spectron');
