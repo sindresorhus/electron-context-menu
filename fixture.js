@@ -32,7 +32,7 @@ contextMenu({
 		},
 		actions.paste({transform: content => 'modified_paste_' + content})
 	],
-	append: actions => [actions.saveImage(), actions.saveImageAs(), actions.copyImageAddress()],
+	append: actions => [actions.saveImage(), actions.saveImageAs(), actions.copyImageAddress(), actions.separator(), actions.inspect()],
 	showCopyImageAddress: true,
 	showSaveImageAs: true
 });

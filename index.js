@@ -48,20 +48,25 @@ function create(win, options) {
 					win.webContents.insertText(clipboardContent);
 				}
 			}),
-			inspect: decorateMenuItem({
-				id: 'inspect',
-				label: 'Inspect Element',
-				click() {
-					win.inspectElement(props.x, props.y);
+			inspect: () => {
+				return {
+					id: 'inspect',
+					label: 'Inspect Element',
+					enabled: options.showInspectElement || (options.showInspectElement !== false && isDev),
+					click() {
+						win.inspectElement(props.x, props.y);
 
-					if (webContents(win).isDevToolsOpened()) {
-						webContents(win).devToolsWebContents.focus();
+						if (webContents(win).isDevToolsOpened()) {
+							webContents(win).devToolsWebContents.focus();
+						}
 					}
-				}
-			}),
-			separator: decorateMenuItem({
-				type: 'separator'
-			}),
+				};
+			},
+			separator: () => {
+				return {
+					type: 'separator'
+				};
+			},
 			saveImage: decorateMenuItem({
 				id: 'save',
 				label: 'Save Image',
@@ -119,6 +124,8 @@ function create(win, options) {
 			defaultActions.copyImageAddress(),
 			defaultActions.separator(),
 			defaultActions.copyLink(),
+			defaultActions.separator(),
+			defaultActions.inspect(),
 			defaultActions.separator()
 		];
 
@@ -140,10 +147,6 @@ function create(win, options) {
 			if (Array.isArray(result)) {
 				menuTpl.push(...result);
 			}
-		}
-
-		if (options.showInspectElement || (options.showInspectElement !== false && isDev)) {
-			menuTpl.push(defaultActions.separator(), defaultActions.inspect(), defaultActions.separator());
 		}
 
 		// Apply custom labels for default menu items

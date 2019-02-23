@@ -63,17 +63,18 @@ When not specified, the context menu will be added to all existing and new windo
 #### menu
 Type: `Function`
 
-Should return an array of [MenuItem](https://electronjs.org/docs/api/menu-item/)'s to be shown in the context menu. The first argument is an array of default actions that can be used. These actions are functions that can take an object with a transform property. The transform function will get the content of what will be copied and can modify it if needed. If no menu property is defined, the default menu will be used.
+Should return an array of [MenuItem](https://electronjs.org/docs/api/menu-item/)'s to be shown in the context menu. The first argument is an array of default actions that can be used. These actions are functions that can take an object with a transform property. The transform function will be passed the content of the action and can modify it if needed. If no menu property is defined, the default menu will be used.
 
 Default actions:
 - `cut`
 - `copy`
 - `paste`
-- `cut`
 - `inspect`
 - `separator`
 - `saveImage`
+- `saveImageAs`
 - `copyLink`
+- `copyImageAddress`
 
 ```js
 menu: (actions) => [
