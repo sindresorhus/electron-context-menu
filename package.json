@@ -11,7 +11,7 @@
 	},
 	"scripts": {
 		"start": "electron fixture.js",
-		"test": "xo && ava && tsd-check"
+		"test": "xo && ava && tsd"
 	},
 	"files": [
 		"index.js",
@@ -32,9 +32,10 @@
 		"electron-is-dev": "^1.0.1"
 	},
 	"devDependencies": {
-		"ava": "^1.2.0",
-		"electron": "^4.0.2",
-		"tsd-check": "^0.3.0",
+		"@types/node": "^11.13.0",
+		"ava": "^1.4.1",
+		"electron": "^4.1.4",
+		"tsd": "^0.7.2",
 		"xo": "^0.24.0"
 	},
 	"xo": {
