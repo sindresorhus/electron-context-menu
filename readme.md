@@ -64,13 +64,17 @@ When not specified, the context menu will be added to all existing and new windo
 
 Type: `Function`
 
-Should return an array of [MenuItem](https://electronjs.org/docs/api/menu-item/)'s to be prepended to the context menu. The first argument is an array of default actions that can be used. The second argument is [this `params` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window/) the context menu was requested for.
+Should return an array of [MenuItem](https://electronjs.org/docs/api/menu-item/)'s to be prepended to the context menu.
+
+The first argument is an array of default actions that can be used. The second argument is [this `params` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window/) the context menu was requested for.
 
 #### append
 
 Type: `Function`
 
-Should return an array of [MenuItem](https://electronjs.org/docs/api/menu-item/)'s to be appended to the context menu. The first argument is an array of default actions that can be used. The second argument is [this `params` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window/) the context menu was requested for.
+Should return an array of [MenuItem](https://electronjs.org/docs/api/menu-item/)'s to be appended to the context menu.
+
+The first argument is an array of default actions that can be used. The second argument is [this `params` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window/) the context menu was requested for.
 
 #### showCopyImageAddress
 
@@ -103,15 +107,11 @@ Overwrite labels for the default menu items. Useful for i18n.
 Format:
 
 ```js
-labels: {
-	cut: 'Configured Cut',
-	copy: 'Configured Copy',
-	paste: 'Configured Paste',
-	save: 'Configured Save Image',
-	saveImageAs: 'Configured Save Image As…'
-	copyLink: 'Configured Copy Link',
-	copyImageAddress: 'Configured Copy Image Address',
-	inspect: 'Configured Inspect'
+{
+	labels: {
+		copy: 'Configured Copy',
+		saveImageAs: 'Configured Save Image As…'
+	}
 }
 ```
 
@@ -119,22 +119,26 @@ labels: {
 
 Type: `Function`
 
-Determines whether or not to show the menu. Can be useful if you for example have other code presenting a context menu in some contexts. The second argument is [this `params` object](https://electronjs.org/docs/api/web-contents#event-context-menu).
+Determines whether or not to show the menu. Can be useful if you for example have other code presenting a context menu in some contexts.
+
+The second argument is [this `params` object](https://electronjs.org/docs/api/web-contents#event-context-menu).
 
 Example:
 
 ```js
-// Doesn't show the menu if the element is editable
-shouldShowMenu: (event, params) => !params.isEditable
+{
+	// Doesn't show the menu if the element is editable
+	shouldShowMenu: (event, params) => !params.isEditable
+}
 ```
 
 #### menu
 
 Type: `Function`
 
-This option lets you manually pick what menu items to include. It's meant for advanced needs. The default menu with the other options should be enough for most use-cases, and it ensures correct behavior, for example, correct order of menu items. Prefer the `append`/`prepend` options instead of `menu` whenever possible.
+This option lets you manually pick what menu items to include. It's meant for advanced needs. The default menu with the other options should be enough for most use-cases, and it ensures correct behavior, for example, correct order of menu items. So prefer the `append` and `prepend` option instead of `menu` whenever possible.
 
-The function passed this options is expected to return [`MenuItem[]`](https://electronjs.org/docs/api/menu-item/). The first argument the function receives is an array of default actions that can be used. These actions are functions that can take an object with a transform property (except for `separator` and `inspect`). The transform function will be passed the content of the action and can modify it if needed.
+The function passed to this option is expected to return [`MenuItem[]`](https://electronjs.org/docs/api/menu-item/). The first argument the function receives is an array of default actions that can be used. These actions are functions that can take an object with a transform property (except for `separator` and `inspect`). The transform function will be passed the content of the action and can modify it if needed.
 
 Even though you include an action, it will still only be shown/enabled when appropriate. For example, the `saveImage` action is only shown when right-clicking an image.
 
@@ -159,26 +163,28 @@ Default actions:
 Example:
 
 ```js
-menu: actions => [
-	actions.copyLink({
-		transform: content => `modified_link_${content}`
-	}),
-	actions.separator(),
-	{
-		label: 'Unicorn'
-	},
-	actions.separator(),
-	actions.copy({
-		transform: content => `modified_copy_${content}`
-	}),
-	{
-		label: 'Invisible',
-		visible: false
-	},
-	actions.paste({
-		transform: content => `modified_paste_${content}`
-	})
-]
+{
+	menu: actions => [
+		actions.copyLink({
+			transform: content => `modified_link_${content}`
+		}),
+		actions.separator(),
+		{
+			label: 'Unicorn'
+		},
+		actions.separator(),
+		actions.copy({
+			transform: content => `modified_copy_${content}`
+		}),
+		{
+			label: 'Invisible',
+			visible: false
+		},
+		actions.paste({
+			transform: content => `modified_paste_${content}`
+		})
+	]
+}
 ```
 
 

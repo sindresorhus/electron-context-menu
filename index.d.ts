@@ -86,17 +86,6 @@ declare namespace contextMenu {
 		) => MenuItem[];
 
 		/**
-		Should return an array of [menu items](https://electronjs.org/docs/api/menu-item) to override the default context menu.
-
-		@default [defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.separator(), defaultActions.inspect()]
-		*/
-		readonly menu?: (
-			defaultActions: Actions,
-			params: ContextMenuParams,
-			browserWindow: BrowserWindow | WebviewTag
-		) => MenuItem[];
-
-		/**
 		Should return an array of [menu items](https://electronjs.org/docs/api/menu-item) to be appended to the context menu.
 		*/
 		readonly append?: (
@@ -130,6 +119,16 @@ declare namespace contextMenu {
 		Overwrite labels for the default menu items. Useful for i18n.
 
 		@default {}
+
+		@example
+		```
+		{
+			labels: {
+				copy: 'Configured Copy',
+				saveImageAs: 'Configured Save Image As…'
+			}
+		}
+		```
 		*/
 		readonly labels?: Labels;
 
@@ -139,49 +138,65 @@ declare namespace contextMenu {
 
 		@example
 		```
-		// Doesn't show the menu if the element is editable
-		shouldShowMenu: (event, params) => !params.isEditable
+		{
+			// Doesn't show the menu if the element is editable
+			shouldShowMenu: (event, params) => !params.isEditable
+		}
 		```
 		*/
 		readonly shouldShowMenu?: (
 			event: ElectronEvent,
 			params: ContextMenuParams
 		) => boolean;
+
+		/**
+		This option lets you manually pick what menu items to include. It's meant for advanced needs. The default menu with the other options should be enough for most use-cases, and it ensures correct behavior, for example, correct order of menu items. So prefer the `append` and `prepend` option instead of `menu` whenever possible.
+
+		The function passed to this option is expected to return [`MenuItem[]`](https://electronjs.org/docs/api/menu-item/). The first argument the function receives is an array of default actions that can be used. These actions are functions that can take an object with a transform property (except for `separator` and `inspect`). The transform function will be passed the content of the action and can modify it if needed.
+
+		Even though you include an action, it will still only be shown/enabled when appropriate. For example, the `saveImage` action is only shown when right-clicking an image.
+
+		The following options are ignored when `menu` is used:
+
+		- `showCopyImageAddress`
+		- `showSaveImageAs`
+		- `showInspectElement`
+
+		@default [defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.separator(), defaultActions.inspect()]
+		*/
+		readonly menu?: (
+			defaultActions: Actions,
+			params: ContextMenuParams,
+			browserWindow: BrowserWindow | WebviewTag
+		) => MenuItem[];
 	}
 }
 
-declare const contextMenu: {
-	/**
-	This module gives you a nice extensible context menu with items like `Cut`/`Copy`/`Paste` for text, `Save Image` for images, and `Copy Link` for links. It also adds an `Inspect Element` menu item when in development to quickly view items in the inspector like in Chrome.
+/**
+This module gives you a nice extensible context menu with items like `Cut`/`Copy`/`Paste` for text, `Save Image` for images, and `Copy Link` for links. It also adds an `Inspect Element` menu item when in development to quickly view items in the inspector like in Chrome.
 
-	You can use this module directly in both the main and renderer process.
+You can use this module directly in both the main and renderer process.
 
-	@example
-	```
-	import {app, BrowserWindow} from 'electron';
-	import contextMenu = require('electron-context-menu');
+@example
+```
+import {app, BrowserWindow} from 'electron';
+import contextMenu = require('electron-context-menu');
 
-	contextMenu({
-		prepend: (params, browserWindow) => [{
-			label: 'Rainbow',
-			// Only show it when right-clicking images
-			visible: params.mediaType === 'image'
-		}]
-	});
+contextMenu({
+	prepend: (params, browserWindow) => [{
+		label: 'Rainbow',
+		// Only show it when right-clicking images
+		visible: params.mediaType === 'image'
+	}]
+});
 
-	let win;
-	(async () => {
-		await app.whenReady();
-		win = new BrowserWindow();
-	});
-	```
-	*/
-	(options?: contextMenu.Options): void;
-
-	// TODO: Remove this for the next major release, refactor the whole definition to:
-	// declare function contextMenu(options?: contextMenu.Options): void;
-	// export = contextMenu;
-	default: typeof contextMenu;
-};
+let mainWindow;
+(async () => {
+	await app.whenReady();
+	mainWindow = new BrowserWindow();
+});
+```
+*/
+declare function contextMenu(options?: contextMenu.Options): void;
 
 export = contextMenu;
