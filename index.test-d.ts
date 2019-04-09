@@ -1,4 +1,4 @@
-import {expectType} from 'tsd-check';
-import contextMenu from '.';
+import {expectType} from 'tsd';
+import contextMenu = require('.');
 
 expectType<void>(contextMenu());
