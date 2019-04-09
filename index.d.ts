@@ -50,7 +50,7 @@ export interface Labels {
 
 export interface ActionOptions {
 	/**
-	 * Apply transformation function to the content of the action
+	 * Apply a transformation to the content of the action.
 	 */
 	readonly transform?: (content: string) => string;
 }

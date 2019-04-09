@@ -5,7 +5,29 @@ const isDev = require('electron-is-dev');
 
 const webContents = win => win.webContents || win.getWebContents();
 
-function create(win, options) {
+const decorateMenuItem = menuItem => {
+	return (options = {}) => {
+		if (options.transform && !options.click) {
+			menuItem.transform = options.transform;
+		}
+
+		return menuItem;
+	};
+};
+
+const removeUnusedMenuItems = menuTemplate => {
+	let notDeletedPreviousElement;
+
+	return menuTemplate
+		.filter(menuItem => menuItem !== undefined && menuItem.visible !== false)
+		.filter((menuItem, index, array) => {
+			const toDelete = menuItem.type === 'separator' && (!notDeletedPreviousElement || index === array.length - 1 || array[index + 1].type === 'separator');
+			notDeletedPreviousElement = toDelete ? notDeletedPreviousElement : menuItem;
+			return !toDelete;
+		});
+};
+
+const create = (win, options) => {
 	webContents(win).on('context-menu', (event, props) => {
 		if (typeof options.shouldShowMenu === 'function' && options.shouldShowMenu(event, props) === false) {
 			return;
@@ -48,25 +70,19 @@ function create(win, options) {
 					win.webContents.insertText(clipboardContent);
 				}
 			}),
-			inspect: () => {
-				return {
-					id: 'inspect',
-					label: 'Inspect Element',
-					enabled: options.showInspectElement || (options.showInspectElement !== false && isDev),
-					click() {
-						win.inspectElement(props.x, props.y);
+			inspect: () => ({
+				id: 'inspect',
+				label: 'Inspect Element',
+				enabled: isDev,
+				click() {
+					win.inspectElement(props.x, props.y);
 
-						if (webContents(win).isDevToolsOpened()) {
-							webContents(win).devToolsWebContents.focus();
-						}
+					if (webContents(win).isDevToolsOpened()) {
+						webContents(win).devToolsWebContents.focus();
 					}
-				};
-			},
-			separator: () => {
-				return {
-					type: 'separator'
-				};
-			},
+				}
+			}),
+			separator: () => ({type: 'separator'}),
 			saveImage: decorateMenuItem({
 				id: 'save',
 				label: 'Save Image',
@@ -79,7 +95,7 @@ function create(win, options) {
 			saveImageAs: decorateMenuItem({
 				id: 'saveImageAs',
 				label: 'Save Image As…',
-				visible: options.showSaveImageAs && props.mediaType === 'image',
+				visible: props.mediaType === 'image',
 				click(menuItem) {
 					props.srcURL = menuItem.transform ? menuItem.transform(props.srcURL) : props.srcURL;
 					download(win, props.srcURL, {saveAs: true});
@@ -101,7 +117,7 @@ function create(win, options) {
 			copyImageAddress: decorateMenuItem({
 				id: 'copyImageAddress',
 				label: 'Copy Image Address',
-				visible: options.showCopyImageAddress && props.mediaType === 'image',
+				visible: props.mediaType === 'image',
 				click(menuItem) {
 					props.srcURL = menuItem.transform ? menuItem.transform(props.srcURL) : props.srcURL;
 
@@ -113,31 +129,31 @@ function create(win, options) {
 			})
 		};
 
-		let menuTpl = [
+		let menuTemplate = [
 			defaultActions.separator(),
 			defaultActions.cut(),
 			defaultActions.copy(),
 			defaultActions.paste(),
 			defaultActions.separator(),
 			defaultActions.saveImage(),
-			defaultActions.saveImageAs(),
-			defaultActions.copyImageAddress(),
+			options.showSaveImageAs && defaultActions.saveImageAs(),
+			options.showCopyImageAddress && defaultActions.copyImageAddress(),
 			defaultActions.separator(),
 			defaultActions.copyLink(),
 			defaultActions.separator(),
-			defaultActions.inspect(),
+			options.showInspectElement && defaultActions.inspect(),
 			defaultActions.separator()
 		];
 
 		if (options.menu) {
-			menuTpl = options.menu(defaultActions, props, win);
+			menuTemplate = options.menu(defaultActions, props, win);
 		}
 
 		if (options.prepend) {
 			const result = options.prepend(defaultActions, props, win);
 
 			if (Array.isArray(result)) {
-				menuTpl.unshift(...result);
+				menuTemplate.unshift(...result);
 			}
 		}
 
@@ -145,64 +161,44 @@ function create(win, options) {
 			const result = options.append(defaultActions, props, win);
 
 			if (Array.isArray(result)) {
-				menuTpl.push(...result);
+				menuTemplate.push(...result);
 			}
 		}
 
+		// Filter out leading/trailing separators
+		// TODO: https://github.com/electron/electron/issues/5869
+		menuTemplate = removeUnusedMenuItems(menuTemplate);
+
 		// Apply custom labels for default menu items
 		if (options.labels) {
-			for (const menuItem of menuTpl) {
+			for (const menuItem of menuTemplate) {
 				if (options.labels[menuItem.id]) {
 					menuItem.label = options.labels[menuItem.id];
 				}
 			}
 		}
 
-		// Filter out leading/trailing separators
-		// TODO: https://github.com/electron/electron/issues/5869
-		menuTpl = delUnusedElements(menuTpl);
-
-		if (menuTpl.length > 0) {
-			const menu = (electron.remote ? electron.remote.Menu : electron.Menu).buildFromTemplate(menuTpl);
+		if (menuTemplate.length > 0) {
+			const menu = (electron.remote ? electron.remote.Menu : electron.Menu).buildFromTemplate(menuTemplate);
 
 			/*
-			 * When electron.remote is not available this runs in the browser process.
-			 * We can safely use win in this case as it refers to the window the
-			 * context-menu should open in.
-			 * When this is being called from a webView, we can't use win as this
-			 * would refere to the webView which is not allowed to render a popup menu.
-			 */
+			When `electron.remote`` is not available this runs in the browser process.
+			We can safely use `win`` in this case as it refers to the window the
+			context-menu should open in.
+			When this is being called from a webView, we can't use win as this
+			would refere to the webView which is not allowed to render a popup menu.
+			*/
 			menu.popup(electron.remote ? electron.remote.getCurrentWindow() : win);
 		}
 	});
-}
-
-function decorateMenuItem(menuItem) {
-	return (options = {}) => {
-		if (options.transform && !options.click) {
-			menuItem.transform = options.transform;
-		}
-
-		return menuItem;
-	};
-}
-
-function delUnusedElements(menuTpl) {
-	let notDeletedPrevEl;
-	return menuTpl.filter(el => el.visible !== false).filter((el, i, array) => {
-		const toDelete = el.type === 'separator' && (!notDeletedPrevEl || i === array.length - 1 || array[i + 1].type === 'separator');
-		notDeletedPrevEl = toDelete ? notDeletedPrevEl : el;
-		return !toDelete;
-	});
-}
+};
 
 module.exports = (options = {}) => {
 	if (options.window) {
 		const win = options.window;
-		const wc = webContents(win);
 
 		// When window is a webview that has not yet finished loading webContents is not available
-		if (wc === undefined) {
+		if (webContents(win) === undefined) {
 			win.addEventListener('dom-ready', () => {
 				create(win, options);
 			}, {once: true});
