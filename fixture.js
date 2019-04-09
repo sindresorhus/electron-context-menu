@@ -1,5 +1,8 @@
 'use strict';
-const {app, BrowserWindow} = require('electron');
+const {
+	app,
+	BrowserWindow
+} = require('electron');
 const contextMenu = require('.');
 
 contextMenu({
@@ -10,30 +13,26 @@ contextMenu({
 		save: 'Configured Save Image',
 		saveImageAs: 'Configured Save Image As…',
 		copyLink: 'Configured Copy Link',
+		copyImageAddress: 'Configured Copy Image Address',
 		inspect: 'Configured Inspect'
 	},
-	prepend: () => [
+	prepend: actions => [actions.cut({transform: content => 'modified_cut_' + content})],
+	menu: actions => [
+		actions.separator(),
+		actions.copyLink({transform: content => 'modified_link_' + content}),
+		actions.separator(),
 		{
 			label: 'Unicorn'
 		},
-		{
-			type: 'separator'
-		},
-		{
-			type: 'separator'
-		},
+		actions.separator(),
+		actions.copy({transform: content => 'modified_copy_' + content}),
 		{
 			label: 'Invisible',
 			visible: false
 		},
-		{
-			type: 'separator'
-		},
-		{
-			type: 'separator'
-		}
+		actions.paste({transform: content => 'modified_paste_' + content})
 	],
-	append: () => {},
+	append: actions => [actions.saveImage(), actions.saveImageAs(), actions.copyImageAddress(), actions.separator(), actions.inspect()],
 	showCopyImageAddress: true,
 	showSaveImageAs: true
 });

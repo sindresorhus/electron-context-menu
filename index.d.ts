@@ -48,6 +48,24 @@ export interface Labels {
 	readonly inspect?: string;
 }
 
+export interface ActionOptions {
+	/**
+	 * Apply transformation function to the content of the action
+	 */
+	readonly transform?: (content: string) => string;
+}
+
+export interface Actions {
+	readonly separator: () => MenuItem;
+	readonly inspect: () => MenuItem;
+	readonly cut: (options: ActionOptions) => MenuItem;
+	readonly copy: (options: ActionOptions) => MenuItem;
+	readonly paste: (options: ActionOptions) => MenuItem;
+	readonly saveImage: (options: ActionOptions) => MenuItem;
+	readonly saveImageAs: (options: ActionOptions) => MenuItem;
+	readonly copyImageAddress: (options: ActionOptions) => MenuItem;
+}
+
 export interface Options {
 	/**
 	 * Window or WebView to add the context menu to.
@@ -58,12 +76,18 @@ export interface Options {
 	/**
 	 * Should return an array of [menu items](https://electronjs.org/docs/api/menu-item) to be prepended to the context menu.
 	 */
-	readonly prepend?: (params: ContextMenuParams, browserWindow: BrowserWindow | WebviewTag) => MenuItem[];
+	readonly prepend?: (defaultActions: Actions, params: ContextMenuParams, browserWindow: BrowserWindow | WebviewTag) => MenuItem[];
+
+	/**
+	 * Should return an array of [menu items](https://electronjs.org/docs/api/menu-item) to override the default context menu.
+	 * @default [defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.separator(), defaultActions.inspect()]
+	 */
+	readonly menu?: (defaultActions: Actions, params: ContextMenuParams, browserWindow: BrowserWindow | WebviewTag) => MenuItem[];
 
 	/**
 	 * Should return an array of [menu items](https://electronjs.org/docs/api/menu-item) to be appended to the context menu.
 	 */
-	readonly append?: (param: ContextMenuParams, browserWindow: BrowserWindow | WebviewTag) => MenuItem[];
+	readonly append?: (defaultActions: Actions, param: ContextMenuParams, browserWindow: BrowserWindow | WebviewTag) => MenuItem[];
 
 	/**
 	 * Show the `Copy Image Address` menu item when right-clicking on an image.
