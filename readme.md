@@ -15,7 +15,7 @@ You can use this module directly in both the main and renderer process.
 $ npm install electron-context-menu
 ```
 
-*Requires Electron 2.0.0 or later.*
+*Requires Electron 4 or later.*
 
 <a href="https://www.patreon.com/sindresorhus">
 	<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
@@ -36,10 +36,10 @@ contextMenu({
 	}]
 });
 
-let win;
+let mainWindow;
 (async () => {
 	await app.whenReady();
-	win = new BrowserWindow();
+	mainWindow = new BrowserWindow();
 })();
 ```
 
@@ -54,7 +54,7 @@ Type: `Object`
 
 #### window
 
-Type: `BrowserWindow` `WebView`<br>
+Type: `BrowserWindow | WebView`<br>
 
 Window or WebView to add the context menu to.
 
@@ -64,13 +64,13 @@ When not specified, the context menu will be added to all existing and new windo
 
 Type: `Function`
 
-Should return an array of [MenuItem](https://electronjs.org/docs/api/menu-item)'s to be prepended to the context menu. The first argument is [this `params` object](https://electronjs.org/docs/api/web-contents#event-context-menu). The second argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window) the context menu was requested for.
+Should return an array of [MenuItem](https://electronjs.org/docs/api/menu-item/)'s to be prepended to the context menu. The first argument is an array of default actions that can be used. The second argument is [this `params` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window/) the context menu was requested for.
 
 #### append
 
 Type: `Function`
 
-Should return an array of [MenuItem](https://electronjs.org/docs/api/menu-item)'s to be appended to the context menu. The first argument is [this `params` object](https://electronjs.org/docs/api/web-contents#event-context-menu). The second argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window) the context menu was requested for.
+Should return an array of [MenuItem](https://electronjs.org/docs/api/menu-item/)'s to be appended to the context menu. The first argument is an array of default actions that can be used. The second argument is [this `params` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window/) the context menu was requested for.
 
 #### showCopyImageAddress
 
@@ -127,6 +127,60 @@ Example:
 // Doesn't show the menu if the element is editable
 shouldShowMenu: (event, params) => !params.isEditable
 ```
+
+#### menu
+
+Type: `Function`
+
+This option lets you manually pick what menu items to include. It's meant for advanced needs. The default menu with the other options should be enough for most use-cases, and it ensures correct behavior, for example, correct order of menu items. Prefer the `append`/`prepend` options instead of `menu` whenever possible.
+
+The function passed this options is expected to return [`MenuItem[]`](https://electronjs.org/docs/api/menu-item/). The first argument the function receives is an array of default actions that can be used. These actions are functions that can take an object with a transform property (except for `separator` and `inspect`). The transform function will be passed the content of the action and can modify it if needed.
+
+Even though you include an action, it will still only be shown/enabled when appropriate. For example, the `saveImage` action is only shown when right-clicking an image.
+
+The following options are ignored when `menu` is used:
+
+- `showCopyImageAddress`
+- `showSaveImageAs`
+- `showInspectElement`
+
+Default actions:
+
+- `separator`
+- `cut`
+- `copy`
+- `paste`
+- `saveImage`
+- `saveImageAs`
+- `copyImageAddress`
+- `copyLink`
+- `inspect`
+
+Example:
+
+```js
+menu: actions => [
+	actions.copyLink({
+		transform: content => `modified_link_${content}`
+	}),
+	actions.separator(),
+	{
+		label: 'Unicorn'
+	},
+	actions.separator(),
+	actions.copy({
+		transform: content => `modified_copy_${content}`
+	}),
+	{
+		label: 'Invisible',
+		visible: false
+	},
+	actions.paste({
+		transform: content => `modified_paste_${content}`
+	})
+]
+```
+
 
 ## Related
 
