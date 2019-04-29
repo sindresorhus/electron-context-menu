@@ -46,7 +46,7 @@ const create = (win, options) => {
 				click(menuItem) {
 					props.selectionText = menuItem.transform ? menuItem.transform(props.selectionText) : props.selectionText;
 					electron.clipboard.writeText(props.selectionText);
-					win.webContents.delete();
+					webContents(win).delete();
 				}
 			}),
 			copy: decorateMenuItem({
@@ -67,7 +67,7 @@ const create = (win, options) => {
 				click(menuItem) {
 					let clipboardContent = electron.clipboard.readText(props.selectionText);
 					clipboardContent = menuItem.transform ? menuItem.transform(clipboardContent) : clipboardContent;
-					win.webContents.insertText(clipboardContent);
+					webContents(win).insertText(clipboardContent);
 				}
 			}),
 			inspect: () => ({
