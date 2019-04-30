@@ -33,5 +33,5 @@ contextMenu({
 (async () => {
 	await app.whenReady();
 
-	new BrowserWindow().loadFile(path.join(__dirname, 'fixture.html'));
+	await (new BrowserWindow()).loadFile(path.join(__dirname, 'fixture.html'));
 })();

@@ -34,7 +34,7 @@
 	"devDependencies": {
 		"@types/node": "^11.13.0",
 		"ava": "^1.4.1",
-		"electron": "^4.1.4",
+		"electron": "^5.0.0",
 		"tsd": "^0.7.2",
 		"xo": "^0.24.0"
 	},
