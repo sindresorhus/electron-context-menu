@@ -36,7 +36,8 @@ contextMenu({
 	],
 	append: () => {},
 	showCopyImageAddress: true,
-	showSaveImageAs: true
+	showSaveImageAs: true,
+	showInspectElement: false
 });
 
 (async () => {
