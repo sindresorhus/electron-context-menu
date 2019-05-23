@@ -17,10 +17,6 @@ $ npm install electron-context-menu
 
 *Requires Electron 4 or later.*
 
-<a href="https://www.patreon.com/sindresorhus">
-	<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
-</a>
-
 
 ## Usage
 
@@ -196,8 +192,3 @@ Example:
 - [electron-reloader](https://github.com/sindresorhus/electron-reloader) - Simple auto-reloading for Electron apps during development
 - [electron-serve](https://github.com/sindresorhus/electron-serve) - Static file serving for Electron apps
 - [electron-unhandled](https://github.com/sindresorhus/electron-unhandled) - Catch unhandled errors and promise rejections in your Electron app
-
-
-## License
-
-MIT © [Sindre Sorhus](https://sindresorhus.com)
