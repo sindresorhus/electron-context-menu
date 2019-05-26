@@ -93,6 +93,13 @@ Default: [Only in development](https://github.com/sindresorhus/electron-is-dev)
 
 Force enable or disable the `Inspect Element` menu item.
 
+#### showLookUpWord
+
+Type: `boolean`<br>
+Default: `true`
+
+Show the `Look Up [word]` menu item when right-clicking text on macOS.
+
 #### labels
 
 Type: `Object`<br>

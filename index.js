@@ -1,5 +1,6 @@
 'use strict';
 const electron = require('electron');
+const cliTruncate = require('cli-truncate');
 const {download} = require('electron-dl');
 const isDev = require('electron-is-dev');
 
@@ -126,10 +127,20 @@ const create = (win, options) => {
 						text: props.srcURL
 					});
 				}
+			}),
+			lookUpWord: decorateMenuItem({
+				id: 'lookUpWord',
+				label: `Look Up “${cliTruncate(props.selectionText.trim(), 25)}”`,
+				visible: hasText,
+				click() {
+					webContents(win).showDefinitionForSelection();
+				}
 			})
 		};
 
 		let menuTemplate = [
+			defaultActions.separator(),
+			process.platform === 'darwin' && (options.showLookUpWord !== false) && defaultActions.lookUpWord(),
 			defaultActions.separator(),
 			defaultActions.cut(),
 			defaultActions.copy(),
