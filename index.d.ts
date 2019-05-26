@@ -61,6 +61,7 @@ declare namespace contextMenu {
 	interface Actions {
 		readonly separator: () => MenuItem;
 		readonly inspect: () => MenuItem;
+		readonly services: () => MenuItem;
 		readonly cut: (options: ActionOptions) => MenuItem;
 		readonly copy: (options: ActionOptions) => MenuItem;
 		readonly paste: (options: ActionOptions) => MenuItem;
@@ -115,6 +116,13 @@ declare namespace contextMenu {
 		Default: [Only in development](https://github.com/sindresorhus/electron-is-dev)
 		*/
 		readonly showInspectElement?: boolean;
+
+		/**
+		Show the system `Services` submenu on macOS.
+
+		@default false
+		*/
+		readonly showServices?: boolean;
 
 		/**
 		Show the `Look Up [selection]` menu item when right-clicking text on macOS.
