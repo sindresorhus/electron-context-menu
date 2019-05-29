@@ -67,7 +67,7 @@ declare namespace contextMenu {
 		readonly saveImage: (options: ActionOptions) => MenuItem;
 		readonly saveImageAs: (options: ActionOptions) => MenuItem;
 		readonly copyImageAddress: (options: ActionOptions) => MenuItem;
-		readonly lookUpWord: (options: ActionOptions) => MenuItem;
+		readonly lookUpSelection: (options: ActionOptions) => MenuItem;
 	}
 
 	interface Options {
@@ -117,11 +117,11 @@ declare namespace contextMenu {
 		readonly showInspectElement?: boolean;
 
 		/**
-		Show the `Look Up [word]` menu item when right-clicking text on macOS.
+		Show the `Look Up [selection]` menu item when right-clicking text on macOS.
 
 		@default true
 		*/
-		readonly showLookUpWord?: boolean;
+		readonly showLookUpSelection?: boolean;
 
 		/**
 		Overwrite labels for the default menu items. Useful for i18n.
