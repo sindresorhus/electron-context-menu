@@ -184,9 +184,13 @@ const create = (win, options) => {
 
 		// Apply custom labels for default menu items
 		if (options.labels) {
+			let labels=options.labels;
+			if(typeof options.labels === 'function'){
+				labels=options.labels();
+			}
 			for (const menuItem of menuTemplate) {
-				if (options.labels[menuItem.id]) {
-					menuItem.label = options.labels[menuItem.id];
+				if (labels[menuItem.id]) {
+					menuItem.label = labels[menuItem.id];
 				}
 			}
 		}
