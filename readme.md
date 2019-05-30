@@ -161,6 +161,7 @@ The following options are ignored when `menu` is used:
 - `showCopyImageAddress`
 - `showSaveImageAs`
 - `showInspectElement`
+- `showServices`
 
 Default actions:
 
@@ -173,6 +174,7 @@ Default actions:
 - `copyImageAddress`
 - `copyLink`
 - `inspect`
+- `services`
 
 Example:
 
