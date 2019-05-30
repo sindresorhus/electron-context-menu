@@ -129,7 +129,7 @@ const create = (win, options) => {
 				}
 			}),
 			lookUpSelection: decorateMenuItem({
-				id: 'lookUpWord',
+				id: 'lookUpSelection',
 				label: `Look Up “${cliTruncate(props.selectionText.trim(), 25)}”`,
 				visible: process.platform === 'darwin' && hasText,
 				click() {

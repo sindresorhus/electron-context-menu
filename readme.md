@@ -147,6 +147,7 @@ Even though you include an action, it will still only be shown/enabled when appr
 
 The following options are ignored when `menu` is used:
 
+- `showLookUpSelection`
 - `showCopyImageAddress`
 - `showSaveImageAs`
 - `showInspectElement`
@@ -154,6 +155,7 @@ The following options are ignored when `menu` is used:
 Default actions:
 
 - `separator`
+- `lookUpSelection`
 - `cut`
 - `copy`
 - `paste`
