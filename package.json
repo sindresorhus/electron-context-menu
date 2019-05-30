@@ -28,6 +28,7 @@
 		"image"
 	],
 	"dependencies": {
+		"cli-truncate": "^1.1.0",
 		"electron-dl": "^1.2.0",
 		"electron-is-dev": "^1.0.1"
 	},
