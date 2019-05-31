@@ -138,7 +138,7 @@ declare namespace contextMenu {
 		}
 		```
 		*/
-		readonly labels?: Labels;
+		readonly labels?: Labels | (()=>Labels);
 
 		/**
 		Determines whether or not to show the menu.

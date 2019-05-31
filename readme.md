@@ -102,7 +102,7 @@ Show the `Look Up [selection]` menu item when right-clicking text on macOS.
 
 #### labels
 
-Type: `Object`<br>
+Type: `Object | Function`<br>
 Default: `{}`
 
 Overwrite labels for the default menu items. Useful for i18n.
