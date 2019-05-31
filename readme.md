@@ -105,7 +105,7 @@ Show the `Look Up [selection]` menu item when right-clicking text on macOS.
 Type: `Object`<br>
 Default: `{}`
 
-Overwrite labels for the default menu items. Useful for i18n.
+Override labels for the default menu items. Useful for i18n.
 
 Format:
 
@@ -117,6 +117,10 @@ Format:
 	}
 }
 ```
+
+Note that the default label for the `Look Up [selection]` menu item is dynamically generated depending on the selected text when the menu is shown.
+For example, if the word `Electron` was selected, the menu item label would be `Look up “Electron”`.<br />
+If the label for `lookUpSelection` is overridden via the `labels` option, the provided static label will be used instead, which will not contain the selected text.
 
 #### shouldShowMenu
 
