@@ -49,6 +49,11 @@ declare namespace contextMenu {
 		@default 'Inspect Element'
 		*/
 		readonly inspect?: string;
+
+		/**
+		@default 'Services'
+		*/
+		readonly services?: string;
 	}
 
 	interface ActionOptions {

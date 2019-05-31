@@ -85,6 +85,7 @@ const create = (win, options) => {
 			}),
 			services: () => ({
 				id: 'services',
+				label: 'Services',
 				role: 'services',
 				visible: process.platform === 'darwin' && (props.isEditable || hasText)
 			}),
