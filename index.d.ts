@@ -11,9 +11,8 @@ import {
 declare namespace contextMenu {
 	interface Labels {
 		/**
-		The default label for the `Look Up [selection]` menu item is dynamically generated depending on the selected text when the menu is shown.
-		If a value is set here, the provided static value will be used instead.
-		@default 'Look Up'
+		The placeholder `{selection}` will be replaced by the currently selected text.
+		@default 'Look Up “{selection}”'
 		*/
 		readonly lookUpSelection?: string;
 
@@ -124,7 +123,7 @@ declare namespace contextMenu {
 		readonly showInspectElement?: boolean;
 
 		/**
-		Show the `Look Up [selection]` menu item when right-clicking text on macOS.
+		Show the `Look Up {selection}` menu item when right-clicking text on macOS.
 
 		@default true
 		*/

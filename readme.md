@@ -98,7 +98,7 @@ Force enable or disable the `Inspect Element` menu item.
 Type: `boolean`<br>
 Default: `true`
 
-Show the `Look Up [selection]` menu item when right-clicking text on macOS.
+Show the `Look Up {selection}` menu item when right-clicking text on macOS.
 
 #### labels
 
@@ -107,20 +107,20 @@ Default: `{}`
 
 Override labels for the default menu items. Useful for i18n.
 
+The placehlder `{selection}` may be used in any label, and will be replaced by the currently selected text.
+This is useful, for example, when localizing the `Look Up {selection}` menu item.
+
 Format:
 
 ```js
 {
 	labels: {
-		copy: 'Configured Copy',
-		saveImageAs: 'Configured Save Image As…'
+		copy: 'Copiar',
+		saveImageAs: 'Guardar imagen como…',
+		lookUpSelection: 'Consultar “{selection}”'
 	}
 }
 ```
-
-Note that the default label for the `Look Up [selection]` menu item is dynamically generated depending on the selected text when the menu is shown.
-For example, if the word `Electron` was selected, the menu item label would be `Look up “Electron”`.<br />
-If the label for `lookUpSelection` is overridden via the `labels` option, the provided static label will be used instead, which will not contain the selected text.
 
 #### shouldShowMenu
 

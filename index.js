@@ -42,7 +42,7 @@ const create = (win, options) => {
 			separator: () => ({type: 'separator'}),
 			lookUpSelection: decorateMenuItem({
 				id: 'lookUpSelection',
-				label: `Look Up “${cliTruncate(props.selectionText.trim(), 25)}”`,
+				label: 'Look Up “{selection}”',
 				visible: process.platform === 'darwin' && hasText,
 				click() {
 					if (process.platform === 'darwin') {
@@ -182,12 +182,15 @@ const create = (win, options) => {
 		// TODO: https://github.com/electron/electron/issues/5869
 		menuTemplate = removeUnusedMenuItems(menuTemplate);
 
-		// Apply custom labels for default menu items
-		if (options.labels) {
-			for (const menuItem of menuTemplate) {
-				if (options.labels[menuItem.id]) {
-					menuItem.label = options.labels[menuItem.id];
-				}
+		for (const menuItem of menuTemplate) {
+			// Apply custom labels for default menu items
+			if (options.labels && options.labels[menuItem.id]) {
+				menuItem.label = options.labels[menuItem.id];
+			}
+
+			// Replace placeholders in menu item labels
+			if (typeof menuItem.label === 'string') {
+				menuItem.label = menuItem.label.replace('{selection}', cliTruncate(props.selectionText.trim(), 25));
 			}
 		}
 
