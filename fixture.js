@@ -4,15 +4,17 @@ const {app, BrowserWindow} = require('electron');
 const contextMenu = require('.');
 
 contextMenu({
-	labels: () => ({
-		cut: 'Configured Cut',
-		copy: 'Configured Copy',
-		paste: 'Configured Paste',
-		save: 'Configured Save Image',
-		saveImageAs: 'Configured Save Image As…',
-		copyLink: 'Configured Copy Link',
-		inspect: 'Configured Inspect'
-	}),
+	labels: (event, props) => {
+		return {
+			cut: 'Configured Cut',
+			copy: `Configured Copy ⎡ ${props.selectionText} ⎦ `,
+			paste: 'Configured Paste',
+			save: 'Configured Save Image',
+			saveImageAs: 'Configured Save Image As…',
+			copyLink: 'Configured Copy Link',
+			inspect: 'Configured Inspect'
+		};
+	},
 	prepend: () => [
 		{
 			label: 'Unicorn'

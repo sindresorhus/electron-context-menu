@@ -186,7 +186,7 @@ const create = (win, options) => {
 		if (options.labels) {
 			let {labels} = options;
 			if (typeof options.labels === 'function') {
-				labels = options.labels();
+				labels = options.labels(event, props);
 			}
 
 			for (const menuItem of menuTemplate) {

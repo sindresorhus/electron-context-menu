@@ -138,7 +138,9 @@ declare namespace contextMenu {
 		}
 		```
 		*/
-		readonly labels?: Labels | (() => Labels);
+		readonly labels?: Labels | ((event: ElectronEvent,
+			params: ContextMenuParams
+		) => Labels);
 
 		/**
 		Determines whether or not to show the menu.

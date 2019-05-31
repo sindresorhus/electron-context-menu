@@ -117,6 +117,17 @@ Format:
 	}
 }
 ```
+or
+
+```js
+(event, props) => {
+    return {
+        cut: 'Configured Cut',
+        copy: `Configured Copy ⎡ ${props.selectionText} ⎦ `,
+        paste: 'Configured Paste',
+    };
+}
+```
 
 #### shouldShowMenu
 
