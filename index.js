@@ -39,6 +39,17 @@ const create = (win, options) => {
 		const can = type => editFlags[`can${type}`] && hasText;
 
 		const defaultActions = {
+			separator: () => ({type: 'separator'}),
+			lookUpSelection: decorateMenuItem({
+				id: 'lookUpSelection',
+				label: `Look Up “${cliTruncate(props.selectionText.trim(), 25)}”`,
+				visible: process.platform === 'darwin' && hasText,
+				click() {
+					if (process.platform === 'darwin') {
+						webContents(win).showDefinitionForSelection();
+					}
+				}
+			}),
 			cut: decorateMenuItem({
 				id: 'cut',
 				label: 'Cut',
@@ -71,19 +82,6 @@ const create = (win, options) => {
 					webContents(win).insertText(clipboardContent);
 				}
 			}),
-			inspect: () => ({
-				id: 'inspect',
-				label: 'Inspect Element',
-				enabled: isDev,
-				click() {
-					win.inspectElement(props.x, props.y);
-
-					if (webContents(win).isDevToolsOpened()) {
-						webContents(win).devToolsWebContents.focus();
-					}
-				}
-			}),
-			separator: () => ({type: 'separator'}),
 			saveImage: decorateMenuItem({
 				id: 'save',
 				label: 'Save Image',
@@ -128,13 +126,15 @@ const create = (win, options) => {
 					});
 				}
 			}),
-			lookUpSelection: decorateMenuItem({
-				id: 'lookUpSelection',
-				label: `Look Up “${cliTruncate(props.selectionText.trim(), 25)}”`,
-				visible: process.platform === 'darwin' && hasText,
+			inspect: () => ({
+				id: 'inspect',
+				label: 'Inspect Element',
+				enabled: isDev,
 				click() {
-					if (process.platform === 'darwin') {
-						webContents(win).showDefinitionForSelection();
+					win.inspectElement(props.x, props.y);
+
+					if (webContents(win).isDevToolsOpened()) {
+						webContents(win).devToolsWebContents.focus();
 					}
 				}
 			})

@@ -60,14 +60,14 @@ declare namespace contextMenu {
 
 	interface Actions {
 		readonly separator: () => MenuItem;
-		readonly inspect: () => MenuItem;
+		readonly lookUpSelection: (options: ActionOptions) => MenuItem;
 		readonly cut: (options: ActionOptions) => MenuItem;
 		readonly copy: (options: ActionOptions) => MenuItem;
 		readonly paste: (options: ActionOptions) => MenuItem;
 		readonly saveImage: (options: ActionOptions) => MenuItem;
 		readonly saveImageAs: (options: ActionOptions) => MenuItem;
 		readonly copyImageAddress: (options: ActionOptions) => MenuItem;
-		readonly lookUpSelection: (options: ActionOptions) => MenuItem;
+		readonly inspect: () => MenuItem;
 	}
 
 	interface Options {
