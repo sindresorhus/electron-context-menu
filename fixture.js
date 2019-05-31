@@ -4,7 +4,7 @@ const {app, BrowserWindow} = require('electron');
 const contextMenu = require('.');
 
 contextMenu({
-	labels: {
+	labels: () => ({
 		cut: 'Configured Cut',
 		copy: 'Configured Copy',
 		paste: 'Configured Paste',
@@ -12,7 +12,7 @@ contextMenu({
 		saveImageAs: 'Configured Save Image As…',
 		copyLink: 'Configured Copy Link',
 		inspect: 'Configured Inspect'
-	},
+	}),
 	prepend: () => [
 		{
 			label: 'Unicorn'
