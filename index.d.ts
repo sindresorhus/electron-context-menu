@@ -12,6 +12,7 @@ declare namespace contextMenu {
 	interface Labels {
 		/**
 		The placeholder `{selection}` will be replaced by the currently selected text.
+
 		@default 'Look Up “{selection}”'
 		*/
 		readonly lookUpSelection?: string;
