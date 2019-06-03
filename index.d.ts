@@ -56,6 +56,11 @@ declare namespace contextMenu {
 		@default 'Inspect Element'
 		*/
 		readonly inspect?: string;
+
+		/**
+		@default 'Services'
+		*/
+		readonly services?: string;
 	}
 
 	interface ActionOptions {
@@ -75,6 +80,7 @@ declare namespace contextMenu {
 		readonly saveImageAs: (options: ActionOptions) => MenuItem;
 		readonly copyImageAddress: (options: ActionOptions) => MenuItem;
 		readonly inspect: () => MenuItem;
+		readonly services: () => MenuItem;
 	}
 
 	interface Options {
@@ -103,6 +109,13 @@ declare namespace contextMenu {
 		) => MenuItem[];
 
 		/**
+		Show the `Look Up {selection}` menu item when right-clicking text on macOS.
+
+		@default true
+		*/
+		readonly showLookUpSelection?: boolean;
+
+		/**
 		Show the `Copy Image Address` menu item when right-clicking on an image.
 
 		@default false
@@ -124,11 +137,11 @@ declare namespace contextMenu {
 		readonly showInspectElement?: boolean;
 
 		/**
-		Show the `Look Up {selection}` menu item when right-clicking text on macOS.
+		Show the system `Services` submenu on macOS.
 
-		@default true
+		@default false
 		*/
-		readonly showLookUpSelection?: boolean;
+		readonly showServices?: boolean;
 
 		/**
 		Overwrite labels for the default menu items. Useful for i18n.

@@ -72,6 +72,13 @@ Should return an array of [MenuItem](https://electronjs.org/docs/api/menu-item/)
 
 The first argument is an array of default actions that can be used. The second argument is [this `params` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window/) the context menu was requested for.
 
+#### showLookUpSelection
+
+Type: `boolean`<br>
+Default: `true`
+
+Show the `Look Up {selection}` menu item when right-clicking text on macOS.
+
 #### showCopyImageAddress
 
 Type: `boolean`<br>
@@ -93,12 +100,14 @@ Default: [Only in development](https://github.com/sindresorhus/electron-is-dev)
 
 Force enable or disable the `Inspect Element` menu item.
 
-#### showLookUpSelection
+#### showServices
 
 Type: `boolean`<br>
-Default: `true`
+Default: `false`
 
-Show the `Look Up {selection}` menu item when right-clicking text on macOS.
+Show the system `Services` submenu when right-clicking text on macOS.
+
+Note: Due to [a bug in the Electron implementation](https://github.com/electron/electron/issues/18476), this menu is not identical to the "Services" submenu in the context menus of native apps. Instead, it looks the same as the "Services" menu in the main App Menu. For this reason, it is currently disabled by default.
 
 #### labels
 
@@ -155,6 +164,7 @@ The following options are ignored when `menu` is used:
 - `showCopyImageAddress`
 - `showSaveImageAs`
 - `showInspectElement`
+- `showServices`
 
 Default actions:
 
@@ -168,6 +178,7 @@ Default actions:
 - `copyImageAddress`
 - `copyLink`
 - `inspect`
+- `services`
 
 Example:
 

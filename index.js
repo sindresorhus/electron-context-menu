@@ -137,6 +137,12 @@ const create = (win, options) => {
 						webContents(win).devToolsWebContents.focus();
 					}
 				}
+			}),
+			services: () => ({
+				id: 'services',
+				label: 'Services',
+				role: 'services',
+				visible: process.platform === 'darwin' && (props.isEditable || hasText)
 			})
 		};
 
@@ -155,6 +161,7 @@ const create = (win, options) => {
 			defaultActions.copyLink(),
 			defaultActions.separator(),
 			options.showInspectElement && defaultActions.inspect(),
+			options.showServices && defaultActions.services(),
 			defaultActions.separator()
 		];
 
