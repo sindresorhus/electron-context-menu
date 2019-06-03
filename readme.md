@@ -93,6 +93,15 @@ Default: [Only in development](https://github.com/sindresorhus/electron-is-dev)
 
 Force enable or disable the `Inspect Element` menu item.
 
+#### showServices
+
+Type: `boolean`<br>
+Default: `false`
+
+Show the system `Services` submenu when right-clicking text on macOS.
+
+Note: Due to [a bug in the Electron implementation](https://github.com/electron/electron/issues/18476), this menu is not identical to the "Services" submenu in the context menus of native apps. Instead, it looks the same as the "Services" menu in the main App Menu. For this reason, it is currently disabled by default.
+
 #### showLookUpSelection
 
 Type: `boolean`<br>
@@ -151,6 +160,7 @@ The following options are ignored when `menu` is used:
 - `showCopyImageAddress`
 - `showSaveImageAs`
 - `showInspectElement`
+- `showServices`
 
 Default actions:
 
@@ -164,6 +174,7 @@ Default actions:
 - `copyImageAddress`
 - `copyLink`
 - `inspect`
+- `services`
 
 Example:
 

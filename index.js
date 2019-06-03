@@ -83,6 +83,12 @@ const create = (win, options) => {
 					}
 				}
 			}),
+			services: () => ({
+				id: 'services',
+				label: 'Services',
+				role: 'services',
+				visible: process.platform === 'darwin' && (props.isEditable || hasText)
+			}),
 			separator: () => ({type: 'separator'}),
 			saveImage: decorateMenuItem({
 				id: 'save',
@@ -155,6 +161,7 @@ const create = (win, options) => {
 			defaultActions.copyLink(),
 			defaultActions.separator(),
 			options.showInspectElement && defaultActions.inspect(),
+			options.showServices && defaultActions.services(),
 			defaultActions.separator()
 		];
 
