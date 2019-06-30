@@ -34,9 +34,9 @@ contextMenu({
 		{
 			label: 'Search Google for “{selection}”',
 			// Only show it when right-clicking text
-			visible: (params.selectionText.trim().length > 0),
+			visible: params.selectionText.trim().length > 0,
 			click: () => {
-				shell.openExternal(`https://www.google.com/search?q=${encodeURIComponent(params.selectionText)}`);
+				shell.openExternal(`https://google.com/search?q=${encodeURIComponent(params.selectionText)}`);
 			}
 		}
 	]
@@ -52,11 +52,11 @@ let mainWindow;
 
 ## API
 
-### contextMenu([options])
+### contextMenu(options?)
 
 ### options
 
-Type: `Object`
+Type: `object`
 
 #### window
 
@@ -125,15 +125,12 @@ Note: Due to [a bug in the Electron implementation](https://github.com/electron/
 
 #### labels
 
-Type: `Object`<br>
+Type: `object`<br>
 Default: `{}`
 
 Override labels for the default menu items. Useful for i18n.
 
-The placeholder `{selection}` may be used in any label, and will be replaced by the currently selected text, trimmed to a maximum of 25 characters length.
-This is useful when localizing the `Look Up “{selection}”` menu item, but can also be used in custom menu items – for example, to implement a `Search Google for “{selection}”` menu item.
-
-If there is no selection, the `{selection}` placeholder will be replaced by an empty string. Normally this placeholder is only useful for menu items which will only be shown when there is text selected. This can be checked using `visible: (params.selectionText.trim().length > 0)` when implementing a custom menu item, as shown in the usage example above.
+The placeholder `{selection}` may be used in any label, and will be replaced by the currently selected text, trimmed to a maximum of 25 characters length. This is useful when localizing the `Look Up “{selection}”` menu item, but can also be used in custom menu items, for example, to implement a `Search Google for “{selection}”` menu item. If there is no selection, the `{selection}` placeholder will be replaced by an empty string. Normally this placeholder is only useful for menu items which will only be shown when there is text selected. This can be checked using `visible: params.selectionText.trim().length > 0` when implementing a custom menu item, as shown in the usage example above.
 
 Format:
 

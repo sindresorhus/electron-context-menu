@@ -92,6 +92,8 @@ declare namespace contextMenu {
 
 		/**
 		Should return an array of [menu items](https://electronjs.org/docs/api/menu-item) to be prepended to the context menu.
+
+		`MenuItem` labels may contain the the placeholder `{selection}` which will be replaced by the currently selected text as described in `options.labels`.
 		*/
 		readonly prepend?: (
 			defaultActions: Actions,
@@ -101,6 +103,8 @@ declare namespace contextMenu {
 
 		/**
 		Should return an array of [menu items](https://electronjs.org/docs/api/menu-item) to be appended to the context menu.
+
+		`MenuItem` labels may contain the the placeholder `{selection}` which will be replaced by the currently selected text as described in `options.labels`.
 		*/
 		readonly append?: (
 			defaultActions: Actions,
@@ -144,7 +148,9 @@ declare namespace contextMenu {
 		readonly showServices?: boolean;
 
 		/**
-		Overwrite labels for the default menu items. Useful for i18n.
+		Override labels for the default menu items. Useful for i18n.
+
+		The placeholder `{selection}` may be used in any label, and will be replaced by the currently selected text, trimmed to a maximum of 25 characters length. This is useful when localizing the `Look Up “{selection}”` menu item, but can also be used in custom menu items, for example, to implement a `Search Google for “{selection}”` menu item. If there is no selection, the `{selection}` placeholder will be replaced by an empty string. Normally this placeholder is only useful for menu items which will only be shown when there is text selected. This can be checked using `visible: params.selectionText.trim().length > 0` when implementing a custom menu item.
 
 		@default {}
 
@@ -183,6 +189,8 @@ declare namespace contextMenu {
 		The function passed to this option is expected to return [`MenuItem[]`](https://electronjs.org/docs/api/menu-item/). The first argument the function receives is an array of default actions that can be used. These actions are functions that can take an object with a transform property (except for `separator` and `inspect`). The transform function will be passed the content of the action and can modify it if needed.
 
 		Even though you include an action, it will still only be shown/enabled when appropriate. For example, the `saveImage` action is only shown when right-clicking an image.
+
+		`MenuItem` labels may contain the the placeholder `{selection}` which will be replaced by the currently selected text as described in `options.labels`.
 
 		The following options are ignored when `menu` is used:
 

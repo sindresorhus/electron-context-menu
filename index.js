@@ -196,7 +196,7 @@ const create = (win, options) => {
 			}
 
 			// Replace placeholders in menu item labels
-			if (typeof menuItem.label === 'string' && menuItem.label.indexOf('{selection}') !== -1) {
+			if (typeof menuItem.label === 'string' && menuItem.label.includes('{selection}')) {
 				const selectionString = typeof props.selectionText === 'string' ? props.selectionText.trim() : '';
 				menuItem.label = menuItem.label.replace('{selection}', cliTruncate(selectionString, 25));
 			}
