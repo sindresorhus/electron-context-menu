@@ -11,6 +11,13 @@ import {
 declare namespace contextMenu {
 	interface Labels {
 		/**
+		The placeholder `{selection}` will be replaced by the currently selected text.
+
+		@default 'Look Up “{selection}”'
+		*/
+		readonly lookUpSelection?: string;
+
+		/**
 		@default 'Cut'
 		*/
 		readonly cut?: string;
@@ -65,15 +72,15 @@ declare namespace contextMenu {
 
 	interface Actions {
 		readonly separator: () => MenuItem;
-		readonly inspect: () => MenuItem;
-		readonly services: () => MenuItem;
+		readonly lookUpSelection: (options: ActionOptions) => MenuItem;
 		readonly cut: (options: ActionOptions) => MenuItem;
 		readonly copy: (options: ActionOptions) => MenuItem;
 		readonly paste: (options: ActionOptions) => MenuItem;
 		readonly saveImage: (options: ActionOptions) => MenuItem;
 		readonly saveImageAs: (options: ActionOptions) => MenuItem;
 		readonly copyImageAddress: (options: ActionOptions) => MenuItem;
-		readonly lookUpSelection: (options: ActionOptions) => MenuItem;
+		readonly inspect: () => MenuItem;
+		readonly services: () => MenuItem;
 	}
 
 	interface Options {
@@ -102,6 +109,13 @@ declare namespace contextMenu {
 		) => MenuItem[];
 
 		/**
+		Show the `Look Up {selection}` menu item when right-clicking text on macOS.
+
+		@default true
+		*/
+		readonly showLookUpSelection?: boolean;
+
+		/**
 		Show the `Copy Image Address` menu item when right-clicking on an image.
 
 		@default false
@@ -128,13 +142,6 @@ declare namespace contextMenu {
 		@default false
 		*/
 		readonly showServices?: boolean;
-
-		/**
-		Show the `Look Up [selection]` menu item when right-clicking text on macOS.
-
-		@default true
-		*/
-		readonly showLookUpSelection?: boolean;
 
 		/**
 		Overwrite labels for the default menu items. Useful for i18n.
