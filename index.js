@@ -36,6 +36,7 @@ const create = (win, options) => {
 
 		const {editFlags} = props;
 		const hasText = props.selectionText.trim().length > 0;
+		const isLink = Boolean(props.linkURL);
 		const can = type => editFlags[`can${type}`] && hasText;
 
 		const defaultActions = {
@@ -43,7 +44,7 @@ const create = (win, options) => {
 			lookUpSelection: decorateMenuItem({
 				id: 'lookUpSelection',
 				label: 'Look Up “{selection}”',
-				visible: process.platform === 'darwin' && hasText,
+				visible: process.platform === 'darwin' && hasText && !isLink,
 				click() {
 					if (process.platform === 'darwin') {
 						webContents(win).showDefinitionForSelection();
