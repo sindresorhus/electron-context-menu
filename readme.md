@@ -100,6 +100,13 @@ Default: `false`
 
 Show the `Copy Image Address` menu item when right-clicking on an image.
 
+#### showCopyImage
+
+Type: `boolean`<br>
+Default: `true`
+
+Show the `Copy Image` menu item when right-clicking on an image.
+
 #### showSaveImageAs
 
 Type: `boolean`<br>
@@ -188,6 +195,7 @@ Default actions:
 - `cut`
 - `copy`
 - `paste`
+- `copyImage`
 - `saveImage`
 - `saveImageAs`
 - `copyImageAddress`

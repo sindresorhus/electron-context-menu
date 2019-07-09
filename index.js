@@ -83,6 +83,14 @@ const create = (win, options) => {
 					webContents(win).insertText(clipboardContent);
 				}
 			}),
+			copyImage: decorateMenuItem({
+				id: 'copyImage',
+				label: 'Copy Image',
+				visible: props.mediaType === 'image',
+				click() {
+					webContents(win).copyImageAt(props.x, props.y);
+				}
+			}),
 			saveImage: decorateMenuItem({
 				id: 'save',
 				label: 'Save Image',
@@ -157,6 +165,7 @@ const create = (win, options) => {
 			defaultActions.separator(),
 			defaultActions.saveImage(),
 			options.showSaveImageAs && defaultActions.saveImageAs(),
+			defaultActions.copyImage(),
 			options.showCopyImageAddress && defaultActions.copyImageAddress(),
 			defaultActions.separator(),
 			defaultActions.copyLink(),
