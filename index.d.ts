@@ -53,6 +53,11 @@ declare namespace contextMenu {
 		readonly copyImageAddress?: string;
 
 		/**
+		@default 'Copy Image'
+		*/
+		readonly copyImage?: string;
+
+		/**
 		@default 'Inspect Element'
 		*/
 		readonly inspect?: string;
@@ -79,6 +84,7 @@ declare namespace contextMenu {
 		readonly saveImage: (options: ActionOptions) => MenuItem;
 		readonly saveImageAs: (options: ActionOptions) => MenuItem;
 		readonly copyImageAddress: (options: ActionOptions) => MenuItem;
+		readonly copyImage: (options: ActionOptions) => MenuItem;
 		readonly inspect: () => MenuItem;
 		readonly services: () => MenuItem;
 	}
@@ -125,6 +131,13 @@ declare namespace contextMenu {
 		@default false
 		*/
 		readonly showCopyImageAddress?: boolean;
+
+		/**
+		Show the `Copy Image` menu item when right-clicking on an image.
+
+		@default true
+		*/
+		readonly showCopyImage?: boolean;
 
 		/**
 		Show the `Save Image As…` menu item when right-clicking on an image.
