@@ -35,7 +35,7 @@ declare namespace contextMenu {
 		/**
 		@default 'Save Image'
 		*/
-		readonly save?: string;
+		readonly saveImage?: string;
 
 		/**
 		@default 'Save Image As…'

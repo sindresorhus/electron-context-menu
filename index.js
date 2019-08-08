@@ -84,7 +84,7 @@ const create = (win, options) => {
 				}
 			}),
 			saveImage: decorateMenuItem({
-				id: 'save',
+				id: 'saveImage',
 				label: 'Save Image',
 				visible: props.mediaType === 'image',
 				click(menuItem) {
