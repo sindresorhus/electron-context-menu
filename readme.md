@@ -93,19 +93,19 @@ Default: `true`
 
 Show the `Look Up {selection}` menu item when right-clicking text on macOS.
 
-#### showCopyImageAddress
-
-Type: `boolean`<br>
-Default: `false`
-
-Show the `Copy Image Address` menu item when right-clicking on an image.
-
 #### showCopyImage
 
 Type: `boolean`<br>
 Default: `true`
 
 Show the `Copy Image` menu item when right-clicking on an image.
+
+#### showCopyImageAddress
+
+Type: `boolean`<br>
+Default: `false`
+
+Show the `Copy Image Address` menu item when right-clicking on an image.
 
 #### showSaveImageAs
 
@@ -183,6 +183,7 @@ Even though you include an action, it will still only be shown/enabled when appr
 The following options are ignored when `menu` is used:
 
 - `showLookUpSelection`
+- `showCopyImage`
 - `showCopyImageAddress`
 - `showSaveImageAs`
 - `showInspectElement`
@@ -195,9 +196,9 @@ Default actions:
 - `cut`
 - `copy`
 - `paste`
-- `copyImage`
 - `saveImage`
 - `saveImageAs`
+- `copyImage`
 - `copyImageAddress`
 - `copyLink`
 - `inspect`
