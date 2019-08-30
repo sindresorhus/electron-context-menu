@@ -114,6 +114,14 @@ const create = (win, options) => {
 					});
 				}
 			}),
+			copyImage: decorateMenuItem({
+				id: 'copyImage',
+				label: 'Copy Image',
+				visible: props.mediaType === 'image',
+				click() {
+					webContents(win).copyImageAt(props.x, props.y);
+				}
+			}),
 			copyImageAddress: decorateMenuItem({
 				id: 'copyImageAddress',
 				label: 'Copy Image Address',
@@ -157,6 +165,7 @@ const create = (win, options) => {
 			defaultActions.separator(),
 			defaultActions.saveImage(),
 			options.showSaveImageAs && defaultActions.saveImageAs(),
+			options.showCopyImage !== false && defaultActions.copyImage(),
 			options.showCopyImageAddress && defaultActions.copyImageAddress(),
 			defaultActions.separator(),
 			defaultActions.copyLink(),
