@@ -216,11 +216,13 @@ const create = (win, options) => {
 			const menu = (electron.remote ? electron.remote.Menu : electron.Menu).buildFromTemplate(menuTemplate);
 
 			/*
-			When `electron.remote`` is not available this runs in the browser process.
-			We can safely use `win`` in this case as it refers to the window the
+			When `electron.remote` is not available, this runs in the browser process.
+
+			We can safely use `win` in this case as it refers to the window the
 			context-menu should open in.
-			When this is being called from a webView, we can't use win as this
-			would refere to the webView which is not allowed to render a popup menu.
+
+			When this is being called from a web view, we can't use `win` as this
+			would refer to the web view which is not allowed to render a popup menu.
 			*/
 			menu.popup(electron.remote ? electron.remote.getCurrentWindow() : win);
 		}
@@ -250,6 +252,3 @@ module.exports = (options = {}) => {
 		create(win, options);
 	});
 };
-
-// TODO: Remove this for the next major release
-module.exports.default = module.exports;
