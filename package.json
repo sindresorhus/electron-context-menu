@@ -1,14 +1,15 @@
 {
-	"name": "electron-context-menu",
-	"version": "0.15.0",
+	"name": "@loopmode/electron-context-menu",
+	"version": "0.16.0",
 	"description": "Context menu for your Electron app",
 	"license": "MIT",
 	"repository": "sindresorhus/electron-context-menu",
 	"author": {
 		"name": "Sindre Sorhus",
 		"email": "sindresorhus@gmail.com",
-		"url": "sindresorhus.com"
+		"url": "http://sindresorhus.com"
 	},
+	"contributors": ["Jovica Aleksic <jovica.aleksic@loopmode.de>"],
 	"scripts": {
 		"start": "electron fixture.js",
 		"test": "xo && ava && tsd"

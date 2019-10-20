@@ -29,7 +29,7 @@ const removeUnusedMenuItems = menuTemplate => {
 };
 
 const create = (win, options) => {
-	webContents(win).on('context-menu', (event, props) => {
+	const handleContextMenu = (event, props) => {
 		if (typeof options.shouldShowMenu === 'function' && options.shouldShowMenu(event, props) === false) {
 			return;
 		}
@@ -226,7 +226,12 @@ const create = (win, options) => {
 			*/
 			menu.popup(electron.remote ? electron.remote.getCurrentWindow() : win);
 		}
-	});
+	}
+	webContents(win).on('context-menu', handleContextMenu);
+
+	return () => {
+		webContents(win).removeListener('context-menu', handleContextMenu);
+	};
 };
 
 module.exports = (options = {}) => {
