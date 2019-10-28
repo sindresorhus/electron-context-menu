@@ -107,12 +107,26 @@ Default: `false`
 
 Show the `Copy Image Address` menu item when right-clicking on an image.
 
+#### showSaveImage
+
+Type: `boolean`<br>
+Default: `true`
+
+Show the `Save Image` menu item when right-clicking on an image.
+
 #### showSaveImageAs
 
 Type: `boolean`<br>
 Default: `false`
 
 Show the `Save Image As…` menu item when right-clicking on an image.
+
+#### showCopyLink
+
+Type: `boolean`<br>
+Default: `true`
+
+Show the `Copy Link` menu item when right-clicking on an image.
 
 #### showInspectElement
 
