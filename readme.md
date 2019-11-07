@@ -151,6 +151,24 @@ Format:
 }
 ```
 
+### accelerators
+
+Type: `object`<br>
+Default: `{}`
+
+Add accelerators for cut, copy and paste.
+
+Format:
+```js
+{
+	accelerators: {
+		copy: 'CmdOrCtrl+C',
+		paste: 'CmdOrCtrl+V',
+		cut: 'CmdOrCtrl+X'
+	}
+}
+```
+
 #### shouldShowMenu
 
 Type: `Function`

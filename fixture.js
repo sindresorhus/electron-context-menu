@@ -13,6 +13,10 @@ contextMenu({
 		copyLink: 'Configured Copy Link',
 		inspect: 'Configured Inspect'
 	},
+	accelerators:{
+            cut: 'CmdOrCtrl+X',
+            paste: 'CmdOrCtrl+V'
+	},
 	prepend: () => [
 		{
 			label: 'Unicorn'
