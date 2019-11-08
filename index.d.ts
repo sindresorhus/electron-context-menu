@@ -83,6 +83,7 @@ declare namespace contextMenu {
 		readonly paste: (options: ActionOptions) => MenuItem;
 		readonly saveImage: (options: ActionOptions) => MenuItem;
 		readonly saveImageAs: (options: ActionOptions) => MenuItem;
+		readonly copyLink: (options: ActionOptions) => MenuItem;
 		readonly copyImage: (options: ActionOptions) => MenuItem;
 		readonly copyImageAddress: (options: ActionOptions) => MenuItem;
 		readonly inspect: () => MenuItem;
@@ -207,12 +208,14 @@ declare namespace contextMenu {
 
 		The following options are ignored when `menu` is used:
 
+		- `showLookUpSelection`
 		- `showCopyImage`
 		- `showCopyImageAddress`
 		- `showSaveImageAs`
 		- `showInspectElement`
+		- `showServices`
 
-		@default [defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.separator(), defaultActions.inspect()]
+		@default [defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyLink(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.separator(), defaultActions.inspect()]
 		*/
 		readonly menu?: (
 			defaultActions: Actions,
