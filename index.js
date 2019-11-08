@@ -138,7 +138,6 @@ const create = (win, options) => {
 			inspect: () => ({
 				id: 'inspect',
 				label: 'Inspect Element',
-				enabled: isDev,
 				click() {
 					win.inspectElement(props.x, props.y);
 
@@ -155,6 +154,8 @@ const create = (win, options) => {
 			})
 		};
 
+		const shouldShowInspectElement = typeof options.showInspectElement === 'boolean' ? options.showInspectElement : isDev;
+
 		let menuTemplate = [
 			defaultActions.separator(),
 			options.showLookUpSelection !== false && defaultActions.lookUpSelection(),
@@ -170,7 +171,7 @@ const create = (win, options) => {
 			defaultActions.separator(),
 			defaultActions.copyLink(),
 			defaultActions.separator(),
-			options.showInspectElement && defaultActions.inspect(),
+			shouldShowInspectElement && defaultActions.inspect(),
 			options.showServices && defaultActions.services(),
 			defaultActions.separator()
 		];
