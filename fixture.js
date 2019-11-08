@@ -43,5 +43,9 @@ contextMenu({
 (async () => {
 	await app.whenReady();
 
-	await (new BrowserWindow()).loadFile(path.join(__dirname, 'fixture.html'));
+	await (new BrowserWindow({
+		webPreferences: {
+			nodeIntegration: true
+		}
+	})).loadFile(path.join(__dirname, 'fixture.html'));
 })();

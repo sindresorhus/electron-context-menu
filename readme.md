@@ -60,7 +60,7 @@ Type: `object`
 
 #### window
 
-Type: `BrowserWindow | WebView`<br>
+Type: `BrowserWindow | WebView`
 
 Window or WebView to add the context menu to.
 
@@ -88,42 +88,42 @@ The first argument is an array of default actions that can be used. The second a
 
 #### showLookUpSelection
 
-Type: `boolean`<br>
+Type: `boolean`\
 Default: `true`
 
 Show the `Look Up {selection}` menu item when right-clicking text on macOS.
 
 #### showCopyImage
 
-Type: `boolean`<br>
+Type: `boolean`\
 Default: `true`
 
 Show the `Copy Image` menu item when right-clicking on an image.
 
 #### showCopyImageAddress
 
-Type: `boolean`<br>
+Type: `boolean`\
 Default: `false`
 
 Show the `Copy Image Address` menu item when right-clicking on an image.
 
 #### showSaveImageAs
 
-Type: `boolean`<br>
+Type: `boolean`\
 Default: `false`
 
 Show the `Save Image As…` menu item when right-clicking on an image.
 
 #### showInspectElement
 
-Type: `boolean`<br>
+Type: `boolean`\
 Default: [Only in development](https://github.com/sindresorhus/electron-is-dev)
 
 Force enable or disable the `Inspect Element` menu item.
 
 #### showServices
 
-Type: `boolean`<br>
+Type: `boolean`\
 Default: `false`
 
 Show the system `Services` submenu when right-clicking text on macOS.
@@ -132,7 +132,7 @@ Note: Due to [a bug in the Electron implementation](https://github.com/electron/
 
 #### labels
 
-Type: `object`<br>
+Type: `object`\
 Default: `{}`
 
 Override labels for the default menu items. Useful for i18n.
