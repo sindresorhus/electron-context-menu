@@ -4,7 +4,7 @@ import {
 	BrowserWindow,
 	WebviewTag,
 	ContextMenuParams,
-	MenuItem,
+	MenuItemConstructorOptions,
 	Event as ElectronEvent
 } from 'electron';
 
@@ -76,18 +76,18 @@ declare namespace contextMenu {
 	}
 
 	interface Actions {
-		readonly separator: () => MenuItem;
-		readonly lookUpSelection: (options: ActionOptions) => MenuItem;
-		readonly cut: (options: ActionOptions) => MenuItem;
-		readonly copy: (options: ActionOptions) => MenuItem;
-		readonly paste: (options: ActionOptions) => MenuItem;
-		readonly saveImage: (options: ActionOptions) => MenuItem;
-		readonly saveImageAs: (options: ActionOptions) => MenuItem;
-		readonly copyLink: (options: ActionOptions) => MenuItem;
-		readonly copyImage: (options: ActionOptions) => MenuItem;
-		readonly copyImageAddress: (options: ActionOptions) => MenuItem;
-		readonly inspect: () => MenuItem;
-		readonly services: () => MenuItem;
+		readonly separator: () => MenuItemConstructorOptions;
+		readonly lookUpSelection: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly cut: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly copy: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly paste: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly saveImage: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly saveImageAs: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly copyLink: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly copyImage: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly copyImageAddress: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly inspect: () => MenuItemConstructorOptions;
+		readonly services: () => MenuItemConstructorOptions;
 	}
 
 	interface Options {
@@ -106,7 +106,7 @@ declare namespace contextMenu {
 			defaultActions: Actions,
 			params: ContextMenuParams,
 			browserWindow: BrowserWindow | WebviewTag
-		) => MenuItem[];
+		) => MenuItemConstructorOptions[];
 
 		/**
 		Should return an array of [menu items](https://electronjs.org/docs/api/menu-item) to be appended to the context menu.
@@ -117,7 +117,7 @@ declare namespace contextMenu {
 			defaultActions: Actions,
 			param: ContextMenuParams,
 			browserWindow: BrowserWindow | WebviewTag
-		) => MenuItem[];
+		) => MenuItemConstructorOptions[];
 
 		/**
 		Show the `Look Up {selection}` menu item when right-clicking text on macOS.
@@ -200,7 +200,7 @@ declare namespace contextMenu {
 		/**
 		This option lets you manually pick what menu items to include. It's meant for advanced needs. The default menu with the other options should be enough for most use-cases, and it ensures correct behavior, for example, correct order of menu items. So prefer the `append` and `prepend` option instead of `menu` whenever possible.
 
-		The function passed to this option is expected to return [`MenuItem[]`](https://electronjs.org/docs/api/menu-item/). The first argument the function receives is an array of default actions that can be used. These actions are functions that can take an object with a transform property (except for `separator` and `inspect`). The transform function will be passed the content of the action and can modify it if needed.
+		The function passed to this option is expected to return an array of [`MenuItem` constructor options](https://electronjs.org/docs/api/menu-item/). The first argument the function receives is an array of default actions that can be used. These actions are functions that can take an object with a transform property (except for `separator` and `inspect`). The transform function will be passed the content of the action and can modify it if needed.
 
 		Even though you include an action, it will still only be shown/enabled when appropriate. For example, the `saveImage` action is only shown when right-clicking an image.
 
@@ -221,7 +221,7 @@ declare namespace contextMenu {
 			defaultActions: Actions,
 			params: ContextMenuParams,
 			browserWindow: BrowserWindow | WebviewTag
-		) => MenuItem[];
+		) => MenuItemConstructorOptions[];
 	}
 }
 
