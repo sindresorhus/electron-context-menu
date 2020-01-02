@@ -60,7 +60,7 @@ Type: `object`
 
 #### window
 
-Type: `BrowserWindow | WebView`
+Type: `BrowserWindow | WebViewTag | WebContents`
 
 Window or WebView to add the context menu to.
 
