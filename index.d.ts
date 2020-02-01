@@ -5,7 +5,8 @@ import {
 	WebviewTag,
 	ContextMenuParams,
 	MenuItemConstructorOptions,
-	Event as ElectronEvent
+	Event as ElectronEvent,
+	WebContents
 } from 'electron';
 
 declare namespace contextMenu {
@@ -95,7 +96,7 @@ declare namespace contextMenu {
 		Window or WebView to add the context menu to.
 		When not specified, the context menu will be added to all existing and new windows.
 		*/
-		readonly window?: BrowserWindow | WebviewTag;
+		readonly window?: BrowserWindow | WebviewTag | WebContents;
 
 		/**
 		Should return an array of [menu items](https://electronjs.org/docs/api/menu-item) to be prepended to the context menu.
@@ -105,7 +106,7 @@ declare namespace contextMenu {
 		readonly prepend?: (
 			defaultActions: Actions,
 			params: ContextMenuParams,
-			browserWindow: BrowserWindow | WebviewTag
+			browserWindow: BrowserWindow | WebviewTag | WebContents
 		) => MenuItemConstructorOptions[];
 
 		/**
@@ -116,7 +117,7 @@ declare namespace contextMenu {
 		readonly append?: (
 			defaultActions: Actions,
 			param: ContextMenuParams,
-			browserWindow: BrowserWindow | WebviewTag
+			browserWindow: BrowserWindow | WebviewTag | WebContents
 		) => MenuItemConstructorOptions[];
 
 		/**
@@ -220,7 +221,7 @@ declare namespace contextMenu {
 		readonly menu?: (
 			defaultActions: Actions,
 			params: ContextMenuParams,
-			browserWindow: BrowserWindow | WebviewTag
+			browserWindow: BrowserWindow | WebviewTag | WebContents
 		) => MenuItemConstructorOptions[];
 	}
 }
