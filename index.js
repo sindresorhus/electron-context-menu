@@ -263,7 +263,7 @@ module.exports = (options = {}) => {
 	};
 
 	const dispose = () => {
-		disposables.forEach(disposeMenu => disposeMenu());
+		disposables.forEach(dispose => dispose());
 		isDisposed = true;
 	};
 
