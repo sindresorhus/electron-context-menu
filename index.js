@@ -29,7 +29,7 @@ const removeUnusedMenuItems = menuTemplate => {
 };
 
 const create = (win, options) => {
-	webContents(win).on('context-menu', (event, props) => {
+	const onContextMenu = (event, props) => {
 		if (typeof options.shouldShowMenu === 'function' && options.shouldShowMenu(event, props) === false) {
 			return;
 		}
@@ -244,29 +244,47 @@ const create = (win, options) => {
 			*/
 			menu.popup(electron.remote ? electron.remote.getCurrentWindow() : win);
 		}
-	});
+	};
+
+	webContents(win).on('context-menu', onContextMenu);
+	return () => webContents(win).removeListener('context-menu', onContextMenu);
 };
 
 module.exports = (options = {}) => {
+	let isDisposed = false;
+	const disposables = [];
+	const createMenu = (win) => {
+		if (isDisposed) return;
+		const disposeMenu = create(win, options);
+		disposables.push(disposeMenu);
+	};
+	const dispose = () => {
+		disposables.forEach(disposeMenu => disposeMenu());
+		isDisposed = true;
+	};
+
 	if (options.window) {
 		const win = options.window;
 
 		// When window is a webview that has not yet finished loading webContents is not available
 		if (webContents(win) === undefined) {
-			win.addEventListener('dom-ready', () => {
-				create(win, options);
-			}, {once: true});
-			return;
+			win.addEventListener('dom-ready', () => createMenu(win), {once: true});
+			disposables.push(() => win.removeEventListener('dom-ready', () => createMenu(win), {once: true}))
+			return dispose;
 		}
 
-		return create(win, options);
+		createMenu(win);
+		return dispose;
 	}
 
 	for (const win of (electron.BrowserWindow || electron.remote.BrowserWindow).getAllWindows()) {
-		create(win, options);
+		createMenu(win);
 	}
 
-	(electron.app || electron.remote.app).on('browser-window-created', (event, win) => {
-		create(win, options);
-	});
+	const app = (electron.app || electron.remote.app);
+	const onWindowCreated = (event, win) => createMenu(win);
+	app.on('browser-window-created', onWindowCreated);
+	disposables.push(() => app.removeListener('browser-window-created', onWindowCreated))
+
+	return dispose;
 };

@@ -47,9 +47,20 @@ let mainWindow;
 })();
 ```
 
+Note that the return value of `contextMenu()` is a dispose function:
+
+```js
+const dispose = contextMenu({ ...options });
+dispose();
+```
+
+This function removes all event listeners and thereby deactivates the created menu for the future. However, it does not close or dispose of any currently visible context menu.
+
 ## API
 
 ### contextMenu(options?)
+
+Creates a context menu and returns a dispose function.
 
 ### options
 
