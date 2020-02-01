@@ -253,11 +253,15 @@ const create = (win, options) => {
 module.exports = (options = {}) => {
 	let isDisposed = false;
 	const disposables = [];
-	const createMenu = (win) => {
-		if (isDisposed) return;
+	const createMenu = win => {
+		if (isDisposed) {
+			return;
+		}
+
 		const disposeMenu = create(win, options);
 		disposables.push(disposeMenu);
 	};
+
 	const dispose = () => {
 		disposables.forEach(disposeMenu => disposeMenu());
 		isDisposed = true;
@@ -269,7 +273,7 @@ module.exports = (options = {}) => {
 		// When window is a webview that has not yet finished loading webContents is not available
 		if (webContents(win) === undefined) {
 			win.addEventListener('dom-ready', () => createMenu(win), {once: true});
-			disposables.push(() => win.removeEventListener('dom-ready', () => createMenu(win), {once: true}))
+			disposables.push(() => win.removeEventListener('dom-ready', () => createMenu(win), {once: true}));
 			return dispose;
 		}
 
@@ -284,7 +288,7 @@ module.exports = (options = {}) => {
 	const app = (electron.app || electron.remote.app);
 	const onWindowCreated = (event, win) => createMenu(win);
 	app.on('browser-window-created', onWindowCreated);
-	disposables.push(() => app.removeListener('browser-window-created', onWindowCreated))
+	disposables.push(() => app.removeListener('browser-window-created', onWindowCreated));
 
 	return dispose;
 };
