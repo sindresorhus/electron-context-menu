@@ -72,6 +72,8 @@ declare namespace contextMenu {
 	interface ActionOptions {
 		/**
 		Apply a transformation to the content of the action.
+
+		If you use this on `cut`, `copy`, or `paste`, they will convert rich text to plain text.
 		*/
 		readonly transform?: (content: string) => string;
 	}

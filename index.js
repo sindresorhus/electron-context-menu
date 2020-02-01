@@ -57,9 +57,14 @@ const create = (win, options) => {
 				enabled: can('Cut'),
 				visible: props.isEditable,
 				click(menuItem) {
-					props.selectionText = menuItem.transform ? menuItem.transform(props.selectionText) : props.selectionText;
-					electron.clipboard.writeText(props.selectionText);
-					webContents(win).delete();
+					const target = webContents(win);
+
+					if (!menuItem.transform && target) {
+						target.cut();
+					} else {
+						props.selectionText = menuItem.transform ? menuItem.transform(props.selectionText) : props.selectionText;
+						electron.clipboard.writeText(props.selectionText);
+					}
 				}
 			}),
 			copy: decorateMenuItem({
@@ -68,8 +73,14 @@ const create = (win, options) => {
 				enabled: can('Copy'),
 				visible: props.isEditable || hasText,
 				click(menuItem) {
-					props.selectionText = menuItem.transform ? menuItem.transform(props.selectionText) : props.selectionText;
-					electron.clipboard.writeText(props.selectionText);
+					const target = webContents(win);
+
+					if (!menuItem.transform && target) {
+						target.copy();
+					} else {
+						props.selectionText = menuItem.transform ? menuItem.transform(props.selectionText) : props.selectionText;
+						electron.clipboard.writeText(props.selectionText);
+					}
 				}
 			}),
 			paste: decorateMenuItem({
@@ -78,9 +89,15 @@ const create = (win, options) => {
 				enabled: editFlags.canPaste,
 				visible: props.isEditable,
 				click(menuItem) {
-					let clipboardContent = electron.clipboard.readText(props.selectionText);
-					clipboardContent = menuItem.transform ? menuItem.transform(clipboardContent) : clipboardContent;
-					webContents(win).insertText(clipboardContent);
+					const target = webContents(win);
+
+					if (menuItem.transform) {
+						let clipboardContent = electron.clipboard.readText(props.selectionText);
+						clipboardContent = menuItem.transform ? menuItem.transform(clipboardContent) : clipboardContent;
+						target.insertText(clipboardContent);
+					} else {
+						target.paste();
+					}
 				}
 			}),
 			saveImage: decorateMenuItem({

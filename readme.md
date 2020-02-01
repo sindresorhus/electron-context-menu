@@ -8,7 +8,6 @@ Electron doesn't have a built-in context menu. You're supposed to handle that yo
 
 You can use this module directly in both the main and renderer process.
 
-
 ## Install
 
 ```
@@ -16,7 +15,6 @@ $ npm install electron-context-menu
 ```
 
 *Requires Electron 4 or later.*
-
 
 ## Usage
 
@@ -48,7 +46,6 @@ let mainWindow;
 	mainWindow = new BrowserWindow();
 })();
 ```
-
 
 ## API
 
@@ -174,7 +171,7 @@ Type: `Function`
 
 This option lets you manually pick what menu items to include. It's meant for advanced needs. The default menu with the other options should be enough for most use-cases, and it ensures correct behavior, for example, correct order of menu items. So prefer the `append` and `prepend` option instead of `menu` whenever possible.
 
-The function passed to this option is expected to return [`MenuItem[]`](https://electronjs.org/docs/api/menu-item/). The first argument the function receives is an array of default actions that can be used. These actions are functions that can take an object with a transform property (except for `separator` and `inspect`). The transform function will be passed the content of the action and can modify it if needed.
+The function passed to this option is expected to return [`MenuItem[]`](https://electronjs.org/docs/api/menu-item/). The first argument the function receives is an array of default actions that can be used. These actions are functions that can take an object with a transform property (except for `separator` and `inspect`). The transform function will be passed the content of the action and can modify it if needed. If you use `transform` on `cut`, `copy`, or `paste`, they will convert rich text to plain text.
 
 Even though you include an action, it will still only be shown/enabled when appropriate. For example, the `saveImage` action is only shown when right-clicking an image.
 
@@ -230,7 +227,6 @@ Example:
 	]
 }
 ```
-
 
 ## Related
 
