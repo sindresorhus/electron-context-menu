@@ -1,6 +1,6 @@
 'use strict';
 const path = require('path');
-const {app, BrowserWindow} = require('electron');
+const { app, BrowserWindow } = require('electron');
 const contextMenu = require('.');
 
 contextMenu({
@@ -34,7 +34,7 @@ contextMenu({
 			type: 'separator'
 		}
 	],
-	append: () => {},
+	append: () => { },
 	showCopyImageAddress: true,
 	showSaveImageAs: true,
 	showInspectElement: false
@@ -45,7 +45,8 @@ contextMenu({
 
 	await (new BrowserWindow({
 		webPreferences: {
-			nodeIntegration: true
+			nodeIntegration: true,
+			spellcheck: true
 		}
 	})).loadFile(path.join(__dirname, 'fixture.html'));
 })();

@@ -185,7 +185,8 @@ The following options are ignored when `menu` is used:
 - `showSaveImageAs`
 - `showInspectElement`
 - `showServices`
-
+- `dictionary`
+		
 Default actions:
 
 - `separator`
@@ -200,6 +201,7 @@ Default actions:
 - `copyLink`
 - `inspect`
 - `services`
+- `dictionary`
 
 Example:
 
