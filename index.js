@@ -1,7 +1,7 @@
 'use strict';
 const electron = require('electron');
 const cliTruncate = require('cli-truncate');
-const { download } = require('electron-dl');
+const {download} = require('electron-dl');
 const isDev = require('electron-is-dev');
 
 const webContents = win => win.webContents || (win.getWebContents && win.getWebContents());
@@ -34,13 +34,13 @@ const create = (win, options) => {
 			return;
 		}
 
-		const { editFlags } = props;
+		const {editFlags} = props;
 		const hasText = props.selectionText.trim().length > 0;
 		const isLink = Boolean(props.linkURL);
 		const can = type => editFlags[`can${type}`] && hasText;
 
 		const defaultActions = {
-			separator: () => ({ type: 'separator' }),
+			separator: () => ({type: 'separator'}),
 			lookUpSelection: decorateMenuItem({
 				id: 'lookUpSelection',
 				label: 'Look Up “{selection}”',
@@ -115,7 +115,7 @@ const create = (win, options) => {
 				visible: props.mediaType === 'image',
 				click(menuItem) {
 					props.srcURL = menuItem.transform ? menuItem.transform(props.srcURL) : props.srcURL;
-					download(win, props.srcURL, { saveAs: true });
+					download(win, props.srcURL, {saveAs: true});
 				}
 			}),
 			copyLink: decorateMenuItem({
@@ -173,7 +173,7 @@ const create = (win, options) => {
 
 		const shouldShowInspectElement = typeof options.showInspectElement === 'boolean' ? options.showInspectElement : isDev;
 
-		let dictSuggestions = []
+		const dictSuggestions = [];
 		for (let index = 0; index < props.dictionarySuggestions.length; index++) {
 			dictSuggestions.push(
 				{
@@ -185,7 +185,7 @@ const create = (win, options) => {
 						target.insertText(menuItem.label);
 					}
 				}
-			)
+			);
 		}
 
 		let menuTemplate = [
@@ -252,10 +252,10 @@ const create = (win, options) => {
 
 			/*
 			When `electron.remote` is not available, this runs in the browser process.
-			
+
 			We can safely use `win` in this case as it refers to the window the
 			context-menu should open in.
-			
+
 			When this is being called from a web view, we can't use `win` as this
 			would refer to the web view which is not allowed to render a popup menu.
 			*/
@@ -272,7 +272,7 @@ module.exports = (options = {}) => {
 		if (webContents(win) === undefined) {
 			win.addEventListener('dom-ready', () => {
 				create(win, options);
-			}, { once: true });
+			}, {once: true});
 			return;
 		}
 
