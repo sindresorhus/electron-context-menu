@@ -181,7 +181,7 @@ const create = (win, options) => {
 			defaultActions.copy(),
 			defaultActions.paste(),
 			defaultActions.separator(),
-			defaultActions.saveImage(),
+			options.showSaveImage && defaultActions.saveImage(),
 			options.showSaveImageAs && defaultActions.saveImageAs(),
 			options.showCopyImage !== false && defaultActions.copyImage(),
 			options.showCopyImageAddress && defaultActions.copyImageAddress(),
