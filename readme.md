@@ -195,7 +195,7 @@ The following options are ignored when `menu` is used:
 - `showSaveImageAs`
 - `showInspectElement`
 - `showServices`
-- `dictionary`
+- `spellCheck`
 		
 Default actions:
 
@@ -215,7 +215,7 @@ Default actions:
 	
 If we have `{webPreferences: {spellcheck: true}}` in `BrowserWindow`, these functions work by default.
 
-- `dictionary`
+- `spellCheck`
 - `correctAutomatically`
 - `learnSpelling`
 
