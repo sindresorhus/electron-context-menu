@@ -14,9 +14,14 @@ declare namespace contextMenu {
 		/**
 		The placeholder `{selection}` will be replaced by the currently selected text.
 
-		@default 'Look Up “{selection}”'
+		@default 'Look Up "{selection}"'
 		*/
 		readonly lookUpSelection?: string;
+		
+		/**
+		@default 'Search with Google'
+		*/
+		readonly searchWithGoogle?: string;
 
 		/**
 		@default 'Cut'
@@ -81,6 +86,7 @@ declare namespace contextMenu {
 	interface Actions {
 		readonly separator: () => MenuItemConstructorOptions;
 		readonly lookUpSelection: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly searchWithGoogle: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly cut: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly copy: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly paste: (options: ActionOptions) => MenuItemConstructorOptions;
@@ -128,6 +134,13 @@ declare namespace contextMenu {
 		@default true
 		*/
 		readonly showLookUpSelection?: boolean;
+
+		/**
+		Show the `Look Up {selection}` menu item when right-clicking text on macOS.
+
+		@default true
+		*/
+		readonly searchWithGoogle?: boolean;
 
 		/**
 		Show the `Copy Image` menu item when right-clicking on an image.

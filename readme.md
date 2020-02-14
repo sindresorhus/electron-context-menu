@@ -43,7 +43,10 @@ contextMenu({
 let mainWindow;
 (async () => {
 	await app.whenReady();
-	mainWindow = new BrowserWindow();
+	mainWindow = new BrowserWindow(
+		webPreferences: {
+			spellcheck: true
+		});
 })();
 ```
 
@@ -89,6 +92,13 @@ Type: `boolean`\
 Default: `true`
 
 Show the `Look Up {selection}` menu item when right-clicking text on macOS.
+
+#### showSearchWithGoogle
+
+Type: `boolean`\
+Default: `true`
+
+Show the `Search with Google` menu item when right-clicking text on macOS.
 
 #### showCopyImage
 
@@ -191,6 +201,7 @@ Default actions:
 
 - `separator`
 - `lookUpSelection`
+- `searchWithGoogle`
 - `cut`
 - `copy`
 - `paste`
@@ -201,9 +212,15 @@ Default actions:
 - `copyLink`
 - `inspect`
 - `services`
-- `dictionary`
+	
+If we have `{webPreferences: {spellcheck: true}}` in `BrowserWindow`, these functions work by default.
 
-Example:
+- `dictionary`
+- `correctAutomatically`
+- `learnSpelling`
+
+
+Example for actions:
 
 ```js
 {

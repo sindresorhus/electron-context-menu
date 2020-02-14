@@ -51,6 +51,14 @@ const create = (win, options) => {
 					}
 				}
 			}),
+			searchWithGoogle: decorateMenuItem({
+				id: 'searchWithGoogle',
+				label: 'Search with Google',
+				visible: hasText,
+				click() {
+					require('electron').shell.openExternal('https://www.google.com/search?q=' + props.selectionText);
+				}
+			}),
 			cut: decorateMenuItem({
 				id: 'cut',
 				label: 'Cut',
@@ -152,6 +160,24 @@ const create = (win, options) => {
 					});
 				}
 			}),
+			correctAutomatically: decorateMenuItem({
+				id: 'correctAutomatically',
+				label: 'Correct spelling Automatically',
+				visible: props.isEditable && hasText && props.misspelledWord && props.dictionarySuggestions.length,
+				click() {
+					const target = webContents(win);
+					target.insertText(props.dictionarySuggestions[0]);
+				}
+			}),
+			learnSpelling: decorateMenuItem({
+				id: 'learnSpelling',
+				label: 'Learn Spelling',
+				visible: props.isEditable && hasText && props.misspelledWord,
+				click() {
+					const target = webContents(win);
+					target.session.addWordToSpellCheckerDictionary(props.misspelledWord);
+				}
+			}),
 			inspect: () => ({
 				id: 'inspect',
 				label: 'Inspect Element',
@@ -173,26 +199,43 @@ const create = (win, options) => {
 
 		const shouldShowInspectElement = typeof options.showInspectElement === 'boolean' ? options.showInspectElement : isDev;
 
-		const dictSuggestions = [];
-		for (let index = 0; index < props.dictionarySuggestions.length; index++) {
-			dictSuggestions.push(
-				{
-					id: 'dictSuggestions',
-					label: props.dictionarySuggestions[index],
-					visible: props.isEditable && hasText && props.misspelledWord,
-					click(menuItem) {
-						const target = webContents(win);
-						target.insertText(menuItem.label);
+		const dictionarySuggestions = [];
+		if (hasText && props.misspelledWord && props.dictionarySuggestions.length > 0) {
+			for (let index = 0; index < props.dictionarySuggestions.length; index++) {
+				dictionarySuggestions.push(
+					{
+						id: 'dictionarySuggestions',
+						label: props.dictionarySuggestions[index],
+						visible: props.isEditable && hasText && props.misspelledWord,
+						click(menuItem) {
+							const target = webContents(win);
+							target.insertText(menuItem.label);
+						}
 					}
+				);
+			}
+		}	else {
+			dictionarySuggestions.push(
+				{
+					id: 'dictionarySuggestions',
+					label: 'No guesses available',
+					visible: hasText && props.misspelledWord,
+					enabled: false
 				}
 			);
 		}
 
 		let menuTemplate = [
 			defaultActions.separator(),
-			...dictSuggestions,
+			...dictionarySuggestions,
+			defaultActions.separator(),
+			defaultActions.correctAutomatically(),
+			defaultActions.separator(),
+			defaultActions.learnSpelling(),
 			defaultActions.separator(),
 			options.showLookUpSelection !== false && defaultActions.lookUpSelection(),
+			defaultActions.separator(),
+			options.showSearchWithGoogle !== false && defaultActions.searchWithGoogle(),
 			defaultActions.separator(),
 			defaultActions.cut(),
 			defaultActions.copy(),
