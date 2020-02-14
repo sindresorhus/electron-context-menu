@@ -34,7 +34,7 @@ contextMenu({
 			type: 'separator'
 		}
 	],
-	append: () => { },
+	append: () => {},
 	showCopyImageAddress: true,
 	showSaveImageAs: true,
 	showInspectElement: false
