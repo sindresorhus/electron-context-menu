@@ -56,7 +56,8 @@ const create = (win, options) => {
 				label: 'Search with Google',
 				visible: hasText,
 				click() {
-					require('electron').shell.openExternal('https://www.google.com/search?q=' + props.selectionText);
+					const query = 'https://www.google.com/search?q=';
+					electron.shell.openExternal(query + props.selectionText);
 				}
 			}),
 			cut: decorateMenuItem({

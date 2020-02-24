@@ -14,7 +14,7 @@ declare namespace contextMenu {
 		/**
 		The placeholder `{selection}` will be replaced by the currently selected text.
 
-		@default 'Look Up "{selection}"'
+		@default 'Look Up “{selection}”'
 		*/
 		readonly lookUpSelection?: string;
 		
@@ -136,7 +136,7 @@ declare namespace contextMenu {
 		readonly showLookUpSelection?: boolean;
 
 		/**
-		Show the `Look Up {selection}` menu item when right-clicking text on macOS.
+		Show the `Search with Google` menu item when right-clicking text on macOS.
 
 		@default true
 		*/
@@ -232,7 +232,7 @@ declare namespace contextMenu {
 		- `showServices`
 		- `dictionary`
 		
-		@default [defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyLink(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.separator(), defaultActions.inspect()]
+		@default [defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyLink(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.separator(), defaultActions.inspect(), defaultActions.correctAutomatically, defaultActions.learnSpelling]
 		*/
 		readonly menu?: (
 			defaultActions: Actions,
