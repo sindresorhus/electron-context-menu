@@ -56,8 +56,8 @@ const create = (win, options) => {
 				label: 'Search with Google',
 				visible: hasText,
 				click() {
-					const query = 'https://www.google.com/search?q=';
-					electron.shell.openExternal(query + props.selectionText);
+					const url = new URL('https://www.google.com/search?q=' + props.selectionText).href;
+					electron.shell.openExternal(url);
 				}
 			}),
 			cut: decorateMenuItem({
@@ -163,7 +163,7 @@ const create = (win, options) => {
 			}),
 			correctAutomatically: decorateMenuItem({
 				id: 'correctAutomatically',
-				label: 'Correct spelling Automatically',
+				label: 'Correct Spelling Automatically',
 				visible: props.isEditable && hasText && props.misspelledWord && props.dictionarySuggestions.length,
 				click() {
 					const target = webContents(win);
@@ -200,22 +200,22 @@ const create = (win, options) => {
 
 		const shouldShowInspectElement = typeof options.showInspectElement === 'boolean' ? options.showInspectElement : isDev;
 
-		const dictionarySuggestions = [];
+		function word(suggestion) {
+			return {
+				id: 'dictionarySuggestions',
+				label: suggestion,
+				visible: props.isEditable && hasText && props.misspelledWord,
+				click(menuItem) {
+					const target = webContents(win);
+					target.insertText(menuItem.label);
+				}
+			};
+		}
+
+		let dictionarySuggestions = [];
 		if (hasText && props.misspelledWord && props.dictionarySuggestions.length > 0) {
-			for (let index = 0; index < props.dictionarySuggestions.length; index++) {
-				dictionarySuggestions.push(
-					{
-						id: 'dictionarySuggestions',
-						label: props.dictionarySuggestions[index],
-						visible: props.isEditable && hasText && props.misspelledWord,
-						click(menuItem) {
-							const target = webContents(win);
-							target.insertText(menuItem.label);
-						}
-					}
-				);
-			}
-		}	else {
+			dictionarySuggestions = props.dictionarySuggestions.map(word);
+		} else {
 			dictionarySuggestions.push(
 				{
 					id: 'dictionarySuggestions',

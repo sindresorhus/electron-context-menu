@@ -195,10 +195,17 @@ The following options are ignored when `menu` is used:
 - `showSaveImageAs`
 - `showInspectElement`
 - `showServices`
-- `spellCheck`
+- `showSearchWithGoogle`
 		
 Default actions:
 
+To get spellcheck, Correct Automatically and Learn Spelling in the menu, please enable the `spellcheck` preference in browser window.
+Format:
+`new BrowserWindow({ webPreferences: {spellcheck: true}})`
+
+- `spellCheck`
+- `correctAutomatically`
+- `learnSpelling`
 - `separator`
 - `lookUpSelection`
 - `searchWithGoogle`
@@ -212,12 +219,6 @@ Default actions:
 - `copyLink`
 - `inspect`
 - `services`
-	
-If we have `{webPreferences: {spellcheck: true}}` in `BrowserWindow`, these functions work by default.
-
-- `spellCheck`
-- `correctAutomatically`
-- `learnSpelling`
 
 
 Example for actions:
