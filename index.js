@@ -56,10 +56,9 @@ const create = (win, options) => {
 				label: 'Search with Google',
 				visible: hasText,
 				click() {
-					const queryParams = {q: props.selectionText};
-					const queryString = new URLSearchParams(queryParams).toString();
-					const url = new URL('https://www.google.com/search?' + queryString).href;
-					electron.shell.openExternal(url);
+					const url = new URL('https://www.google.com/search');
+					url.searchParams.set('q', props.selectionText);
+					electron.shell.openExternal(url.toString());
 				}
 			}),
 			cut: decorateMenuItem({
