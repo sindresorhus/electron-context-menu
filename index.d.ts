@@ -144,6 +144,13 @@ declare namespace contextMenu {
 		readonly showCopyImageAddress?: boolean;
 
 		/**
+		Show the `Save Image` menu item when right-clicking on an image.
+
+		@default false
+		 */
+		readonly showSaveImage?: boolean;
+
+		/**
 		Show the `Save Image As…` menu item when right-clicking on an image.
 
 		@default false
