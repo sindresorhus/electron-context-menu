@@ -267,17 +267,24 @@ import {app, BrowserWindow} from 'electron';
 import contextMenu = require('electron-context-menu');
 
 contextMenu({
-	prepend: (params, browserWindow) => [{
-		label: 'Rainbow',
-		// Only show it when right-clicking images
-		visible: params.mediaType === 'image'
-	}]
+	prepend: (defaultActions, params, browserWindow) => [
+		{
+			label: 'Rainbow',
+			// Only show it when right-clicking images
+			visible: params.mediaType === 'image'
+		}
+	]
 });
 
 let mainWindow;
 (async () => {
 	await app.whenReady();
-	mainWindow = new BrowserWindow({ webPreferences: {spellcheck: true}});
+
+	mainWindow = new BrowserWindow({
+		webPreferences: {
+			spellcheck: true
+		}
+	});
 });
 ```
 */
