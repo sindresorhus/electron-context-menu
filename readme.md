@@ -189,6 +189,8 @@ Even though you include an action, it will still only be shown/enabled when appr
 
 `MenuItem` labels may contain the the placeholder `{selection}` which will be replaced by the currently selected text as described in [`options.labels`](#labels).
 
+To get spellchecking, “Correct Automatically”, and “Learn Spelling” in the menu, please enable the `spellcheck` preference in browser window: `new BrowserWindow({webPreferences: {spellcheck: true}})`
+
 The following options are ignored when `menu` is used:
 
 - `showLookUpSelection`
@@ -200,10 +202,6 @@ The following options are ignored when `menu` is used:
 - `showSearchWithGoogle`
 		
 Default actions:
-
-To get spellcheck, Correct Automatically and Learn Spelling in the menu, please enable the `spellcheck` preference in browser window.
-Format:
-`new BrowserWindow({ webPreferences: {spellcheck: true}})`
 
 - `spellCheck`
 - `correctAutomatically`
@@ -221,7 +219,6 @@ Format:
 - `copyLink`
 - `inspect`
 - `services`
-
 
 Example for actions:
 
