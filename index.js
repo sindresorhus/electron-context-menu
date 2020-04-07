@@ -41,6 +41,24 @@ const create = (win, options) => {
 
 		const defaultActions = {
 			separator: () => ({type: 'separator'}),
+			correctAutomatically: decorateMenuItem({
+				id: 'correctAutomatically',
+				label: 'Correct Spelling Automatically',
+				visible: props.isEditable && hasText && props.misspelledWord && props.dictionarySuggestions.length > 0,
+				click() {
+					const target = webContents(win);
+					target.insertText(props.dictionarySuggestions[0]);
+				}
+			}),
+			learnSpelling: decorateMenuItem({
+				id: 'learnSpelling',
+				label: 'Learn Spelling',
+				visible: props.isEditable && hasText && props.misspelledWord,
+				click() {
+					const target = webContents(win);
+					target.session.addWordToSpellCheckerDictionary(props.misspelledWord);
+				}
+			}),
 			lookUpSelection: decorateMenuItem({
 				id: 'lookUpSelection',
 				label: 'Look Up “{selection}”',
@@ -162,24 +180,6 @@ const create = (win, options) => {
 					});
 				}
 			}),
-			correctAutomatically: decorateMenuItem({
-				id: 'correctAutomatically',
-				label: 'Correct Spelling Automatically',
-				visible: props.isEditable && hasText && props.misspelledWord && props.dictionarySuggestions.length,
-				click() {
-					const target = webContents(win);
-					target.insertText(props.dictionarySuggestions[0]);
-				}
-			}),
-			learnSpelling: decorateMenuItem({
-				id: 'learnSpelling',
-				label: 'Learn Spelling',
-				visible: props.isEditable && hasText && props.misspelledWord,
-				click() {
-					const target = webContents(win);
-					target.session.addWordToSpellCheckerDictionary(props.misspelledWord);
-				}
-			}),
 			inspect: () => ({
 				id: 'inspect',
 				label: 'Inspect Element',
@@ -220,7 +220,7 @@ const create = (win, options) => {
 			dictionarySuggestions.push(
 				{
 					id: 'dictionarySuggestions',
-					label: 'No guesses available',
+					label: 'No Guesses Found',
 					visible: hasText && props.misspelledWord,
 					enabled: false
 				}

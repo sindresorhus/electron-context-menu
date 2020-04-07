@@ -11,17 +11,6 @@ import {
 
 declare namespace contextMenu {
 	interface Labels {
-		/**
-		The placeholder `{selection}` will be replaced by the currently selected text.
-
-		@default 'Look Up “{selection}”'
-		*/
-		readonly lookUpSelection?: string;
-		
-		/**
-		@default 'Search with Google'
-		*/
-		readonly searchWithGoogle?: string;
 
 		/**
 		@default 'Correct Automatically'
@@ -32,6 +21,17 @@ declare namespace contextMenu {
 		@default 'Learn Spelling'
 		*/
 		readonly learnSpelling?: string;
+
+		/**
+		The placeholder `{selection}` will be replaced by the currently selected text.
+		@default 'Look Up “{selection}”'
+		*/
+		readonly lookUpSelection?: string;
+		
+		/**
+		@default 'Search with Google'
+		*/
+		readonly searchWithGoogle?: string;
 
 		/**
 		@default 'Cut'
@@ -95,10 +95,10 @@ declare namespace contextMenu {
 
 	interface Actions {
 		readonly separator: () => MenuItemConstructorOptions;
-		readonly lookUpSelection: (options: ActionOptions) => MenuItemConstructorOptions;
-		readonly searchWithGoogle: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly correctAutomatically: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly learnSpelling: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly lookUpSelection: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly searchWithGoogle: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly cut: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly copy: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly paste: (options: ActionOptions) => MenuItemConstructorOptions;
@@ -237,12 +237,12 @@ declare namespace contextMenu {
 		The following options are ignored when `menu` is used:
 
 		- `showLookUpSelection`
+		- `showSearchWithGoogle`
 		- `showCopyImage`
 		- `showCopyImageAddress`
 		- `showSaveImageAs`
 		- `showInspectElement`
 		- `showServices`
-		- `showSearchWithGoogle`
 		
 		To get spellchecking, “Correct Automatically”, and “Learn Spelling” in the menu, please enable the `spellcheck` preference in browser window: `new BrowserWindow({webPreferences: {spellcheck: true}})`
 
