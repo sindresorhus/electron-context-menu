@@ -15,7 +15,7 @@ declare namespace contextMenu {
 		@default 'Correct Automatically'
 		*/
 		readonly correctAutomatically?: string;
-		
+
 		/**
 		@default 'Learn Spelling'
 		*/
@@ -26,7 +26,7 @@ declare namespace contextMenu {
 		@default 'Look Up “{selection}”'
 		*/
 		readonly lookUpSelection?: string;
-		
+
 		/**
 		@default 'Search with Google'
 		*/
@@ -249,7 +249,7 @@ declare namespace contextMenu {
 		- `showSaveImageAs`
 		- `showInspectElement`
 		- `showServices`
-		
+
 		To get spellchecking, “Correct Automatically”, and “Learn Spelling” in the menu, please enable the `spellcheck` preference in browser window: `new BrowserWindow({webPreferences: {spellcheck: true}})`
 
 		@default [...dictionarySuggestions, defaultActions.separator(), defaultActions.correctAutomatically(), defaultActions.separator(), defaultActions.learnSpelling(), defaultActions.separator(), defaultActions.lookUpSelection(), defaultActions.separator(),defaultActions.searchWithGoogle(), defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyLink(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.separator(), defaultActions.inspect()]

@@ -1,5 +1,5 @@
 import {expectType} from 'tsd';
-import {app, BrowserWindow, shell} from 'electron';
+import {app} from 'electron';
 import contextMenu = require('.');
 
 expectType<void>(contextMenu());
@@ -15,10 +15,10 @@ contextMenu({
 
 app.on('web-contents-created', (event, webContents) => {
 	contextMenu({
-		prepend: (defaultActions, params) => [{
+		prepend: (defaultActions, parameters) => [{
 			label: 'Rainbow',
-			visible: params.mediaType === 'image'
+			visible: parameters.mediaType === 'image'
 		}],
 		window: webContents
 	});
-})
+});
