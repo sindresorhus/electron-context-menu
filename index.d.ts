@@ -12,11 +12,25 @@ import {
 declare namespace contextMenu {
 	interface Labels {
 		/**
-		The placeholder `{selection}` will be replaced by the currently selected text.
+		@default 'Correct Automatically'
+		*/
+		readonly correctAutomatically?: string;
+		
+		/**
+		@default 'Learn Spelling'
+		*/
+		readonly learnSpelling?: string;
 
+		/**
+		The placeholder `{selection}` will be replaced by the currently selected text.
 		@default 'Look Up “{selection}”'
 		*/
 		readonly lookUpSelection?: string;
+		
+		/**
+		@default 'Search with Google'
+		*/
+		readonly searchWithGoogle?: string;
 
 		/**
 		@default 'Cut'
@@ -80,7 +94,10 @@ declare namespace contextMenu {
 
 	interface Actions {
 		readonly separator: () => MenuItemConstructorOptions;
+		readonly correctAutomatically: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly learnSpelling: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly lookUpSelection: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly searchWithGoogle: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly cut: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly copy: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly paste: (options: ActionOptions) => MenuItemConstructorOptions;
@@ -128,6 +145,13 @@ declare namespace contextMenu {
 		@default true
 		*/
 		readonly showLookUpSelection?: boolean;
+
+		/**
+		Show the `Search with Google` menu item when right-clicking text on macOS.
+
+		@default true
+		*/
+		readonly showSearchWithGoogle?: boolean;
 
 		/**
 		Show the `Copy Image` menu item when right-clicking on an image.
@@ -219,13 +243,16 @@ declare namespace contextMenu {
 		The following options are ignored when `menu` is used:
 
 		- `showLookUpSelection`
+		- `showSearchWithGoogle`
 		- `showCopyImage`
 		- `showCopyImageAddress`
 		- `showSaveImageAs`
 		- `showInspectElement`
 		- `showServices`
+		
+		To get spellchecking, “Correct Automatically”, and “Learn Spelling” in the menu, please enable the `spellcheck` preference in browser window: `new BrowserWindow({webPreferences: {spellcheck: true}})`
 
-		@default [defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyLink(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.separator(), defaultActions.inspect()]
+		@default [...dictionarySuggestions, defaultActions.separator(), defaultActions.correctAutomatically(), defaultActions.separator(), defaultActions.learnSpelling(), defaultActions.separator(), defaultActions.lookUpSelection(), defaultActions.separator(),defaultActions.searchWithGoogle(), defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyLink(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.separator(), defaultActions.inspect()]
 		*/
 		readonly menu?: (
 			defaultActions: Actions,
@@ -246,17 +273,24 @@ import {app, BrowserWindow} from 'electron';
 import contextMenu = require('electron-context-menu');
 
 contextMenu({
-	prepend: (params, browserWindow) => [{
-		label: 'Rainbow',
-		// Only show it when right-clicking images
-		visible: params.mediaType === 'image'
-	}]
+	prepend: (defaultActions, params, browserWindow) => [
+		{
+			label: 'Rainbow',
+			// Only show it when right-clicking images
+			visible: params.mediaType === 'image'
+		}
+	]
 });
 
 let mainWindow;
 (async () => {
 	await app.whenReady();
-	mainWindow = new BrowserWindow();
+
+	mainWindow = new BrowserWindow({
+		webPreferences: {
+			spellcheck: true
+		}
+	});
 });
 ```
 */
