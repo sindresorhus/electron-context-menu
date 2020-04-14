@@ -11,7 +11,6 @@ import {
 
 declare namespace contextMenu {
 	interface Labels {
-
 		/**
 		@default 'Correct Automatically'
 		*/
