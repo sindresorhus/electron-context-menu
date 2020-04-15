@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const {app, BrowserWindow} = require('electron');
-const contextMenu = require('.');
+const contextMenu = require('..');
 
 contextMenu({
 	labels: {

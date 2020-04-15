@@ -11,9 +11,9 @@
 		"url": "sindresorhus.com"
 	},
 	"scripts": {
-		"start": "electron fixture.js",
+		"start": "electron fixtures/fixture.js",
 		"test": "xo && ava && tsd",
-		"start-fixture2": "electron fixture-menu.js"
+		"start-fixture2": "electron fixtures/fixture-menu.js"
 	},
 	"files": [
 		"index.js",
