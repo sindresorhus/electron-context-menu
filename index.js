@@ -29,7 +29,7 @@ const removeUnusedMenuItems = menuTemplate => {
 };
 
 const create = (win, options) => {
-	const onContextMenu = (event, props) => {
+	const handleContextMenu = (event, props) => {
 		if (typeof options.shouldShowMenu === 'function' && options.shouldShowMenu(event, props) === false) {
 			return;
 		}
@@ -41,6 +41,24 @@ const create = (win, options) => {
 
 		const defaultActions = {
 			separator: () => ({type: 'separator'}),
+			correctAutomatically: decorateMenuItem({
+				id: 'correctAutomatically',
+				label: 'Correct Spelling Automatically',
+				visible: props.isEditable && hasText && props.misspelledWord && props.dictionarySuggestions.length > 0,
+				click() {
+					const target = webContents(win);
+					target.insertText(props.dictionarySuggestions[0]);
+				}
+			}),
+			learnSpelling: decorateMenuItem({
+				id: 'learnSpelling',
+				label: 'Learn Spelling',
+				visible: props.isEditable && hasText && props.misspelledWord,
+				click() {
+					const target = webContents(win);
+					target.session.addWordToSpellCheckerDictionary(props.misspelledWord);
+				}
+			}),
 			lookUpSelection: decorateMenuItem({
 				id: 'lookUpSelection',
 				label: 'Look Up “{selection}”',
@@ -49,6 +67,16 @@ const create = (win, options) => {
 					if (process.platform === 'darwin') {
 						webContents(win).showDefinitionForSelection();
 					}
+				}
+			}),
+			searchWithGoogle: decorateMenuItem({
+				id: 'searchWithGoogle',
+				label: 'Search with Google',
+				visible: hasText,
+				click() {
+					const url = new URL('https://www.google.com/search');
+					url.searchParams.set('q', props.selectionText);
+					electron.shell.openExternal(url.toString());
 				}
 			}),
 			cut: decorateMenuItem({
@@ -173,15 +201,49 @@ const create = (win, options) => {
 
 		const shouldShowInspectElement = typeof options.showInspectElement === 'boolean' ? options.showInspectElement : isDev;
 
+		function word(suggestion) {
+			return {
+				id: 'dictionarySuggestions',
+				label: suggestion,
+				visible: props.isEditable && hasText && props.misspelledWord,
+				click(menuItem) {
+					const target = webContents(win);
+					target.insertText(menuItem.label);
+				}
+			};
+		}
+
+		let dictionarySuggestions = [];
+		if (hasText && props.misspelledWord && props.dictionarySuggestions.length > 0) {
+			dictionarySuggestions = props.dictionarySuggestions.map(word);
+		} else {
+			dictionarySuggestions.push(
+				{
+					id: 'dictionarySuggestions',
+					label: 'No Guesses Found',
+					visible: hasText && props.misspelledWord,
+					enabled: false
+				}
+			);
+		}
+
 		let menuTemplate = [
 			defaultActions.separator(),
+			...dictionarySuggestions,
+			defaultActions.separator(),
+			defaultActions.correctAutomatically(),
+			defaultActions.separator(),
+			defaultActions.learnSpelling(),
+			defaultActions.separator(),
 			options.showLookUpSelection !== false && defaultActions.lookUpSelection(),
+			defaultActions.separator(),
+			options.showSearchWithGoogle !== false && defaultActions.searchWithGoogle(),
 			defaultActions.separator(),
 			defaultActions.cut(),
 			defaultActions.copy(),
 			defaultActions.paste(),
 			defaultActions.separator(),
-			defaultActions.saveImage(),
+			options.showSaveImage && defaultActions.saveImage(),
 			options.showSaveImageAs && defaultActions.saveImageAs(),
 			options.showCopyImage !== false && defaultActions.copyImage(),
 			options.showCopyImageAddress && defaultActions.copyImageAddress(),
@@ -244,11 +306,11 @@ const create = (win, options) => {
 			*/
 			menu.popup(electron.remote ? electron.remote.getCurrentWindow() : win);
 		}
-	};
+	}
+	webContents(win).on('context-menu', handleContextMenu);
 
-	webContents(win).on('context-menu', onContextMenu);
-	return function dispose() {
-		webContents(win).removeListener('context-menu', onContextMenu);
+	return () => {
+		webContents(win).removeListener('context-menu', handleContextMenu);
 	};
 };
 
