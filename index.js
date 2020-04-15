@@ -305,6 +305,7 @@ const create = (win, options) => {
 			menu.popup(electron.remote ? electron.remote.getCurrentWindow() : win);
 		}
 	};
+
 	webContents(win).on('context-menu', handleContextMenu);
 
 	return () => {
@@ -341,6 +342,7 @@ module.exports = (options = {}) => {
 			const onDomReady = () => {
 				init(win);
 			};
+
 			win.addEventListener('dom-ready', onDomReady, {once: true});
 			disposables.push(() => {
 				win.removeEventListener('dom-ready', onDomReady, {once: true});
@@ -361,6 +363,7 @@ module.exports = (options = {}) => {
 	const onWindowCreated = (event, win) => {
 		init(win);
 	};
+
 	app.on('browser-window-created', onWindowCreated);
 	disposables.push(() => {
 		app.removeListener('browser-window-created', onWindowCreated);
