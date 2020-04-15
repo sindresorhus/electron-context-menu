@@ -331,6 +331,7 @@ module.exports = (options = {}) => {
 
 	const dispose = () => {
 		disposables.forEach(dispose => dispose());
+		disposables.length = 0;
 		isDisposed = true;
 	};
 
