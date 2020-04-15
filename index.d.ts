@@ -4,8 +4,9 @@ import {
 	BrowserWindow,
 	WebviewTag,
 	ContextMenuParams,
-	MenuItem,
-	Event as ElectronEvent
+	MenuItemConstructorOptions,
+	Event as ElectronEvent,
+	WebContents
 } from 'electron';
 
 declare namespace contextMenu {
@@ -71,22 +72,25 @@ declare namespace contextMenu {
 	interface ActionOptions {
 		/**
 		Apply a transformation to the content of the action.
+
+		If you use this on `cut`, `copy`, or `paste`, they will convert rich text to plain text.
 		*/
 		readonly transform?: (content: string) => string;
 	}
 
 	interface Actions {
-		readonly separator: () => MenuItem;
-		readonly lookUpSelection: (options: ActionOptions) => MenuItem;
-		readonly cut: (options: ActionOptions) => MenuItem;
-		readonly copy: (options: ActionOptions) => MenuItem;
-		readonly paste: (options: ActionOptions) => MenuItem;
-		readonly saveImage: (options: ActionOptions) => MenuItem;
-		readonly saveImageAs: (options: ActionOptions) => MenuItem;
-		readonly copyImage: (options: ActionOptions) => MenuItem;
-		readonly copyImageAddress: (options: ActionOptions) => MenuItem;
-		readonly inspect: () => MenuItem;
-		readonly services: () => MenuItem;
+		readonly separator: () => MenuItemConstructorOptions;
+		readonly lookUpSelection: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly cut: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly copy: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly paste: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly saveImage: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly saveImageAs: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly copyLink: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly copyImage: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly copyImageAddress: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly inspect: () => MenuItemConstructorOptions;
+		readonly services: () => MenuItemConstructorOptions;
 	}
 
 	interface Options {
@@ -94,7 +98,7 @@ declare namespace contextMenu {
 		Window or WebView to add the context menu to.
 		When not specified, the context menu will be added to all existing and new windows.
 		*/
-		readonly window?: BrowserWindow | WebviewTag;
+		readonly window?: BrowserWindow | WebviewTag | WebContents;
 
 		/**
 		Should return an array of [menu items](https://electronjs.org/docs/api/menu-item) to be prepended to the context menu.
@@ -104,8 +108,8 @@ declare namespace contextMenu {
 		readonly prepend?: (
 			defaultActions: Actions,
 			params: ContextMenuParams,
-			browserWindow: BrowserWindow | WebviewTag
-		) => MenuItem[];
+			browserWindow: BrowserWindow | WebviewTag | WebContents
+		) => MenuItemConstructorOptions[];
 
 		/**
 		Should return an array of [menu items](https://electronjs.org/docs/api/menu-item) to be appended to the context menu.
@@ -115,8 +119,8 @@ declare namespace contextMenu {
 		readonly append?: (
 			defaultActions: Actions,
 			param: ContextMenuParams,
-			browserWindow: BrowserWindow | WebviewTag
-		) => MenuItem[];
+			browserWindow: BrowserWindow | WebviewTag | WebContents
+		) => MenuItemConstructorOptions[];
 
 		/**
 		Show the `Look Up {selection}` menu item when right-clicking text on macOS.
@@ -199,7 +203,7 @@ declare namespace contextMenu {
 		/**
 		This option lets you manually pick what menu items to include. It's meant for advanced needs. The default menu with the other options should be enough for most use-cases, and it ensures correct behavior, for example, correct order of menu items. So prefer the `append` and `prepend` option instead of `menu` whenever possible.
 
-		The function passed to this option is expected to return [`MenuItem[]`](https://electronjs.org/docs/api/menu-item/). The first argument the function receives is an array of default actions that can be used. These actions are functions that can take an object with a transform property (except for `separator` and `inspect`). The transform function will be passed the content of the action and can modify it if needed.
+		The function passed to this option is expected to return an array of [`MenuItem` constructor options](https://electronjs.org/docs/api/menu-item/). The first argument the function receives is an array of default actions that can be used. These actions are functions that can take an object with a transform property (except for `separator` and `inspect`). The transform function will be passed the content of the action and can modify it if needed.
 
 		Even though you include an action, it will still only be shown/enabled when appropriate. For example, the `saveImage` action is only shown when right-clicking an image.
 
@@ -207,18 +211,20 @@ declare namespace contextMenu {
 
 		The following options are ignored when `menu` is used:
 
+		- `showLookUpSelection`
 		- `showCopyImage`
 		- `showCopyImageAddress`
 		- `showSaveImageAs`
 		- `showInspectElement`
+		- `showServices`
 
-		@default [defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.separator(), defaultActions.inspect()]
+		@default [defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyLink(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.separator(), defaultActions.inspect()]
 		*/
 		readonly menu?: (
 			defaultActions: Actions,
 			params: ContextMenuParams,
-			browserWindow: BrowserWindow | WebviewTag
-		) => MenuItem[];
+			browserWindow: BrowserWindow | WebviewTag | WebContents
+		) => MenuItemConstructorOptions[];
 	}
 }
 
