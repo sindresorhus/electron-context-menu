@@ -45,7 +45,7 @@ contextMenu({
 
 	await (new BrowserWindow({
 		webPreferences: {
-			nodeIntegration: true
+			spellcheck: true
 		}
 	})).loadFile(path.join(__dirname, 'fixture.html'));
 })();

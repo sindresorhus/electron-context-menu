@@ -4,7 +4,7 @@
 
 <img src="screenshot.png" width="125" align="right">
 
-Electron doesn't have a built-in context menu. You're supposed to handle that yourself. But it's both tedious and hard to get right. This module gives you a nice extensible context menu with items like `Cut`/`Copy`/`Paste` for text, `Save Image` for images, and `Copy Link` for links. It also adds an `Inspect Element` menu item when in development to quickly view items in the inspector like in Chrome.
+Electron doesn't have a built-in context menu. You're supposed to handle that yourself. But it's both tedious and hard to get right. This module gives you a nice extensible context menu with spellchecking and items like `Cut`/`Copy`/`Paste` for text, `Save Image` for images, and `Copy Link` for links. It also adds an `Inspect Element` menu item when in development to quickly view items in the inspector like in Chrome.
 
 You can use this module directly in both the main and renderer process.
 
@@ -14,7 +14,7 @@ You can use this module directly in both the main and renderer process.
 $ npm install electron-context-menu
 ```
 
-*Requires Electron 4 or later.*
+*Requires Electron 8 or later.*
 
 ## Usage
 
@@ -43,7 +43,12 @@ contextMenu({
 let mainWindow;
 (async () => {
 	await app.whenReady();
-	mainWindow = new BrowserWindow();
+
+	mainWindow = new BrowserWindow(
+		webPreferences: {
+			spellcheck: true
+		}
+	);
 })();
 ```
 
@@ -90,6 +95,13 @@ Default: `true`
 
 Show the `Look Up {selection}` menu item when right-clicking text on macOS.
 
+#### showSearchWithGoogle
+
+Type: `boolean`\
+Default: `true`
+
+Show the `Search with Google` menu item when right-clicking text on macOS.
+
 #### showCopyImage
 
 Type: `boolean`\
@@ -103,6 +115,13 @@ Type: `boolean`\
 Default: `false`
 
 Show the `Copy Image Address` menu item when right-clicking on an image.
+
+#### showSaveImage
+
+Type: `boolean`\
+Default: `false`
+
+Show the `Save Image` menu item when right-clicking on an image.
 
 #### showSaveImageAs
 
@@ -177,6 +196,8 @@ Even though you include an action, it will still only be shown/enabled when appr
 
 `MenuItem` labels may contain the the placeholder `{selection}` which will be replaced by the currently selected text as described in [`options.labels`](#labels).
 
+To get spellchecking, “Correct Automatically”, and “Learn Spelling” in the menu, please enable the `spellcheck` preference in browser window: `new BrowserWindow({webPreferences: {spellcheck: true}})`
+
 The following options are ignored when `menu` is used:
 
 - `showLookUpSelection`
@@ -185,11 +206,16 @@ The following options are ignored when `menu` is used:
 - `showSaveImageAs`
 - `showInspectElement`
 - `showServices`
+- `showSearchWithGoogle`
 
 Default actions:
 
+- `spellCheck`
+- `correctAutomatically`
+- `learnSpelling`
 - `separator`
 - `lookUpSelection`
+- `searchWithGoogle`
 - `cut`
 - `copy`
 - `paste`
@@ -201,7 +227,7 @@ Default actions:
 - `inspect`
 - `services`
 
-Example:
+Example for actions:
 
 ```js
 {

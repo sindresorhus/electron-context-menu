@@ -1,6 +1,6 @@
 {
 	"name": "electron-context-menu",
-	"version": "0.16.0",
+	"version": "1.0.0",
 	"description": "Context menu for your Electron app",
 	"license": "MIT",
 	"repository": "sindresorhus/electron-context-menu",
@@ -8,7 +8,7 @@
 	"author": {
 		"name": "Sindre Sorhus",
 		"email": "sindresorhus@gmail.com",
-		"url": "http://sindresorhus.com"
+		"url": "https://sindresorhus.com"
 	},
 	"contributors": ["Jovica Aleksic <jovica.aleksic@loopmode.de>"],
 	"scripts": {
@@ -28,24 +28,37 @@
 		"menu",
 		"extensible",
 		"save",
-		"image"
+		"image",
+		"spellchecking",
+		"spellcheck",
+		"spelling",
+		"spell",
+		"check",
+		"correct",
+		"word",
+		"words",
+		"dictionary"
 	],
 	"dependencies": {
 		"cli-truncate": "^2.0.0",
-		"electron-dl": "^1.2.0",
+		"electron-dl": "^3.0.0",
 		"electron-is-dev": "^1.0.1"
 	},
 	"devDependencies": {
 		"@types/node": "^12.0.10",
 		"ava": "^2.1.0",
-		"electron": "^7.1.1",
-		"tsd": "^0.10.0",
-		"xo": "^0.25.3"
+		"electron": "^8.2.2",
+		"tsd": "^0.11.0",
+		"xo": "^0.29.1"
 	},
 	"xo": {
 		"envs": [
 			"node",
 			"browser"
-		]
+		],
+		"rules": {
+			"@typescript-eslint/no-unsafe-call": "off",
+			"@typescript-eslint/no-unsafe-member-access": "off"
+		}
 	}
 }
