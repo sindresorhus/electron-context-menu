@@ -2,7 +2,7 @@ import {expectType} from 'tsd';
 import {app} from 'electron';
 import contextMenu = require('.');
 
-expectType<void>(contextMenu());
+expectType<() => void>(contextMenu());
 
 contextMenu({
 	append: () => [
