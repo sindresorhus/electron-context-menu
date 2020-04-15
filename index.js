@@ -247,7 +247,9 @@ const create = (win, options) => {
 	};
 
 	webContents(win).on('context-menu', onContextMenu);
-	return () => webContents(win).removeListener('context-menu', onContextMenu);
+	return function dispose() {
+		webContents(win).removeListener('context-menu', onContextMenu);
+	};
 };
 
 module.exports = (options = {}) => {
