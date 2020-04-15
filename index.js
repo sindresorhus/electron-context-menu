@@ -274,8 +274,13 @@ module.exports = (options = {}) => {
 
 		// When window is a webview that has not yet finished loading webContents is not available
 		if (webContents(win) === undefined) {
-			win.addEventListener('dom-ready', () => createMenu(win), {once: true});
-			disposables.push(() => win.removeEventListener('dom-ready', () => createMenu(win), {once: true}));
+			const onDomReady = () => {
+				createMenu(win);
+			};
+			win.addEventListener('dom-ready', onDomReady, {once: true});
+			disposables.push(() => {
+				win.removeEventListener('dom-ready', onDomReady, {once: true});
+			});
 			return dispose;
 		}
 
