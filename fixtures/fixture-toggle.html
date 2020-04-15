@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Fixture</title>
+		<script>
+			const contextMenu = require('..');
+
+			function createContextMenu() {
+				return contextMenu({
+					labels: {
+						cut: 'Configured Cut',
+						copy: 'Configured Copy',
+						paste: 'Configured Paste',
+						save: 'Configured Save Image',
+						saveImageAs: 'Configured Save Image As…',
+						copyLink: 'Configured Copy Link',
+						inspect: 'Configured Inspect'
+					},
+					prepend: () => [
+						{
+							label: 'Unicorn'
+						},
+						{
+							type: 'separator'
+						},
+						{
+							type: 'separator'
+						},
+						{
+							label: 'Invisible',
+							visible: false
+						},
+						{
+							type: 'separator'
+						},
+						{
+							type: 'separator'
+						}
+					],
+					append: () => {},
+					showCopyImageAddress: true,
+					showSaveImageAs: true,
+					showInspectElement: false
+				});
+			}
+
+			function init() {
+				let dispose = null;
+				const btnEnable = document.getElementById('enable');
+				const btnDisable = document.getElementById('disable');
+
+				const enable = () => {
+					btnEnable.disabled = true;
+					btnDisable.disabled = false;
+					dispose = createContextMenu();
+				};
+				const disable = () => {
+					btnEnable.disabled = false;
+					btnDisable.disabled = true;
+					dispose();
+				};
+
+				btnEnable.addEventListener('click', enable);
+				btnDisable.addEventListener('click', disable);
+			}
+			window.addEventListener('load', init);
+		</script>
+	</head>
+	<body>
+		<h1>Fixture</h1>
+		<br />
+		<button id="disable" disabled>Disable</button>
+		<button id="enable">Enable</button>
+		<br />
+		<br />
+		<textarea></textarea>
+		<br />
+		<input />
+		<br />
+		<br />
+		<img src="fixture.jpg" />
+		<br />
+		<div contenteditable="true"><strong>Editable text</strong></div>
+		<br />
+		<a href="https://github.com">Link</a>
+		<br />
+		<br />
+		<b>Copy <span style="color: hotPink">rich</span> text</b>
+	</body>
+</html>
