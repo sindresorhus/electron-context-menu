@@ -217,12 +217,14 @@ const create = (win, options) => {
 		if (hasText && props.misspelledWord && props.dictionarySuggestions.length > 0) {
 			dictionarySuggestions = props.dictionarySuggestions.map(word);
 		} else {
-			dictionarySuggestions.push({
-				id: 'dictionarySuggestions',
-				label: 'No Guesses Found',
-				visible: hasText && props.misspelledWord,
-				enabled: false
-			});
+			dictionarySuggestions.push(
+				{
+					id: 'dictionarySuggestions',
+					label: 'No Guesses Found',
+					visible: hasText && props.misspelledWord,
+					enabled: false
+				}
+			);
 		}
 
 		let menuTemplate = [
