@@ -52,14 +52,12 @@ let mainWindow;
 })();
 ```
 
-Note that the return value of `contextMenu()` is a dispose function:
+The return value of `contextMenu()` is a function that disposes of the created event listeners:
 
 ```js
 const dispose = contextMenu({ ...options });
 dispose();
 ```
-
-This function removes all event listeners and thereby deactivates the created menu for the future. However, it does not close or dispose of any currently visible context menu.
 
 ## API
 

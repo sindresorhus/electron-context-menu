@@ -267,8 +267,6 @@ This module gives you a nice extensible context menu with items like `Cut`/`Copy
 
 You can use this module directly in both the main and renderer process.
 
-Returns a function to dispose the registered context-menu listener
-
 @example
 ```
 import {app, BrowserWindow} from 'electron';
@@ -296,23 +294,14 @@ let mainWindow;
 });
 ```
 
-When using in renderer process, you might want to register and unregister menus.
-The returned dispose function can be used to do that.
+The return value of `contextMenu()` is a function that disposes of the created event listeners:
+
 @example
 ```
-import contextMenu = require('electron-context-menu');
-// react hook example
-export function useContextMenu() {
-	const dispose = contextMenu({
-		prepend: (params, browserWindow) => [{
-			label: 'Rainbow',
-			// Only show it when right-clicking images
-			visible: params.mediaType === 'image'
-		}]
-	});
-	return dispose;
-}
+const dispose = contextMenu({ ...options });
+dispose();
 ```
+
 */
 declare function contextMenu(options?: contextMenu.Options): () => void;
 
