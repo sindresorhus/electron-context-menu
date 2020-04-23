@@ -1,6 +1,0 @@
-{
-	"arrowParens": "avoid",
-	"singleQuote": true,
-	"printWidth": 170,
-	"bracketSpacing": false
-}
