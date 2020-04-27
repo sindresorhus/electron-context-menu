@@ -12,11 +12,6 @@ import {
 declare namespace contextMenu {
 	interface Labels {
 		/**
-		@default 'Correct Automatically'
-		*/
-		readonly correctAutomatically?: string;
-
-		/**
 		@default 'Learn Spelling'
 		*/
 		readonly learnSpelling?: string;
@@ -94,7 +89,6 @@ declare namespace contextMenu {
 
 	interface Actions {
 		readonly separator: () => MenuItemConstructorOptions;
-		readonly correctAutomatically: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly learnSpelling: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly lookUpSelection: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly searchWithGoogle: (options: ActionOptions) => MenuItemConstructorOptions;
@@ -252,7 +246,7 @@ declare namespace contextMenu {
 
 		To get spellchecking, “Correct Automatically”, and “Learn Spelling” in the menu, please enable the `spellcheck` preference in browser window: `new BrowserWindow({webPreferences: {spellcheck: true}})`
 
-		@default [...dictionarySuggestions, defaultActions.separator(), defaultActions.correctAutomatically(), defaultActions.separator(), defaultActions.learnSpelling(), defaultActions.separator(), defaultActions.lookUpSelection(), defaultActions.separator(),defaultActions.searchWithGoogle(), defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyLink(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.separator(), defaultActions.inspect()]
+		@default [...dictionarySuggestions, defaultActions.separator(), defaultActions.separator(), defaultActions.learnSpelling(), defaultActions.separator(), defaultActions.lookUpSelection(), defaultActions.separator(),defaultActions.searchWithGoogle(), defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyLink(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.separator(), defaultActions.inspect()]
 		*/
 		readonly menu?: (
 			defaultActions: Actions,

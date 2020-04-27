@@ -221,7 +221,6 @@ The following options are ignored when `menu` is used:
 Default actions:
 
 - `spellCheck`
-- `correctAutomatically`
 - `learnSpelling`
 - `separator`
 - `lookUpSelection`

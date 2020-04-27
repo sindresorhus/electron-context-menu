@@ -41,15 +41,6 @@ const create = (win, options) => {
 
 		const defaultActions = {
 			separator: () => ({type: 'separator'}),
-			correctAutomatically: decorateMenuItem({
-				id: 'correctAutomatically',
-				label: 'Correct Spelling Automatically',
-				visible: props.isEditable && hasText && props.misspelledWord && props.dictionarySuggestions.length > 0,
-				click() {
-					const target = webContents(win);
-					target.insertText(props.dictionarySuggestions[0]);
-				}
-			}),
 			learnSpelling: decorateMenuItem({
 				id: 'learnSpelling',
 				label: 'Learn Spelling',
@@ -231,7 +222,6 @@ const create = (win, options) => {
 			defaultActions.separator(),
 			...dictionarySuggestions,
 			defaultActions.separator(),
-			defaultActions.correctAutomatically(),
 			defaultActions.separator(),
 			defaultActions.learnSpelling(),
 			defaultActions.separator(),
