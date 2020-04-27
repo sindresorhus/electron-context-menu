@@ -298,7 +298,8 @@ The return value of `contextMenu()` is a function that disposes of the created e
 
 @example
 ```
-const dispose = contextMenu({ ...options });
+const dispose = contextMenu();
+
 dispose();
 ```
 
