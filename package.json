@@ -49,16 +49,12 @@
 		"ava": "^2.1.0",
 		"electron": "^8.2.2",
 		"tsd": "^0.11.0",
-		"xo": "^0.29.1"
+		"xo": "^0.30.0"
 	},
 	"xo": {
 		"envs": [
 			"node",
 			"browser"
-		],
-		"rules": {
-			"@typescript-eslint/no-unsafe-call": "off",
-			"@typescript-eslint/no-unsafe-member-access": "off"
-		}
+		]
 	}
 }

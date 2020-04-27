@@ -47,22 +47,22 @@
 
 			function init() {
 				let dispose;
-				const btnEnable = document.getElementById('enable');
-				const btnDisable = document.getElementById('disable');
+				const enableButton = document.getElementById('enable');
+				const disableButton = document.getElementById('disable');
 
 				const enable = () => {
-					btnEnable.disabled = true;
-					btnDisable.disabled = false;
+					enableButton.disabled = true;
+					disableButton.disabled = false;
 					dispose = createContextMenu();
 				};
 				const disable = () => {
-					btnEnable.disabled = false;
-					btnDisable.disabled = true;
+					enableButton.disabled = false;
+					disableButton.disabled = true;
 					dispose();
 				};
 
-				btnEnable.addEventListener('click', enable);
-				btnDisable.addEventListener('click', disable);
+				enableButton.addEventListener('click', enable);
+				disableButton.addEventListener('click', disable);
 			}
 			window.addEventListener('load', init);
 		</script>

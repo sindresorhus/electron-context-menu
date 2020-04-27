@@ -215,7 +215,7 @@ const create = (win, options) => {
 
 		let dictionarySuggestions = [];
 		if (hasText && props.misspelledWord && props.dictionarySuggestions.length > 0) {
-			dictionarySuggestions = props.dictionarySuggestions.map(word);
+			dictionarySuggestions = props.dictionarySuggestions.map(suggestion => word(suggestion));
 		} else {
 			dictionarySuggestions.push(
 				{
