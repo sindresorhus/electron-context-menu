@@ -331,7 +331,10 @@ module.exports = (options = {}) => {
 	};
 
 	const dispose = () => {
-		disposables.forEach(dispose => dispose());
+		for (const dispose of disposables) {
+			dispose();
+		}
+
 		disposables.length = 0;
 		isDisposed = true;
 	};
@@ -346,13 +349,16 @@ module.exports = (options = {}) => {
 			};
 
 			win.addEventListener('dom-ready', onDomReady, {once: true});
+
 			disposables.push(() => {
 				win.removeEventListener('dom-ready', onDomReady, {once: true});
 			});
+
 			return dispose;
 		}
 
 		init(win);
+
 		return dispose;
 	}
 
