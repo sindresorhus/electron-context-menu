@@ -55,7 +55,8 @@ let mainWindow;
 The return value of `contextMenu()` is a function that disposes of the created event listeners:
 
 ```js
-const dispose = contextMenu({ ...options });
+const dispose = contextMenu();
+
 dispose();
 ```
 
