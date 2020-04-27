@@ -29,7 +29,7 @@ const removeUnusedMenuItems = menuTemplate => {
 };
 
 const create = (win, options) => {
-	webContents(win).on('context-menu', (event, props) => {
+	const handleContextMenu = (event, props) => {
 		if (typeof options.shouldShowMenu === 'function' && options.shouldShowMenu(event, props) === false) {
 			return;
 		}
@@ -306,29 +306,76 @@ const create = (win, options) => {
 			*/
 			menu.popup(electron.remote ? electron.remote.getCurrentWindow() : win);
 		}
-	});
+	};
+
+	webContents(win).on('context-menu', handleContextMenu);
+
+	return () => {
+		webContents(win).removeListener('context-menu', handleContextMenu);
+	};
 };
 
 module.exports = (options = {}) => {
+	let isDisposed = false;
+	const disposables = [];
+
+	const init = win => {
+		if (isDisposed) {
+			return;
+		}
+
+		const disposeMenu = create(win, options);
+		disposables.push(() => {
+			disposeMenu();
+		});
+	};
+
+	const dispose = () => {
+		for (const dispose of disposables) {
+			dispose();
+		}
+
+		disposables.length = 0;
+		isDisposed = true;
+	};
+
 	if (options.window) {
 		const win = options.window;
 
 		// When window is a webview that has not yet finished loading webContents is not available
 		if (webContents(win) === undefined) {
-			win.addEventListener('dom-ready', () => {
-				create(win, options);
-			}, {once: true});
-			return;
+			const onDomReady = () => {
+				init(win);
+			};
+
+			win.addEventListener('dom-ready', onDomReady, {once: true});
+
+			disposables.push(() => {
+				win.removeEventListener('dom-ready', onDomReady, {once: true});
+			});
+
+			return dispose;
 		}
 
-		return create(win, options);
+		init(win);
+
+		return dispose;
 	}
 
 	for (const win of (electron.BrowserWindow || electron.remote.BrowserWindow).getAllWindows()) {
-		create(win, options);
+		init(win);
 	}
 
-	(electron.app || electron.remote.app).on('browser-window-created', (event, win) => {
-		create(win, options);
+	const app = electron.app || electron.remote.app;
+
+	const onWindowCreated = (event, win) => {
+		init(win);
+	};
+
+	app.on('browser-window-created', onWindowCreated);
+	disposables.push(() => {
+		app.removeListener('browser-window-created', onWindowCreated);
 	});
+
+	return dispose;
 };

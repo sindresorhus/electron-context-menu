@@ -4,7 +4,7 @@ const {
 	app,
 	BrowserWindow
 } = require('electron');
-const contextMenu = require('.');
+const contextMenu = require('..');
 
 contextMenu({
 	menu: actions => [

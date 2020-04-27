@@ -293,7 +293,17 @@ let mainWindow;
 	});
 });
 ```
+
+The return value of `contextMenu()` is a function that disposes of the created event listeners:
+
+@example
+```
+const dispose = contextMenu();
+
+dispose();
+```
+
 */
-declare function contextMenu(options?: contextMenu.Options): void;
+declare function contextMenu(options?: contextMenu.Options): () => void;
 
 export = contextMenu;
