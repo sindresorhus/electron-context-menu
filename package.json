@@ -10,7 +10,6 @@
 		"email": "sindresorhus@gmail.com",
 		"url": "https://sindresorhus.com"
 	},
-	"contributors": ["Jovica Aleksic <jovica.aleksic@loopmode.de>"],
 	"scripts": {
 		"start": "electron fixtures/fixture.js",
 		"test": "xo && ava && tsd",
