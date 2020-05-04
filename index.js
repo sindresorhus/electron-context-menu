@@ -219,9 +219,8 @@ const create = (win, options) => {
 		}
 
 		let menuTemplate = [
-			defaultActions.separator(),
+			dictionarySuggestions.length > 0 && defaultActions.separator(),
 			...dictionarySuggestions,
-			defaultActions.separator(),
 			defaultActions.separator(),
 			defaultActions.learnSpelling(),
 			defaultActions.separator(),
