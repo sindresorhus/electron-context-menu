@@ -20,7 +20,7 @@ const removeUnusedMenuItems = menuTemplate => {
 	let notDeletedPreviousElement;
 
 	return menuTemplate
-		.filter(menuItem => menuItem !== undefined && menuItem !== false && menuItem.visible !== false && menuItem.visible !== "")
+		.filter(menuItem => menuItem !== undefined && menuItem !== false && menuItem.visible !== false && menuItem.visible !== '')
 		.filter((menuItem, index, array) => {
 			const toDelete = menuItem.type === 'separator' && (!notDeletedPreviousElement || index === array.length - 1 || array[index + 1].type === 'separator');
 			notDeletedPreviousElement = toDelete ? notDeletedPreviousElement : menuItem;
