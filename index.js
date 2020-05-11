@@ -44,7 +44,7 @@ const create = (win, options) => {
 			learnSpelling: decorateMenuItem({
 				id: 'learnSpelling',
 				label: 'Learn Spelling',
-				visible: props.isEditable && hasText && props.misspelledWord,
+				visible: Boolean(props.isEditable && hasText && props.misspelledWord),
 				click() {
 					const target = webContents(win);
 					target.session.addWordToSpellCheckerDictionary(props.misspelledWord);
@@ -196,7 +196,7 @@ const create = (win, options) => {
 			return {
 				id: 'dictionarySuggestions',
 				label: suggestion,
-				visible: props.isEditable && hasText && props.misspelledWord,
+				visible: Boolean(props.isEditable && hasText && props.misspelledWord),
 				click(menuItem) {
 					const target = webContents(win);
 					target.insertText(menuItem.label);
@@ -212,7 +212,7 @@ const create = (win, options) => {
 				{
 					id: 'dictionarySuggestions',
 					label: 'No Guesses Found',
-					visible: hasText && props.misspelledWord,
+					visible: Boolean(hasText && props.misspelledWord),
 					enabled: false
 				}
 			);
