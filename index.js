@@ -20,7 +20,7 @@ const removeUnusedMenuItems = menuTemplate => {
 	let notDeletedPreviousElement;
 
 	return menuTemplate
-		.filter(menuItem => menuItem !== undefined && menuItem !== false && menuItem.visible !== false)
+		.filter(menuItem => menuItem !== undefined && menuItem !== false && menuItem.visible !== false && menuItem.visible !== '')
 		.filter((menuItem, index, array) => {
 			const toDelete = menuItem.type === 'separator' && (!notDeletedPreviousElement || index === array.length - 1 || array[index + 1].type === 'separator');
 			notDeletedPreviousElement = toDelete ? notDeletedPreviousElement : menuItem;
@@ -44,7 +44,7 @@ const create = (win, options) => {
 			learnSpelling: decorateMenuItem({
 				id: 'learnSpelling',
 				label: 'Learn Spelling',
-				visible: props.isEditable && hasText && props.misspelledWord,
+				visible: Boolean(props.isEditable && hasText && props.misspelledWord),
 				click() {
 					const target = webContents(win);
 					target.session.addWordToSpellCheckerDictionary(props.misspelledWord);
@@ -196,7 +196,7 @@ const create = (win, options) => {
 			return {
 				id: 'dictionarySuggestions',
 				label: suggestion,
-				visible: props.isEditable && hasText && props.misspelledWord,
+				visible: Boolean(props.isEditable && hasText && props.misspelledWord),
 				click(menuItem) {
 					const target = webContents(win);
 					target.insertText(menuItem.label);
@@ -212,16 +212,15 @@ const create = (win, options) => {
 				{
 					id: 'dictionarySuggestions',
 					label: 'No Guesses Found',
-					visible: hasText && props.misspelledWord,
+					visible: Boolean(hasText && props.misspelledWord),
 					enabled: false
 				}
 			);
 		}
 
 		let menuTemplate = [
-			defaultActions.separator(),
+			dictionarySuggestions.length > 0 && defaultActions.separator(),
 			...dictionarySuggestions,
-			defaultActions.separator(),
 			defaultActions.separator(),
 			defaultActions.learnSpelling(),
 			defaultActions.separator(),
