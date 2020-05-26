@@ -6,8 +6,6 @@ const isDev = require('electron-is-dev');
 
 const webContents = win => win.webContents || (win.getWebContents && win.getWebContents());
 
-const AMPERSANDS = /&/g;
-
 const decorateMenuItem = menuItem => {
 	return (options = {}) => {
 		if (options.transform && !options.click) {
@@ -279,7 +277,7 @@ const create = (win, options) => {
 			// Replace placeholders in menu item labels
 			if (typeof menuItem.label === 'string' && menuItem.label.includes('{selection}')) {
 				const selectionString = typeof props.selectionText === 'string' ? props.selectionText.trim() : '';
-				menuItem.label = menuItem.label.replace('{selection}', cliTruncate(selectionString, 25).replace(AMPERSANDS, '&&'));
+				menuItem.label = menuItem.label.replace('{selection}', cliTruncate(selectionString, 25).replace(/&/g, '&&'));
 			}
 		}
 
