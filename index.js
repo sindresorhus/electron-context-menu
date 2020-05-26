@@ -62,7 +62,7 @@ const create = (win, options) => {
 			}),
 			searchWithGoogle: decorateMenuItem({
 				id: 'searchWithGoogle',
-				label: 'Search with &Google',
+				label: '&Search with Google',
 				visible: hasText,
 				click() {
 					const url = new URL('https://www.google.com/search');
@@ -121,7 +121,7 @@ const create = (win, options) => {
 			}),
 			saveImage: decorateMenuItem({
 				id: 'saveImage',
-				label: 'Save Image',
+				label: 'Save I&mage',
 				visible: props.mediaType === 'image',
 				click(menuItem) {
 					props.srcURL = menuItem.transform ? menuItem.transform(props.srcURL) : props.srcURL;
