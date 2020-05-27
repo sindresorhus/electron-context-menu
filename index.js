@@ -43,7 +43,7 @@ const create = (win, options) => {
 			separator: () => ({type: 'separator'}),
 			learnSpelling: decorateMenuItem({
 				id: 'learnSpelling',
-				label: 'Learn Spelling',
+				label: '&Learn Spelling',
 				visible: Boolean(props.isEditable && hasText && props.misspelledWord),
 				click() {
 					const target = webContents(win);
@@ -62,7 +62,7 @@ const create = (win, options) => {
 			}),
 			searchWithGoogle: decorateMenuItem({
 				id: 'searchWithGoogle',
-				label: 'Search with Google',
+				label: '&Search with Google',
 				visible: hasText,
 				click() {
 					const url = new URL('https://www.google.com/search');
@@ -72,7 +72,7 @@ const create = (win, options) => {
 			}),
 			cut: decorateMenuItem({
 				id: 'cut',
-				label: 'Cut',
+				label: 'Cu&t',
 				enabled: can('Cut'),
 				visible: props.isEditable,
 				click(menuItem) {
@@ -88,7 +88,7 @@ const create = (win, options) => {
 			}),
 			copy: decorateMenuItem({
 				id: 'copy',
-				label: 'Copy',
+				label: '&Copy',
 				enabled: can('Copy'),
 				visible: props.isEditable || hasText,
 				click(menuItem) {
@@ -104,7 +104,7 @@ const create = (win, options) => {
 			}),
 			paste: decorateMenuItem({
 				id: 'paste',
-				label: 'Paste',
+				label: '&Paste',
 				enabled: editFlags.canPaste,
 				visible: props.isEditable,
 				click(menuItem) {
@@ -121,7 +121,7 @@ const create = (win, options) => {
 			}),
 			saveImage: decorateMenuItem({
 				id: 'saveImage',
-				label: 'Save Image',
+				label: 'Save I&mage',
 				visible: props.mediaType === 'image',
 				click(menuItem) {
 					props.srcURL = menuItem.transform ? menuItem.transform(props.srcURL) : props.srcURL;
@@ -130,7 +130,7 @@ const create = (win, options) => {
 			}),
 			saveImageAs: decorateMenuItem({
 				id: 'saveImageAs',
-				label: 'Save Image As…',
+				label: 'Sa&ve Image As…',
 				visible: props.mediaType === 'image',
 				click(menuItem) {
 					props.srcURL = menuItem.transform ? menuItem.transform(props.srcURL) : props.srcURL;
@@ -139,7 +139,7 @@ const create = (win, options) => {
 			}),
 			copyLink: decorateMenuItem({
 				id: 'copyLink',
-				label: 'Copy Link',
+				label: 'Copy Lin&k',
 				visible: props.linkURL.length !== 0 && props.mediaType === 'none',
 				click(menuItem) {
 					props.linkURL = menuItem.transform ? menuItem.transform(props.linkURL) : props.linkURL;
@@ -152,7 +152,7 @@ const create = (win, options) => {
 			}),
 			copyImage: decorateMenuItem({
 				id: 'copyImage',
-				label: 'Copy Image',
+				label: 'Cop&y Image',
 				visible: props.mediaType === 'image',
 				click() {
 					webContents(win).copyImageAt(props.x, props.y);
@@ -160,7 +160,7 @@ const create = (win, options) => {
 			}),
 			copyImageAddress: decorateMenuItem({
 				id: 'copyImageAddress',
-				label: 'Copy Image Address',
+				label: 'C&opy Image Address',
 				visible: props.mediaType === 'image',
 				click(menuItem) {
 					props.srcURL = menuItem.transform ? menuItem.transform(props.srcURL) : props.srcURL;
@@ -173,7 +173,7 @@ const create = (win, options) => {
 			}),
 			inspect: () => ({
 				id: 'inspect',
-				label: 'Inspect Element',
+				label: 'I&nspect Element',
 				click() {
 					win.inspectElement(props.x, props.y);
 
@@ -277,7 +277,7 @@ const create = (win, options) => {
 			// Replace placeholders in menu item labels
 			if (typeof menuItem.label === 'string' && menuItem.label.includes('{selection}')) {
 				const selectionString = typeof props.selectionText === 'string' ? props.selectionText.trim() : '';
-				menuItem.label = menuItem.label.replace('{selection}', cliTruncate(selectionString, 25));
+				menuItem.label = menuItem.label.replace('{selection}', cliTruncate(selectionString, 25).replace(/&/g, '&&'));
 			}
 		}
 
