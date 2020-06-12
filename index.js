@@ -4,7 +4,7 @@ const cliTruncate = require('cli-truncate');
 const {download} = require('electron-dl');
 const isDev = require('electron-is-dev');
 
-const webContents = win => win.webContents || electron.remote.webContents.fromId(win.getWebContentsId());
+const webContents = win => win.webContents || (win.getWebContentsId && electron.remote.webContents.fromId(win.getWebContentsId()));
 
 const decorateMenuItem = menuItem => {
 	return (options = {}) => {
