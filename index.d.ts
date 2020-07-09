@@ -251,7 +251,8 @@ declare namespace contextMenu {
 		readonly menu?: (
 			defaultActions: Actions,
 			params: ContextMenuParams,
-			browserWindow: BrowserWindow | WebviewTag | WebContents
+			browserWindow: BrowserWindow | WebviewTag | WebContents,
+			dictionarySuggestions: MenuItemConstructorOptions[]
 		) => MenuItemConstructorOptions[];
 	}
 }

@@ -245,7 +245,7 @@ const create = (win, options) => {
 		];
 
 		if (options.menu) {
-			menuTemplate = options.menu(defaultActions, props, win);
+			menuTemplate = options.menu(defaultActions, props, win, dictionarySuggestions);
 		}
 
 		if (options.prepend) {
