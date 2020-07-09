@@ -252,7 +252,7 @@ declare namespace contextMenu {
 			defaultActions: Actions,
 			params: ContextMenuParams,
 			browserWindow: BrowserWindow | WebviewTag | WebContents,
-			dictionarySuggestions: MenuItemConstructorOptions[]
+			dictionarySuggestions: MenuItemConstructorOptions[] // eslint-disable-line @typescript-eslint/prefer-readonly-parameter-types
 		) => MenuItemConstructorOptions[];
 	}
 }
