@@ -228,7 +228,12 @@ declare namespace contextMenu {
 		/**
 		This option lets you manually pick what menu items to include. It's meant for advanced needs. The default menu with the other options should be enough for most use-cases, and it ensures correct behavior, for example, correct order of menu items. So prefer the `append` and `prepend` option instead of `menu` whenever possible.
 
-		The function passed to this option is expected to return an array of [`MenuItem` constructor options](https://electronjs.org/docs/api/menu-item/). The first argument the function receives is an array of default actions that can be used. These actions are functions that can take an object with a transform property (except for `separator` and `inspect`). The transform function will be passed the content of the action and can modify it if needed.
+		The function passed to this option is expected to return an array of [`MenuItem` constructor options](https://electronjs.org/docs/api/menu-item/).
+
+		The first argument the function receives is an array of default actions that can be used. These actions are functions that can take an object with a transform property (except for `separator` and `inspect`). The transform function will be passed the content of the action and can modify it if needed. If you use `transform` on `cut`, `copy`, or `paste`, they will convert rich text to plain text.
+		The second argument is [this `params` object](https://electronjs.org/docs/api/web-contents/#event-context-menu).
+		The third argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window/) the context menu was requested for.
+		The last argument is an Array of menu items for dictionary suggestions. This should be used if you wish to implement spellcheck in your custom menu.
 
 		Even though you include an action, it will still only be shown/enabled when appropriate. For example, the `saveImage` action is only shown when right-clicking an image.
 
@@ -251,7 +256,8 @@ declare namespace contextMenu {
 		readonly menu?: (
 			defaultActions: Actions,
 			params: ContextMenuParams,
-			browserWindow: BrowserWindow | WebviewTag | WebContents
+			browserWindow: BrowserWindow | WebviewTag | WebContents,
+			dictionarySuggestions: MenuItemConstructorOptions[] // eslint-disable-line @typescript-eslint/prefer-readonly-parameter-types
 		) => MenuItemConstructorOptions[];
 	}
 }
