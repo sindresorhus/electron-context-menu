@@ -58,6 +58,11 @@ declare namespace contextMenu {
 		readonly copyLink?: string;
 
 		/**
+		@default 'Save Link As…'
+		 */
+		readonly saveLinkAs?: string;
+
+		/**
 		@default 'Copy Image'
 		*/
 		readonly copyImage?: string;
@@ -176,6 +181,13 @@ declare namespace contextMenu {
 		readonly showSaveImageAs?: boolean;
 
 		/**
+		Show the `Save Link As…` menu item when right-clicking on a link.
+
+		@default false
+		 */
+		readonly showSaveLinkAs?: boolean;
+
+		/**
 		Force enable or disable the `Inspect Element` menu item.
 
 		Default: [Only in development](https://github.com/sindresorhus/electron-is-dev)
@@ -246,12 +258,13 @@ declare namespace contextMenu {
 		- `showCopyImage`
 		- `showCopyImageAddress`
 		- `showSaveImageAs`
+		- `showSaveLinkAs`
 		- `showInspectElement`
 		- `showServices`
 
 		To get spellchecking, “Correct Automatically”, and “Learn Spelling” in the menu, please enable the `spellcheck` preference in browser window: `new BrowserWindow({webPreferences: {spellcheck: true}})`
 
-		@default [...dictionarySuggestions, defaultActions.separator(), defaultActions.separator(), defaultActions.learnSpelling(), defaultActions.separator(), defaultActions.lookUpSelection(), defaultActions.separator(),defaultActions.searchWithGoogle(), defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyLink(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.separator(), defaultActions.inspect()]
+		@default [...dictionarySuggestions, defaultActions.separator(), defaultActions.separator(), defaultActions.learnSpelling(), defaultActions.separator(), defaultActions.lookUpSelection(), defaultActions.separator(),defaultActions.searchWithGoogle(), defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyLink(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.saveLinkAs(), defaultActions.copyLink(), defaultActions.separator(), defaultActions.inspect()]
 		*/
 		readonly menu?: (
 			defaultActions: Actions,

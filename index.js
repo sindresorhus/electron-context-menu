@@ -150,6 +150,15 @@ const create = (win, options) => {
 					});
 				}
 			}),
+			saveLinkAs: decorateMenuItem({
+				id: 'saveLinkAs',
+				label: 'Save Link As…',
+				visible: props.linkURL.length !== 0 && props.mediaType === 'none',
+				click(menuItem) {
+					props.linkURL = menuItem.transform ? menuItem.transform(props.linkURL) : props.linkURL;
+					download(win, props.linkURL, {saveAs: true});
+				}
+			}),
 			copyImage: decorateMenuItem({
 				id: 'copyImage',
 				label: 'Cop&y Image',
@@ -237,6 +246,7 @@ const create = (win, options) => {
 			options.showCopyImage !== false && defaultActions.copyImage(),
 			options.showCopyImageAddress && defaultActions.copyImageAddress(),
 			defaultActions.separator(),
+			options.showSaveLinkAs && defaultActions.saveLinkAs(),
 			defaultActions.copyLink(),
 			defaultActions.separator(),
 			shouldShowInspectElement && defaultActions.inspect(),
