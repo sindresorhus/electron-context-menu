@@ -59,7 +59,7 @@ declare namespace contextMenu {
 
 		/**
 		@default 'Save Link As…'
-		 */
+		*/
 		readonly saveLinkAs?: string;
 
 		/**
