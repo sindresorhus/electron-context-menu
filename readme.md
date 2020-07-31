@@ -240,8 +240,8 @@ Default actions:
 - `saveImageAs`
 - `copyImage`
 - `copyImageAddress`
-- `saveLinkAs`
 - `copyLink`
+- `saveLinkAs`
 - `inspect`
 - `services`
 
