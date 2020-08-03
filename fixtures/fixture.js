@@ -11,8 +11,8 @@ contextMenu({
 		save: 'Configured Save Image',
 		saveImageAs: 'Configured Save Image As…',
 		copyLink: 'Configured Copy Link',
-		inspect: 'Configured Inspect',
-		saveLinkAs: 'Configured Save Link As…'
+		saveLinkAs: 'Configured Save Link As…',
+		inspect: 'Configured Inspect'
 	},
 	prepend: () => [
 		{
