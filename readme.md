@@ -140,6 +140,13 @@ Default: `false`
 
 Show the `Save Image As…` menu item when right-clicking on an image.
 
+#### showSaveLinkAs
+
+Type: `boolean`\
+Default: `false`
+
+Show the `Save Link As…` menu item when right-clicking on a link.
+
 #### showInspectElement
 
 Type: `boolean`\
@@ -214,6 +221,7 @@ The following options are ignored when `menu` is used:
 - `showCopyImage`
 - `showCopyImageAddress`
 - `showSaveImageAs`
+- `showSaveLinkAs`
 - `showInspectElement`
 - `showServices`
 - `showSearchWithGoogle`
@@ -233,6 +241,7 @@ Default actions:
 - `copyImage`
 - `copyImageAddress`
 - `copyLink`
+- `saveLinkAs`
 - `inspect`
 - `services`
 
