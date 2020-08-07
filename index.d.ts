@@ -184,7 +184,7 @@ declare namespace contextMenu {
 		Show the `Save Link As…` menu item when right-clicking on a link.
 
 		@default false
-		 */
+		*/
 		readonly showSaveLinkAs?: boolean;
 
 		/**
