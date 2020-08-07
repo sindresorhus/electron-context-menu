@@ -114,7 +114,7 @@ declare namespace contextMenu {
 		/**
 		Should return an array of [menu items](https://electronjs.org/docs/api/menu-item) to be prepended to the context menu.
 
-		`MenuItem` labels may contain the the placeholder `{selection}` which will be replaced by the currently selected text as described in `options.labels`.
+		`MenuItem` labels may contain the placeholder `{selection}` which will be replaced by the currently selected text as described in `options.labels`.
 		*/
 		readonly prepend?: (
 			defaultActions: Actions,
@@ -125,7 +125,7 @@ declare namespace contextMenu {
 		/**
 		Should return an array of [menu items](https://electronjs.org/docs/api/menu-item) to be appended to the context menu.
 
-		`MenuItem` labels may contain the the placeholder `{selection}` which will be replaced by the currently selected text as described in `options.labels`.
+		`MenuItem` labels may contain the placeholder `{selection}` which will be replaced by the currently selected text as described in `options.labels`.
 		*/
 		readonly append?: (
 			defaultActions: Actions,
@@ -237,7 +237,7 @@ declare namespace contextMenu {
 
 		Even though you include an action, it will still only be shown/enabled when appropriate. For example, the `saveImage` action is only shown when right-clicking an image.
 
-		`MenuItem` labels may contain the the placeholder `{selection}` which will be replaced by the currently selected text as described in `options.labels`.
+		`MenuItem` labels may contain the placeholder `{selection}` which will be replaced by the currently selected text as described in `options.labels`.
 
 		The following options are ignored when `menu` is used:
 

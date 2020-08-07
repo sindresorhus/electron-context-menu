@@ -86,7 +86,7 @@ Should return an array of [MenuItem](https://electronjs.org/docs/api/menu-item/)
 
 The first argument is an array of default actions that can be used. The second argument is [this `params` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window/) the context menu was requested for.
 
-`MenuItem` labels may contain the the placeholder `{selection}` which will be replaced by the currently selected text as described in [`options.labels`](#labels).
+`MenuItem` labels may contain the placeholder `{selection}` which will be replaced by the currently selected text as described in [`options.labels`](#labels).
 
 #### append
 
@@ -96,7 +96,7 @@ Should return an array of [MenuItem](https://electronjs.org/docs/api/menu-item/)
 
 The first argument is an array of default actions that can be used. The second argument is [this `params` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window/) the context menu was requested for.
 
-`MenuItem` labels may contain the the placeholder `{selection}` which will be replaced by the currently selected text as described in [`options.labels`](#labels).
+`MenuItem` labels may contain the placeholder `{selection}` which will be replaced by the currently selected text as described in [`options.labels`](#labels).
 
 #### showLookUpSelection
 
@@ -204,7 +204,7 @@ The function passed to this option is expected to return [`MenuItem[]`](https://
 
 Even though you include an action, it will still only be shown/enabled when appropriate. For example, the `saveImage` action is only shown when right-clicking an image.
 
-`MenuItem` labels may contain the the placeholder `{selection}` which will be replaced by the currently selected text as described in [`options.labels`](#labels).
+`MenuItem` labels may contain the placeholder `{selection}` which will be replaced by the currently selected text as described in [`options.labels`](#labels).
 
 To get spellchecking, “Correct Automatically”, and “Learn Spelling” in the menu, please enable the `spellcheck` preference in browser window: `new BrowserWindow({webPreferences: {spellcheck: true}})`
 
