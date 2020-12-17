@@ -310,6 +310,10 @@ const create = (win, options) => {
 	webContents(win).on('context-menu', handleContextMenu);
 
 	return () => {
+		if (win.isDestroyed()) {
+			return;
+		}
+
 		webContents(win).removeListener('context-menu', handleContextMenu);
 	};
 };
