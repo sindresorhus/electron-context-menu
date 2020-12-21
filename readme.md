@@ -1,4 +1,4 @@
-# electron-context-menu [![Build Status](https://travis-ci.com/sindresorhus/electron-context-menu.svg?branch=master)](https://travis-ci.com/sindresorhus/electron-context-menu)
+# electron-context-menu
 
 > Context menu for your [Electron](https://electronjs.org) app
 
