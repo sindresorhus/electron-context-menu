@@ -338,7 +338,10 @@ module.exports = (options = {}) => {
 		};
 
 		win.once('closed', removeDisposable);
-		disposables.push(() => win.off('closed', removeDisposable));
+
+		disposables.push(() => {
+			win.off('closed', removeDisposable);
+		});
 	};
 
 	const dispose = () => {
