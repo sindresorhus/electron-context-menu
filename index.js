@@ -328,9 +328,17 @@ module.exports = (options = {}) => {
 		}
 
 		const disposeMenu = create(win, options);
-		disposables.push(() => {
-			disposeMenu();
-		});
+
+		disposables.push(disposeMenu);
+		const removeDisposable = () => {
+			const index = disposables.indexOf(disposeMenu);
+			if (index !== -1) {
+				disposables.splice(index, 1);
+			}
+		};
+
+		win.once('closed', removeDisposable);
+		disposables.push(() => win.off('closed', removeDisposable));
 	};
 
 	const dispose = () => {
