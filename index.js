@@ -310,6 +310,10 @@ const create = (win, options) => {
 	webContents(win).on('context-menu', handleContextMenu);
 
 	return () => {
+		if (win.isDestroyed()) {
+			return;
+		}
+
 		webContents(win).removeListener('context-menu', handleContextMenu);
 	};
 };
@@ -324,8 +328,19 @@ module.exports = (options = {}) => {
 		}
 
 		const disposeMenu = create(win, options);
+
+		disposables.push(disposeMenu);
+		const removeDisposable = () => {
+			const index = disposables.indexOf(disposeMenu);
+			if (index !== -1) {
+				disposables.splice(index, 1);
+			}
+		};
+
+		win.once('closed', removeDisposable);
+
 		disposables.push(() => {
-			disposeMenu();
+			win.off('closed', removeDisposable);
 		});
 	};
 
