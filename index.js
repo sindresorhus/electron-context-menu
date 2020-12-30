@@ -337,7 +337,8 @@ module.exports = (options = {}) => {
 			}
 		};
 
-		win.once('closed', removeDisposable);
+		if (typeof win.once !== 'undefined')  // support for BrowserView
+			win.once('closed', removeDisposable);
 
 		disposables.push(() => {
 			win.off('closed', removeDisposable);
