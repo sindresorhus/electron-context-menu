@@ -337,8 +337,9 @@ module.exports = (options = {}) => {
 			}
 		};
 
-		if (typeof win.once !== 'undefined')  // support for BrowserView
+		if (typeof win.once !== 'undefined') { // Support for BrowserView
 			win.once('closed', removeDisposable);
+		}
 
 		disposables.push(() => {
 			win.off('closed', removeDisposable);
