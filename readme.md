@@ -44,11 +44,11 @@ let mainWindow;
 (async () => {
 	await app.whenReady();
 
-	mainWindow = new BrowserWindow(
+	mainWindow = new BrowserWindow({
 		webPreferences: {
 			spellcheck: true
 		}
-	);
+	});
 })();
 ```
 
