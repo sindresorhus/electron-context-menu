@@ -2,6 +2,7 @@
 /// <reference types="node"/>
 import {
 	BrowserWindow,
+	BrowserView,
 	WebviewTag,
 	ContextMenuParams,
 	MenuItemConstructorOptions,
@@ -114,7 +115,7 @@ declare namespace contextMenu {
 		Window or WebView to add the context menu to.
 		When not specified, the context menu will be added to all existing and new windows.
 		*/
-		readonly window?: BrowserWindow | WebviewTag | WebContents;
+		readonly window?: BrowserWindow | BrowserView | WebviewTag | WebContents;
 
 		/**
 		Should return an array of [menu items](https://electronjs.org/docs/api/menu-item) to be prepended to the context menu.
@@ -124,7 +125,7 @@ declare namespace contextMenu {
 		readonly prepend?: (
 			defaultActions: Actions,
 			params: ContextMenuParams,
-			browserWindow: BrowserWindow | WebviewTag | WebContents
+			browserWindow: BrowserWindow | BrowserView | WebviewTag | WebContents
 		) => MenuItemConstructorOptions[];
 
 		/**
@@ -135,7 +136,7 @@ declare namespace contextMenu {
 		readonly append?: (
 			defaultActions: Actions,
 			param: ContextMenuParams,
-			browserWindow: BrowserWindow | WebviewTag | WebContents
+			browserWindow: BrowserWindow | BrowserView | WebviewTag | WebContents
 		) => MenuItemConstructorOptions[];
 
 		/**
@@ -269,7 +270,7 @@ declare namespace contextMenu {
 		readonly menu?: (
 			defaultActions: Actions,
 			params: ContextMenuParams,
-			browserWindow: BrowserWindow | WebviewTag | WebContents,
+			browserWindow: BrowserWindow | BrowserView | WebviewTag | WebContents,
 			dictionarySuggestions: MenuItemConstructorOptions[] // eslint-disable-line @typescript-eslint/prefer-readonly-parameter-types
 		) => MenuItemConstructorOptions[];
 	}
