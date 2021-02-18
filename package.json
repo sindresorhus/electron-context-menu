@@ -41,7 +41,7 @@
 	],
 	"dependencies": {
 		"cli-truncate": "^2.0.0",
-		"electron-dl": "^3.0.0",
+		"electron-dl": "^3.1.0",
 		"electron-is-dev": "^1.0.1"
 	},
 	"devDependencies": {
