@@ -140,7 +140,7 @@ const create = (win, options) => {
 			copyLink: decorateMenuItem({
 				id: 'copyLink',
 				label: 'Copy Lin&k',
-				visible: props.linkURL.length !== 0 && props.mediaType === 'none',
+				visible: props.linkURL.length > 0 && props.mediaType === 'none',
 				click(menuItem) {
 					props.linkURL = menuItem.transform ? menuItem.transform(props.linkURL) : props.linkURL;
 
@@ -153,7 +153,7 @@ const create = (win, options) => {
 			saveLinkAs: decorateMenuItem({
 				id: 'saveLinkAs',
 				label: 'Save Link As…',
-				visible: props.linkURL.length !== 0 && props.mediaType === 'none',
+				visible: props.linkURL.length > 0 && props.mediaType === 'none',
 				click(menuItem) {
 					props.linkURL = menuItem.transform ? menuItem.transform(props.linkURL) : props.linkURL;
 					download(win, props.linkURL, {saveAs: true});

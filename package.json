@@ -40,16 +40,16 @@
 		"dictionary"
 	],
 	"dependencies": {
-		"cli-truncate": "^2.0.0",
-		"electron-dl": "^3.0.0",
-		"electron-is-dev": "^1.0.1"
+		"cli-truncate": "^2.1.0",
+		"electron-dl": "^3.1.0",
+		"electron-is-dev": "^1.2.0"
 	},
 	"devDependencies": {
-		"@types/node": "^12.0.10",
-		"ava": "^2.1.0",
-		"electron": "^8.2.2",
-		"tsd": "^0.11.0",
-		"xo": "^0.30.0"
+		"@types/node": "^14.14.31",
+		"ava": "^2.4.0",
+		"electron": "^11.3.0",
+		"tsd": "^0.14.0",
+		"xo": "^0.38.1"
 	},
 	"xo": {
 		"envs": [
