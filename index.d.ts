@@ -1,5 +1,4 @@
 /// <reference lib="dom"/>
-/// <reference types="node"/>
 import {
 	BrowserWindow,
 	BrowserView,
