@@ -364,7 +364,8 @@ module.exports = (options = {}) => {
 				init(win);
 			};
 
-			win.addEventListener('dom-ready', onDomReady, {once: true});
+			const listenerFunction = win.addEventListener || win.addListener;
+			listenerFunction('dom-ready', onDomReady, {once: true});
 
 			disposables.push(() => {
 				win.removeEventListener('dom-ready', onDomReady, {once: true});
