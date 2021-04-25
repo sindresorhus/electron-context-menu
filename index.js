@@ -208,7 +208,7 @@ const create = (win, options) => {
 				visible: Boolean(props.isEditable && hasText && props.misspelledWord),
 				click(menuItem) {
 					const target = webContents(win);
-					target.insertText(menuItem.label);
+					target.replaceMisspelling(menuItem.label);
 				}
 			};
 		}
