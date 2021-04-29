@@ -1,10 +1,15 @@
 'use strict';
+
+if (process.type === 'renderer') {
+	throw new Error('Cannot use electron-context-menu in renderer process!');
+}
+
 const electron = require('electron');
 const cliTruncate = require('cli-truncate');
 const {download} = require('electron-dl');
 const isDev = require('electron-is-dev');
 
-const webContents = win => win.webContents || (win.getWebContentsId && electron.remote.webContents.fromId(win.getWebContentsId()));
+const webContents = win => win.webContents;
 
 const decorateMenuItem = menuItem => {
 	return (options = {}) => {
@@ -292,18 +297,8 @@ const create = (win, options) => {
 		}
 
 		if (menuTemplate.length > 0) {
-			const menu = (electron.remote ? electron.remote.Menu : electron.Menu).buildFromTemplate(menuTemplate);
-
-			/*
-			When `electron.remote` is not available, this runs in the browser process.
-
-			We can safely use `win` in this case as it refers to the window the
-			context-menu should open in.
-
-			When this is being called from a web view, we can't use `win` as this
-			would refer to the web view which is not allowed to render a popup menu.
-			*/
-			menu.popup(electron.remote ? electron.remote.getCurrentWindow() : win);
+			const menu = electron.Menu.buildFromTemplate(menuTemplate);
+			menu.popup(win);
 		}
 	};
 
@@ -379,19 +374,17 @@ module.exports = (options = {}) => {
 		return dispose;
 	}
 
-	for (const win of (electron.BrowserWindow || electron.remote.BrowserWindow).getAllWindows()) {
+	for (const win of electron.BrowserWindow.getAllWindows()) {
 		init(win);
 	}
-
-	const app = electron.app || electron.remote.app;
 
 	const onWindowCreated = (event, win) => {
 		init(win);
 	};
 
-	app.on('browser-window-created', onWindowCreated);
+	electron.app.on('browser-window-created', onWindowCreated);
 	disposables.push(() => {
-		app.removeListener('browser-window-created', onWindowCreated);
+		electron.app.removeListener('browser-window-created', onWindowCreated);
 	});
 
 	return dispose;
