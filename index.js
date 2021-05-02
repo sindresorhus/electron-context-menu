@@ -1,9 +1,4 @@
 'use strict';
-
-if (process.type === 'renderer') {
-	throw new Error('Cannot use electron-context-menu in the renderer process!');
-}
-
 const electron = require('electron');
 const cliTruncate = require('cli-truncate');
 const {download} = require('electron-dl');
@@ -314,6 +309,10 @@ const create = (win, options) => {
 };
 
 module.exports = (options = {}) => {
+	if (process.type === 'renderer') {
+		throw new Error('Cannot use electron-context-menu in renderer process!');
+	}
+
 	let isDisposed = false;
 	const disposables = [];
 
