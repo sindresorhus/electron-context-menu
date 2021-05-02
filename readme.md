@@ -6,7 +6,7 @@
 
 Electron doesn't have a built-in context menu. You're supposed to handle that yourself. But it's both tedious and hard to get right. This module gives you a nice extensible context menu with spellchecking and items like `Cut`/`Copy`/`Paste` for text, `Save Image` for images, and `Copy Link` for links. It also adds an `Inspect Element` menu item when in development to quickly view items in the inspector like in Chrome.
 
-You can use this module directly in both the main and renderer process.
+This package can only be used in the main process.
 
 ## Install
 
