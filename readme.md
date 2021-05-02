@@ -14,7 +14,7 @@ This package can only be used in the main process.
 $ npm install electron-context-menu
 ```
 
-*Requires Electron 8 or later.*
+*Requires Electron 10 or later.*
 
 ## Usage
 

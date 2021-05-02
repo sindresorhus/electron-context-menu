@@ -310,7 +310,7 @@ const create = (win, options) => {
 
 module.exports = (options = {}) => {
 	if (process.type === 'renderer') {
-		throw new Error('Cannot use electron-context-menu in renderer process!');
+		throw new Error('Cannot use electron-context-menu in the renderer process!');
 	}
 
 	let isDisposed = false;

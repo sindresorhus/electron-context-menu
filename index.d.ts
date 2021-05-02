@@ -1,4 +1,3 @@
-/// <reference lib="dom"/>
 import {
 	BrowserWindow,
 	BrowserView,
@@ -317,6 +316,6 @@ dispose();
 ```
 
 */
-declare function contextMenu(options?: contextMenu.Options): () => void;
+declare function contextMenu(options?: contextMenu.Options): () => void; // eslint-disable-line no-redeclare
 
 export = contextMenu;
