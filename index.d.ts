@@ -123,7 +123,8 @@ declare namespace contextMenu {
 		readonly prepend?: (
 			defaultActions: Actions,
 			parameters: ContextMenuParams,
-			browserWindow: BrowserWindow | BrowserView | WebviewTag | WebContents
+			browserWindow: BrowserWindow | BrowserView | WebviewTag | WebContents,
+			event: Event
 		) => MenuItemConstructorOptions[];
 
 		/**
@@ -134,7 +135,8 @@ declare namespace contextMenu {
 		readonly append?: (
 			defaultActions: Actions,
 			parameters: ContextMenuParams,
-			browserWindow: BrowserWindow | BrowserView | WebviewTag | WebContents
+			browserWindow: BrowserWindow | BrowserView | WebviewTag | WebContents,
+			event: Event
 		) => MenuItemConstructorOptions[];
 
 		/**
@@ -233,7 +235,8 @@ declare namespace contextMenu {
 		*/
 		readonly shouldShowMenu?: (
 			event: ElectronEvent,
-			parameters: ContextMenuParams
+			parameters: ContextMenuParams,
+			event: Event
 		) => boolean;
 
 		/**
@@ -269,7 +272,8 @@ declare namespace contextMenu {
 			defaultActions: Actions,
 			parameters: ContextMenuParams,
 			browserWindow: BrowserWindow | BrowserView | WebviewTag | WebContents,
-			dictionarySuggestions: MenuItemConstructorOptions[]
+			dictionarySuggestions: MenuItemConstructorOptions[],
+			event: Event
 		) => MenuItemConstructorOptions[];
 	}
 }

@@ -30,7 +30,7 @@ const removeUnusedMenuItems = menuTemplate => {
 
 const create = (win, options) => {
 	const handleContextMenu = (event, props) => {
-		if (typeof options.shouldShowMenu === 'function' && options.shouldShowMenu(event, props) === false) {
+		if (typeof options.shouldShowMenu === 'function' && options.shouldShowMenu(event, props, event) === false) {
 			return;
 		}
 
@@ -255,11 +255,11 @@ const create = (win, options) => {
 		];
 
 		if (options.menu) {
-			menuTemplate = options.menu(defaultActions, props, win, dictionarySuggestions);
+			menuTemplate = options.menu(defaultActions, props, win, dictionarySuggestions, event);
 		}
 
 		if (options.prepend) {
-			const result = options.prepend(defaultActions, props, win);
+			const result = options.prepend(defaultActions, props, win, event);
 
 			if (Array.isArray(result)) {
 				menuTemplate.unshift(...result);
@@ -267,7 +267,7 @@ const create = (win, options) => {
 		}
 
 		if (options.append) {
-			const result = options.append(defaultActions, props, win);
+			const result = options.append(defaultActions, props, win, event);
 
 			if (Array.isArray(result)) {
 				menuTemplate.push(...result);
