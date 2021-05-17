@@ -123,7 +123,8 @@ declare namespace contextMenu {
 		readonly prepend?: (
 			defaultActions: Actions,
 			parameters: ContextMenuParams,
-			browserWindow: BrowserWindow | BrowserView | WebviewTag | WebContents
+			browserWindow: BrowserWindow | BrowserView | WebviewTag | WebContents,
+			event: ElectronEvent
 		) => MenuItemConstructorOptions[];
 
 		/**
@@ -134,7 +135,8 @@ declare namespace contextMenu {
 		readonly append?: (
 			defaultActions: Actions,
 			parameters: ContextMenuParams,
-			browserWindow: BrowserWindow | BrowserView | WebviewTag | WebContents
+			browserWindow: BrowserWindow | BrowserView | WebviewTag | WebContents,
+			event: ElectronEvent
 		) => MenuItemConstructorOptions[];
 
 		/**
@@ -244,7 +246,8 @@ declare namespace contextMenu {
 		The first argument the function receives is an array of default actions that can be used. These actions are functions that can take an object with a transform property (except for `separator` and `inspect`). The transform function will be passed the content of the action and can modify it if needed. If you use `transform` on `cut`, `copy`, or `paste`, they will convert rich text to plain text.
 		The second argument is [this `parameters` object](https://electronjs.org/docs/api/web-contents/#event-context-menu).
 		The third argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window/) the context menu was requested for.
-		The last argument is an Array of menu items for dictionary suggestions. This should be used if you wish to implement spellcheck in your custom menu.
+		The fourth argument is an Array of menu items for dictionary suggestions. This should be used if you wish to implement spellcheck in your custom menu.
+		The last argument is the event object passed to the `context-menu` event in web contents.
 
 		Even though you include an action, it will still only be shown/enabled when appropriate. For example, the `saveImage` action is only shown when right-clicking an image.
 
@@ -269,7 +272,8 @@ declare namespace contextMenu {
 			defaultActions: Actions,
 			parameters: ContextMenuParams,
 			browserWindow: BrowserWindow | BrowserView | WebviewTag | WebContents,
-			dictionarySuggestions: MenuItemConstructorOptions[]
+			dictionarySuggestions: MenuItemConstructorOptions[],
+			event: ElectronEvent
 		) => MenuItemConstructorOptions[];
 	}
 }
