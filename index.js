@@ -30,7 +30,7 @@ const removeUnusedMenuItems = menuTemplate => {
 
 const create = (win, options) => {
 	const handleContextMenu = (event, props) => {
-		if (typeof options.shouldShowMenu === 'function' && options.shouldShowMenu(event, props, event) === false) {
+		if (typeof options.shouldShowMenu === 'function' && options.shouldShowMenu(event, props) === false) {
 			return;
 		}
 
