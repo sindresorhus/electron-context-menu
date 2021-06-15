@@ -1,6 +1,6 @@
 {
 	"name": "electron-context-menu",
-	"version": "2.0.1",
+	"version": "3.1.0",
 	"description": "Context menu for your Electron app",
 	"license": "MIT",
 	"repository": "sindresorhus/electron-context-menu",
@@ -40,21 +40,29 @@
 		"dictionary"
 	],
 	"dependencies": {
-		"cli-truncate": "^2.0.0",
-		"electron-dl": "^3.0.0",
-		"electron-is-dev": "^1.0.1"
+		"cli-truncate": "^2.1.0",
+		"electron-dl": "^3.2.1",
+		"electron-is-dev": "^2.0.0"
 	},
 	"devDependencies": {
-		"@types/node": "^12.0.10",
-		"ava": "^2.1.0",
-		"electron": "^8.2.2",
-		"tsd": "^0.11.0",
-		"xo": "^0.30.0"
+		"@types/node": "^15.0.1",
+		"ava": "^2.4.0",
+		"electron": "^12.0.6",
+		"tsd": "^0.14.0",
+		"xo": "^0.39.1"
 	},
 	"xo": {
 		"envs": [
 			"node",
 			"browser"
 		]
+	},
+	"tsd": {
+		"compilerOptions": {
+			"lib": [
+				"es2019",
+				"dom"
+			]
+		}
 	}
 }

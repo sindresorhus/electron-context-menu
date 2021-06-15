@@ -4,7 +4,7 @@ const cliTruncate = require('cli-truncate');
 const {download} = require('electron-dl');
 const isDev = require('electron-is-dev');
 
-const webContents = win => win.webContents || (win.getWebContentsId && electron.remote.webContents.fromId(win.getWebContentsId()));
+const webContents = win => win.webContents;
 
 const decorateMenuItem = menuItem => {
 	return (options = {}) => {
@@ -140,7 +140,7 @@ const create = (win, options) => {
 			copyLink: decorateMenuItem({
 				id: 'copyLink',
 				label: 'Copy Lin&k',
-				visible: props.linkURL.length !== 0 && props.mediaType === 'none',
+				visible: props.linkURL.length > 0 && props.mediaType === 'none',
 				click(menuItem) {
 					props.linkURL = menuItem.transform ? menuItem.transform(props.linkURL) : props.linkURL;
 
@@ -148,6 +148,15 @@ const create = (win, options) => {
 						bookmark: props.linkText,
 						text: props.linkURL
 					});
+				}
+			}),
+			saveLinkAs: decorateMenuItem({
+				id: 'saveLinkAs',
+				label: 'Save Link As…',
+				visible: props.linkURL.length > 0 && props.mediaType === 'none',
+				click(menuItem) {
+					props.linkURL = menuItem.transform ? menuItem.transform(props.linkURL) : props.linkURL;
+					download(win, props.linkURL, {saveAs: true});
 				}
 			}),
 			copyImage: decorateMenuItem({
@@ -199,7 +208,7 @@ const create = (win, options) => {
 				visible: Boolean(props.isEditable && hasText && props.misspelledWord),
 				click(menuItem) {
 					const target = webContents(win);
-					target.insertText(menuItem.label);
+					target.replaceMisspelling(menuItem.label);
 				}
 			};
 		}
@@ -238,6 +247,7 @@ const create = (win, options) => {
 			options.showCopyImageAddress && defaultActions.copyImageAddress(),
 			defaultActions.separator(),
 			defaultActions.copyLink(),
+			options.showSaveLinkAs && defaultActions.saveLinkAs(),
 			defaultActions.separator(),
 			shouldShowInspectElement && defaultActions.inspect(),
 			options.showServices && defaultActions.services(),
@@ -245,11 +255,11 @@ const create = (win, options) => {
 		];
 
 		if (options.menu) {
-			menuTemplate = options.menu(defaultActions, props, win);
+			menuTemplate = options.menu(defaultActions, props, win, dictionarySuggestions, event);
 		}
 
 		if (options.prepend) {
-			const result = options.prepend(defaultActions, props, win);
+			const result = options.prepend(defaultActions, props, win, event);
 
 			if (Array.isArray(result)) {
 				menuTemplate.unshift(...result);
@@ -257,7 +267,7 @@ const create = (win, options) => {
 		}
 
 		if (options.append) {
-			const result = options.append(defaultActions, props, win);
+			const result = options.append(defaultActions, props, win, event);
 
 			if (Array.isArray(result)) {
 				menuTemplate.push(...result);
@@ -282,29 +292,27 @@ const create = (win, options) => {
 		}
 
 		if (menuTemplate.length > 0) {
-			const menu = (electron.remote ? electron.remote.Menu : electron.Menu).buildFromTemplate(menuTemplate);
-
-			/*
-			When `electron.remote` is not available, this runs in the browser process.
-
-			We can safely use `win` in this case as it refers to the window the
-			context-menu should open in.
-
-			When this is being called from a web view, we can't use `win` as this
-			would refer to the web view which is not allowed to render a popup menu.
-			*/
-			menu.popup(electron.remote ? electron.remote.getCurrentWindow() : win);
+			const menu = electron.Menu.buildFromTemplate(menuTemplate);
+			menu.popup(win);
 		}
 	};
 
 	webContents(win).on('context-menu', handleContextMenu);
 
 	return () => {
+		if (win.isDestroyed()) {
+			return;
+		}
+
 		webContents(win).removeListener('context-menu', handleContextMenu);
 	};
 };
 
 module.exports = (options = {}) => {
+	if (process.type === 'renderer') {
+		throw new Error('Cannot use electron-context-menu in the renderer process!');
+	}
+
 	let isDisposed = false;
 	const disposables = [];
 
@@ -314,8 +322,21 @@ module.exports = (options = {}) => {
 		}
 
 		const disposeMenu = create(win, options);
+
+		disposables.push(disposeMenu);
+		const removeDisposable = () => {
+			const index = disposables.indexOf(disposeMenu);
+			if (index !== -1) {
+				disposables.splice(index, 1);
+			}
+		};
+
+		if (typeof win.once !== 'undefined') { // Support for BrowserView
+			win.once('closed', removeDisposable);
+		}
+
 		disposables.push(() => {
-			disposeMenu();
+			win.off('closed', removeDisposable);
 		});
 	};
 
@@ -337,7 +358,8 @@ module.exports = (options = {}) => {
 				init(win);
 			};
 
-			win.addEventListener('dom-ready', onDomReady, {once: true});
+			const listenerFunction = win.addEventListener || win.addListener;
+			listenerFunction('dom-ready', onDomReady, {once: true});
 
 			disposables.push(() => {
 				win.removeEventListener('dom-ready', onDomReady, {once: true});
@@ -351,19 +373,17 @@ module.exports = (options = {}) => {
 		return dispose;
 	}
 
-	for (const win of (electron.BrowserWindow || electron.remote.BrowserWindow).getAllWindows()) {
+	for (const win of electron.BrowserWindow.getAllWindows()) {
 		init(win);
 	}
-
-	const app = electron.app || electron.remote.app;
 
 	const onWindowCreated = (event, win) => {
 		init(win);
 	};
 
-	app.on('browser-window-created', onWindowCreated);
+	electron.app.on('browser-window-created', onWindowCreated);
 	disposables.push(() => {
-		app.removeListener('browser-window-created', onWindowCreated);
+		electron.app.removeListener('browser-window-created', onWindowCreated);
 	});
 
 	return dispose;
