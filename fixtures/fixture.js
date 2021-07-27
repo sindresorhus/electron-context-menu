@@ -38,6 +38,7 @@ contextMenu({
 	append: () => {},
 	showCopyImageAddress: true,
 	showSaveImageAs: true,
+	showOpenImageExternally: true,
 	showInspectElement: false,
 	showSaveLinkAs: true
 });

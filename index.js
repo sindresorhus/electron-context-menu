@@ -180,6 +180,16 @@ const create = (win, options) => {
 					});
 				}
 			}),
+			openImageExternally: decorateMenuItem({
+				id: 'openImageExternally',
+				label: 'Open &Image Externally',
+				visible: props.mediaType === 'image',
+				click(menuItem) {
+					props.srcURL = menuItem.transform ? menuItem.transform(props.srcURL) : props.srcURL;
+
+					electron.shell.openExternal(props.srcURL);
+				}
+			}),
 			inspect: () => ({
 				id: 'inspect',
 				label: 'I&nspect Element',
@@ -245,6 +255,7 @@ const create = (win, options) => {
 			options.showSaveImageAs && defaultActions.saveImageAs(),
 			options.showCopyImage !== false && defaultActions.copyImage(),
 			options.showCopyImageAddress && defaultActions.copyImageAddress(),
+			options.showOpenImageExternally && defaultActions.openImageExternally(),
 			defaultActions.separator(),
 			defaultActions.copyLink(),
 			options.showSaveLinkAs && defaultActions.saveLinkAs(),

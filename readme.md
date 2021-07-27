@@ -126,6 +126,13 @@ Default: `false`
 
 Show the `Copy Image Address` menu item when right-clicking on an image.
 
+#### showOpenImageExternally
+
+Type: `boolean`\
+Default: `false`
+
+Show the `Open Image in Browser` menu item when right-clicking on an image.
+
 #### showSaveImage
 
 Type: `boolean`\
@@ -220,6 +227,7 @@ The following options are ignored when `menu` is used:
 - `showLookUpSelection`
 - `showCopyImage`
 - `showCopyImageAddress`
+- `showOpenImageExternally`
 - `showSaveImageAs`
 - `showSaveLinkAs`
 - `showInspectElement`
@@ -240,6 +248,7 @@ Default actions:
 - `saveImageAs`
 - `copyImage`
 - `copyImageAddress`
+- `openImageExternally`
 - `copyLink`
 - `saveLinkAs`
 - `inspect`
