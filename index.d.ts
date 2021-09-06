@@ -285,6 +285,27 @@ You can use this module directly in both the main and renderer process.
 
 @example
 ```
+const {app, BrowserWindow} = require('electron');
+const contextMenu = require('electron-context-menu');
+
+contextMenu({
+	showSaveImageAs: true
+});
+
+let mainWindow;
+(async () => {
+	await app.whenReady();
+
+	mainWindow = new BrowserWindow({
+		webPreferences: {
+			spellcheck: true
+		}
+	});
+})();
+```
+
+@example
+```
 import {app, BrowserWindow} from 'electron';
 import contextMenu = require('electron-context-menu');
 
