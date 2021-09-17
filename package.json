@@ -43,7 +43,7 @@
 		"cli-truncate": "^2.1.0",
 		"electron-dl": "^3.2.1",
 		"electron-is-dev": "^2.0.0",
-		"@electron/remote": "git://github.com/gyteng/remote#e0360cbc6ad5737d43be4886dfd72e496cb7c8c6"
+		"@electron/remote": "^2.0.1"
 	},
 	"devDependencies": {
 		"@types/node": "^15.0.1",
