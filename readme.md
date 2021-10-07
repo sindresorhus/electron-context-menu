@@ -105,6 +105,11 @@ Default: `true`
 
 Show the `Look Up {selection}` menu item when right-clicking text on macOS.
 
+#### showSearchWithBing
+
+Type: `boolean`\
+Default: `true`
+
 #### showSearchWithGoogle
 
 Type: `boolean`\
@@ -224,6 +229,7 @@ The following options are ignored when `menu` is used:
 - `showSaveLinkAs`
 - `showInspectElement`
 - `showServices`
+- `showSearchWithBing`
 - `showSearchWithGoogle`
 
 Default actions:
@@ -232,6 +238,7 @@ Default actions:
 - `learnSpelling`
 - `separator`
 - `lookUpSelection`
+- `searchWithBing`
 - `searchWithGoogle`
 - `cut`
 - `copy`

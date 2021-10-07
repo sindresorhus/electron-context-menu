@@ -70,6 +70,16 @@ const create = (win, options) => {
 					electron.shell.openExternal(url.toString());
 				}
 			}),
+			searchWithBing: decorateMenuItem({
+				id: 'searchWithBing',
+				label: '&Search with Bing',
+				visible: hasText,
+				click() {
+					const url = new URL('https://www.bing.com/search');
+					url.searchParams.set('q', props.selectionText);
+					electron.shell.openExternal(url.toString());
+				}
+			}),
 			cut: decorateMenuItem({
 				id: 'cut',
 				label: 'Cu&t',
@@ -235,6 +245,7 @@ const create = (win, options) => {
 			defaultActions.separator(),
 			options.showLookUpSelection !== false && defaultActions.lookUpSelection(),
 			defaultActions.separator(),
+			options.showSearchWithBing !== false && defaultActions.searchWithBing(),
 			options.showSearchWithGoogle !== false && defaultActions.searchWithGoogle(),
 			defaultActions.separator(),
 			defaultActions.cut(),

@@ -22,6 +22,11 @@ declare namespace contextMenu {
 		readonly lookUpSelection?: string;
 
 		/**
+		@default 'Search with Bing'
+		*/
+		readonly searchWithBing?: string;
+
+				/**
 		@default 'Search with Google'
 		*/
 		readonly searchWithGoogle?: string;
@@ -95,6 +100,7 @@ declare namespace contextMenu {
 		readonly separator: () => MenuItemConstructorOptions;
 		readonly learnSpelling: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly lookUpSelection: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly searchWithBing: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly searchWithGoogle: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly cut: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly copy: (options: ActionOptions) => MenuItemConstructorOptions;
@@ -145,6 +151,13 @@ declare namespace contextMenu {
 		@default true
 		*/
 		readonly showLookUpSelection?: boolean;
+
+		/**
+		Show the `Search with Bing` menu item when right-clicking text on macOS.
+
+		@default true
+		*/
+		readonly showSearchWithBing?: boolean;
 
 		/**
 		Show the `Search with Google` menu item when right-clicking text on macOS.
@@ -256,6 +269,7 @@ declare namespace contextMenu {
 		The following options are ignored when `menu` is used:
 
 		- `showLookUpSelection`
+		- `showSearchWithBing`
 		- `showSearchWithGoogle`
 		- `showCopyImage`
 		- `showCopyImageAddress`
@@ -266,7 +280,7 @@ declare namespace contextMenu {
 
 		To get spellchecking, “Correct Automatically”, and “Learn Spelling” in the menu, please enable the `spellcheck` preference in browser window: `new BrowserWindow({webPreferences: {spellcheck: true}})`
 
-		@default [...dictionarySuggestions, defaultActions.separator(), defaultActions.separator(), defaultActions.learnSpelling(), defaultActions.separator(), defaultActions.lookUpSelection(), defaultActions.separator(),defaultActions.searchWithGoogle(), defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyLink(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.saveLinkAs(), defaultActions.separator(), defaultActions.inspect()]
+		@default [...dictionarySuggestions, defaultActions.separator(), defaultActions.separator(), defaultActions.learnSpelling(), defaultActions.separator(), defaultActions.lookUpSelection(), defaultActions.separator(),defaultActions.searchWithBing(),defaultActions.searchWithGoogle(), defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyLink(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.saveLinkAs(), defaultActions.separator(), defaultActions.inspect()]
 		*/
 		readonly menu?: (
 			defaultActions: Actions,
