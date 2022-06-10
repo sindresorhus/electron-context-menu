@@ -125,7 +125,7 @@ The first argument is an array of default actions that can be used. The second a
 Type: `boolean`\
 Default: `true`
 
-Show the `Learn Spelling {selection}` menu item when right-clicking text.
+Show the `Learn Spelling {selection}` menu item when right-clicking text. Even if `true`, the `spellcheck` preference in browser window must still be enabled.
 
 #### showLookUpSelection
 

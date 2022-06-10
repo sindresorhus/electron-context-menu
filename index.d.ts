@@ -139,21 +139,21 @@ declare namespace contextMenu {
 		) => MenuItemConstructorOptions[];
 
 		/**
-		Show the `Learn Spelling {selection}` menu item when right-clicking text on macOS.
+		Show the `Learn Spelling {selection}` menu item when right-clicking text. Even if `true`, the `spellcheck` preference in browser window must still be enabled.
 
 		@default true
 		*/
 		readonly showLearnSpelling?: boolean;
 
 		/**
-		Show the `Look Up {selection}` menu item when right-clicking text on macOS.
+		Show the `Look Up {selection}` menu item when right-clicking text.
 
 		@default true
 		*/
 		readonly showLookUpSelection?: boolean;
 
 		/**
-		Show the `Search with Google` menu item when right-clicking text on macOS.
+		Show the `Search with Google` menu item when right-clicking text.
 
 		@default true
 		*/
