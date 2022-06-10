@@ -231,7 +231,7 @@ const create = (win, options) => {
 			dictionarySuggestions.length > 0 && defaultActions.separator(),
 			...dictionarySuggestions,
 			defaultActions.separator(),
-			defaultActions.learnSpelling(),
+			options.showLearnSpelling !== false && defaultActions.learnSpelling(),
 			defaultActions.separator(),
 			options.showLookUpSelection !== false && defaultActions.lookUpSelection(),
 			defaultActions.separator(),

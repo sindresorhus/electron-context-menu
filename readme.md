@@ -120,19 +120,26 @@ The first argument is an array of default actions that can be used. The second a
 
 `MenuItem` labels may contain the placeholder `{selection}` which will be replaced by the currently selected text as described in [`options.labels`](#labels).
 
+#### showLearnSpelling
+
+Type: `boolean`\
+Default: `true`
+
+Show the `Learn Spelling {selection}` menu item when right-clicking text.
+
 #### showLookUpSelection
 
 Type: `boolean`\
 Default: `true`
 
-Show the `Look Up {selection}` menu item when right-clicking text on macOS.
+Show the `Look Up {selection}` menu item when right-clicking text.
 
 #### showSearchWithGoogle
 
 Type: `boolean`\
 Default: `true`
 
-Show the `Search with Google` menu item when right-clicking text on macOS.
+Show the `Search with Google` menu item when right-clicking text.
 
 #### showCopyImage
 
