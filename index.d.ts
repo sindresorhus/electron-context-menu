@@ -284,6 +284,24 @@ declare namespace contextMenu {
 			dictionarySuggestions: MenuItemConstructorOptions[],
 			event: ElectronEvent
 		) => MenuItemConstructorOptions[];
+
+		/**
+		Called before context menu instance is created. Triggered by `menu-will-show` from `Menu` class.
+
+		Official documentation: https://www.electronjs.org/docs/latest/api/menu#event-menu-will-show
+		*/
+		readonly onShow?: (
+			event: ElectronEvent
+		) => void;
+
+		/**
+		Called when context menu is closed. Triggered by `menu-will-close` from `Menu` class.
+
+		Official documentation: https://www.electronjs.org/docs/latest/api/menu#event-menu-will-close
+		*/
+		readonly onClose?: (
+			event: ElectronEvent
+		) => void;
 	}
 }
 
