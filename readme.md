@@ -305,6 +305,18 @@ Example for actions:
 }
 ```
 
+#### onShow
+
+Type: `Function`
+
+Called before context menu instance is created. Triggered by `menu-will-show` from `Menu` class. Read [official documentation](https://www.electronjs.org/docs/latest/api/menu#event-menu-will-show).
+
+#### onClose
+
+Type: `Function`
+
+Called when context menu is closed. Triggered by `menu-will-close` from `Menu` class. Read [official documentation](https://www.electronjs.org/docs/latest/api/menu#event-menu-will-close).
+
 ## Related
 
 - [electron-util](https://github.com/sindresorhus/electron-util) - Useful utilities for developing Electron apps and modules
