@@ -295,11 +295,11 @@ const create = (win, options) => {
 			const menu = electron.Menu.buildFromTemplate(menuTemplate);
 
 			if (typeof options.onShow === 'function') {
-				menu.on('menu-will-show', options.onShow)
+				menu.on('menu-will-show', options.onShow);
 			}
 
 			if (typeof options.onClose === 'function') {
-				menu.on('menu-will-close', options.onClose)
+				menu.on('menu-will-close', options.onClose);
 			}
 
 			menu.popup(win);
