@@ -286,9 +286,7 @@ declare namespace contextMenu {
 		) => MenuItemConstructorOptions[];
 
 		/**
-		Called before context menu instance is created. Triggered by `menu-will-show` from `Menu` class.
-
-		Official documentation: https://www.electronjs.org/docs/latest/api/menu#event-menu-will-show
+		Called before context menu instance is created.
 		*/
 		readonly onShow?: (
 			event: ElectronEvent

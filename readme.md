@@ -309,7 +309,7 @@ Example for actions:
 
 Type: `Function`
 
-Called before context menu instance is created. Triggered by `menu-will-show` from `Menu` class. Read [official documentation](https://www.electronjs.org/docs/latest/api/menu#event-menu-will-show).
+Called before context menu instance is created. Triggered by `menu-will-show` from `Menu` class.
 
 #### onClose
 
