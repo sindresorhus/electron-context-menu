@@ -284,6 +284,16 @@ declare namespace contextMenu {
 			dictionarySuggestions: MenuItemConstructorOptions[],
 			event: ElectronEvent
 		) => MenuItemConstructorOptions[];
+
+		/**
+		Called when the context menu is shown.
+		*/
+		readonly onShow?: (event: ElectronEvent) => void;
+
+		/**
+		Called when the context menu is closed.
+		*/
+		readonly onClose?: (event: ElectronEvent) => void;
 	}
 }
 

@@ -305,6 +305,22 @@ Example for actions:
 }
 ```
 
+#### onShow
+
+Type: `Function`
+
+Called when the context menu is shown.
+
+The function receives an [`Event` object](https://developer.mozilla.org/en-US/docs/Web/API/Event).
+
+#### onClose
+
+Type: `Function`
+
+Called when the context menu is closed.
+
+The function receives an [`Event` object](https://developer.mozilla.org/en-US/docs/Web/API/Event).
+
 ## Related
 
 - [electron-util](https://github.com/sindresorhus/electron-util) - Useful utilities for developing Electron apps and modules
