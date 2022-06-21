@@ -286,7 +286,7 @@ declare namespace contextMenu {
 		) => MenuItemConstructorOptions[];
 
 		/**
-		Called before the context menu instance is created.
+		Called when the context menu is shown.
 		*/
 		readonly onShow?: (event: ElectronEvent) => void;
 
