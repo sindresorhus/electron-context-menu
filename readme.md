@@ -309,13 +309,17 @@ Example for actions:
 
 Type: `Function`
 
-Called before context menu instance is created. Triggered by `menu-will-show` from `Menu` class.
+Called before the context menu instance is created.
+
+The function receives an [`Event` object](https://developer.mozilla.org/en-US/docs/Web/API/Event).
 
 #### onClose
 
 Type: `Function`
 
-Called when context menu is closed. Triggered by `menu-will-close` from `Menu` class. Read [official documentation](https://www.electronjs.org/docs/latest/api/menu#event-menu-will-close).
+Called when the context menu is closed.
+
+The function receives an [`Event` object](https://developer.mozilla.org/en-US/docs/Web/API/Event).
 
 ## Related
 
