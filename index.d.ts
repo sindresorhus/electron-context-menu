@@ -286,20 +286,14 @@ declare namespace contextMenu {
 		) => MenuItemConstructorOptions[];
 
 		/**
-		Called before context menu instance is created.
+		Called before the context menu instance is created.
 		*/
-		readonly onShow?: (
-			event: ElectronEvent
-		) => void;
+		readonly onShow?: (event: ElectronEvent) => void;
 
 		/**
-		Called when context menu is closed. Triggered by `menu-will-close` from `Menu` class.
-
-		Official documentation: https://www.electronjs.org/docs/latest/api/menu#event-menu-will-close
+		Called when the context menu is closed.
 		*/
-		readonly onClose?: (
-			event: ElectronEvent
-		) => void;
+		readonly onClose?: (event: ElectronEvent) => void;
 	}
 }
 
