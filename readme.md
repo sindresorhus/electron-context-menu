@@ -309,7 +309,7 @@ Example for actions:
 
 Type: `Function`
 
-Called before the context menu instance is created.
+Called when the context menu is shown.
 
 The function receives an [`Event` object](https://developer.mozilla.org/en-US/docs/Web/API/Event).
 
