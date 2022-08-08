@@ -41,6 +41,11 @@ declare namespace contextMenu {
 		readonly paste?: string;
 
 		/**
+		@default 'Select All'
+		*/
+		readonly selectAll?: string;
+
+		/**
 		@default 'Save Image'
 		*/
 		readonly saveImage?: string;
@@ -98,6 +103,7 @@ declare namespace contextMenu {
 		readonly cut: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly copy: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly paste: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly selectAll: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly saveImage: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly saveImageAs: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly copyLink: (options: ActionOptions) => MenuItemConstructorOptions;
@@ -209,6 +215,13 @@ declare namespace contextMenu {
 		@default false
 		*/
 		readonly showServices?: boolean;
+
+		/**
+		Force display/hide the `Select All` menu-item when right-clicking in a window
+
+		@default false for macOS and true for all other OSes
+		*/
+		readonly showSelectAll?: boolean;
 
 		/**
 		Override labels for the default menu items. Useful for i18n.

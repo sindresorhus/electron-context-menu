@@ -194,6 +194,13 @@ Show the system `Services` submenu when right-clicking text on macOS.
 
 Note: Due to [a bug in the Electron implementation](https://github.com/electron/electron/issues/18476), this menu is not identical to the "Services" submenu in the context menus of native apps. Instead, it looks the same as the "Services" menu in the main App Menu. For this reason, it is currently disabled by default.
 
+#### showSelectAll
+
+Type: `boolean`\
+Default: `false` for macOS and `true` for all other OSes
+
+Force display/hide the `Select All` menu-item when right-clicking in a window.
+
 #### labels
 
 Type: `object`\
@@ -256,6 +263,7 @@ The following options are ignored when `menu` is used:
 - `showInspectElement`
 - `showServices`
 - `showSearchWithGoogle`
+- `showSelectAll`
 
 Default actions:
 
@@ -267,6 +275,7 @@ Default actions:
 - `cut`
 - `copy`
 - `paste`
+- `selectAll`
 - `saveImage`
 - `saveImageAs`
 - `copyImage`
