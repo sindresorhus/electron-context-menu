@@ -143,6 +143,13 @@ Default: `true`
 
 Show the `Search with Google` menu item when right-clicking text.
 
+#### showSelectAll
+
+Type: `boolean`\
+Default: `true` except on macOS
+
+Show the `Select All` menu item when right-clicking in a window.
+
 #### showCopyImage
 
 Type: `boolean`\
@@ -193,13 +200,6 @@ Default: `false`
 Show the system `Services` submenu when right-clicking text on macOS.
 
 Note: Due to [a bug in the Electron implementation](https://github.com/electron/electron/issues/18476), this menu is not identical to the "Services" submenu in the context menus of native apps. Instead, it looks the same as the "Services" menu in the main App Menu. For this reason, it is currently disabled by default.
-
-#### showSelectAll
-
-Type: `boolean`\
-Default: `false` for macOS and `true` for all other OSes
-
-Force display/hide the `Select All` menu-item when right-clicking in a window.
 
 #### labels
 
@@ -256,14 +256,14 @@ To get spellchecking, “Correct Automatically”, and “Learn Spelling” in t
 The following options are ignored when `menu` is used:
 
 - `showLookUpSelection`
+- `showSearchWithGoogle`
+- `showSelectAll`
 - `showCopyImage`
 - `showCopyImageAddress`
 - `showSaveImageAs`
 - `showSaveLinkAs`
 - `showInspectElement`
 - `showServices`
-- `showSearchWithGoogle`
-- `showSelectAll`
 
 Default actions:
 

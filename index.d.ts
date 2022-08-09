@@ -168,6 +168,13 @@ declare namespace contextMenu {
 		readonly showSearchWithGoogle?: boolean;
 
 		/**
+		Show the `Select All` menu item when right-clicking in a window.
+
+		@default true except on macOS
+		*/
+		readonly showSelectAll?: boolean;
+
+		/**
 		Show the `Copy Image` menu item when right-clicking on an image.
 
 		@default true
@@ -215,13 +222,6 @@ declare namespace contextMenu {
 		@default false
 		*/
 		readonly showServices?: boolean;
-
-		/**
-		Force display/hide the `Select All` menu-item when right-clicking in a window
-
-		@default false for macOS and true for all other OSes
-		*/
-		readonly showSelectAll?: boolean;
 
 		/**
 		Override labels for the default menu items. Useful for i18n.
@@ -279,6 +279,7 @@ declare namespace contextMenu {
 		- `showLearnSpelling`
 		- `showLookUpSelection`
 		- `showSearchWithGoogle`
+		- `showSelectAll`
 		- `showCopyImage`
 		- `showCopyImageAddress`
 		- `showSaveImageAs`
@@ -288,7 +289,7 @@ declare namespace contextMenu {
 
 		To get spellchecking, “Correct Automatically”, and “Learn Spelling” in the menu, please enable the `spellcheck` preference in browser window: `new BrowserWindow({webPreferences: {spellcheck: true}})`
 
-		@default [...dictionarySuggestions, defaultActions.separator(), defaultActions.separator(), defaultActions.learnSpelling(), defaultActions.separator(), defaultActions.lookUpSelection(), defaultActions.separator(),defaultActions.searchWithGoogle(), defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyLink(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.saveLinkAs(), defaultActions.separator(), defaultActions.inspect()]
+		@default [...dictionarySuggestions, defaultActions.separator(), defaultActions.separator(), defaultActions.learnSpelling(), defaultActions.separator(), defaultActions.lookUpSelection(), defaultActions.separator(),defaultActions.searchWithGoogle(), defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.selectAll(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyLink(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.saveLinkAs(), defaultActions.separator(), defaultActions.inspect()]
 		*/
 		readonly menu?: (
 			defaultActions: Actions,

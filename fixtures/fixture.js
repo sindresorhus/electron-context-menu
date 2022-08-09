@@ -9,7 +9,6 @@ contextMenu({
 		copy: 'Configured Copy',
 		paste: 'Configured Paste',
 		save: 'Configured Save Image',
-		selectAll: 'Configured Select All',
 		saveImageAs: 'Configured Save Image As…',
 		copyLink: 'Configured Copy Link',
 		saveLinkAs: 'Configured Save Link As…',
@@ -37,11 +36,11 @@ contextMenu({
 		}
 	],
 	append: () => {},
+	showSelectAll: true,
 	showCopyImageAddress: true,
 	showSaveImageAs: true,
 	showInspectElement: false,
-	showSaveLinkAs: true,
-	showSelectAll: true
+	showSaveLinkAs: true
 });
 
 (async () => {
