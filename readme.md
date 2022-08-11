@@ -146,7 +146,7 @@ Show the `Search with Google` menu item when right-clicking text.
 #### showSelectAll
 
 Type: `boolean`\
-Default: `true` except on macOS
+Default: `false` on macOS, `true` on Windows and Linux
 
 Show the `Select All` menu item when right-clicking in a window.
 
