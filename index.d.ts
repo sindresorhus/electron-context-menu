@@ -170,7 +170,7 @@ declare namespace contextMenu {
 		/**
 		Show the `Select All` menu item when right-clicking in a window.
 
-		@default true except on macOS
+		Default: `false` on macOS, `true` on Windows and Linux
 		*/
 		readonly showSelectAll?: boolean;
 
