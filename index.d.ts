@@ -41,6 +41,11 @@ declare namespace contextMenu {
 		readonly paste?: string;
 
 		/**
+		@default 'Select All'
+		*/
+		readonly selectAll?: string;
+
+		/**
 		@default 'Save Image'
 		*/
 		readonly saveImage?: string;
@@ -98,6 +103,7 @@ declare namespace contextMenu {
 		readonly cut: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly copy: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly paste: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly selectAll: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly saveImage: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly saveImageAs: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly copyLink: (options: ActionOptions) => MenuItemConstructorOptions;
@@ -160,6 +166,13 @@ declare namespace contextMenu {
 		@default true
 		*/
 		readonly showSearchWithGoogle?: boolean;
+
+		/**
+		Show the `Select All` menu item when right-clicking in a window.
+
+		Default: `false` on macOS, `true` on Windows and Linux
+		*/
+		readonly showSelectAll?: boolean;
 
 		/**
 		Show the `Copy Image` menu item when right-clicking on an image.
@@ -266,6 +279,7 @@ declare namespace contextMenu {
 		- `showLearnSpelling`
 		- `showLookUpSelection`
 		- `showSearchWithGoogle`
+		- `showSelectAll`
 		- `showCopyImage`
 		- `showCopyImageAddress`
 		- `showSaveImageAs`
@@ -275,7 +289,7 @@ declare namespace contextMenu {
 
 		To get spellchecking, “Correct Automatically”, and “Learn Spelling” in the menu, please enable the `spellcheck` preference in browser window: `new BrowserWindow({webPreferences: {spellcheck: true}})`
 
-		@default [...dictionarySuggestions, defaultActions.separator(), defaultActions.separator(), defaultActions.learnSpelling(), defaultActions.separator(), defaultActions.lookUpSelection(), defaultActions.separator(),defaultActions.searchWithGoogle(), defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyLink(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.saveLinkAs(), defaultActions.separator(), defaultActions.inspect()]
+		@default [...dictionarySuggestions, defaultActions.separator(), defaultActions.separator(), defaultActions.learnSpelling(), defaultActions.separator(), defaultActions.lookUpSelection(), defaultActions.separator(),defaultActions.searchWithGoogle(), defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.selectAll(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyLink(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.saveLinkAs(), defaultActions.separator(), defaultActions.inspect()]
 		*/
 		readonly menu?: (
 			defaultActions: Actions,

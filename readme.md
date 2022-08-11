@@ -143,6 +143,13 @@ Default: `true`
 
 Show the `Search with Google` menu item when right-clicking text.
 
+#### showSelectAll
+
+Type: `boolean`\
+Default: `false` on macOS, `true` on Windows and Linux
+
+Show the `Select All` menu item when right-clicking in a window.
+
 #### showCopyImage
 
 Type: `boolean`\
@@ -249,13 +256,14 @@ To get spellchecking, “Correct Automatically”, and “Learn Spelling” in t
 The following options are ignored when `menu` is used:
 
 - `showLookUpSelection`
+- `showSearchWithGoogle`
+- `showSelectAll`
 - `showCopyImage`
 - `showCopyImageAddress`
 - `showSaveImageAs`
 - `showSaveLinkAs`
 - `showInspectElement`
 - `showServices`
-- `showSearchWithGoogle`
 
 Default actions:
 
@@ -267,6 +275,7 @@ Default actions:
 - `cut`
 - `copy`
 - `paste`
+- `selectAll`
 - `saveImage`
 - `saveImageAs`
 - `copyImage`
