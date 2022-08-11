@@ -17,6 +17,12 @@ contextMenu({
 			label: 'Unicorn'
 		},
 		actions.separator(),
+		actions.saveVideo(),
+		actions.saveVideoAs(),
+		actions.copyVideoAddress({
+			transform: content => `modified_copy_${content}`
+		}),
+		actions.separator(),
 		actions.copy({
 			transform: content => `modified_copy_${content}`
 		}),

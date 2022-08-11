@@ -137,6 +137,24 @@ const create = (win, options) => {
 					download(win, props.srcURL, {saveAs: true});
 				}
 			}),
+			saveVideo: decorateMenuItem({
+				id: 'saveVideo',
+				label: 'Save Vide&o',
+				visible: props.mediaType === 'video',
+				click(menuItem) {
+					props.srcURL = menuItem.transform ? menuItem.transform(props.srcURL) : props.srcURL;
+					download(win, props.srcURL);
+				}
+			}),
+			saveVideoAs: decorateMenuItem({
+				id: 'saveVideoAs',
+				label: 'Save Video& As…',
+				visible: props.mediaType === 'video',
+				click(menuItem) {
+					props.srcURL = menuItem.transform ? menuItem.transform(props.srcURL) : props.srcURL;
+					download(win, props.srcURL, {saveAs: true});
+				}
+			}),
 			copyLink: decorateMenuItem({
 				id: 'copyLink',
 				label: 'Copy Lin&k',
@@ -171,6 +189,19 @@ const create = (win, options) => {
 				id: 'copyImageAddress',
 				label: 'C&opy Image Address',
 				visible: props.mediaType === 'image',
+				click(menuItem) {
+					props.srcURL = menuItem.transform ? menuItem.transform(props.srcURL) : props.srcURL;
+
+					electron.clipboard.write({
+						bookmark: props.srcURL,
+						text: props.srcURL
+					});
+				}
+			}),
+			copyVideoAddress: decorateMenuItem({
+				id: 'copyVideoAddress',
+				label: 'Copy Video Ad&dress',
+				visible: props.mediaType === 'video',
 				click(menuItem) {
 					props.srcURL = menuItem.transform ? menuItem.transform(props.srcURL) : props.srcURL;
 
@@ -245,6 +276,9 @@ const create = (win, options) => {
 			options.showSaveImageAs && defaultActions.saveImageAs(),
 			options.showCopyImage !== false && defaultActions.copyImage(),
 			options.showCopyImageAddress && defaultActions.copyImageAddress(),
+			options.showSaveVideo && defaultActions.saveVideo(),
+			options.showSaveVideoAs && defaultActions.saveVideoAs(),
+			options.showCopyVideoAddress && defaultActions.copyVideoAddress(),
 			defaultActions.separator(),
 			defaultActions.copyLink(),
 			options.showSaveLinkAs && defaultActions.saveLinkAs(),
