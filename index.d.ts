@@ -26,6 +26,12 @@ declare namespace contextMenu {
 		readonly searchWithGoogle?: string;
 
 		/**
+		The placeholder `{searchEngine}` will be replaced by the `title` property of the `addSearchWithOther` option.
+		@default 'Search with {searchEngine}'
+		*/
+		readonly searchWithOther?: string;
+
+		/**
 		@default 'Cut'
 		*/
 		readonly cut?: string;
@@ -115,6 +121,7 @@ declare namespace contextMenu {
 		readonly learnSpelling: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly lookUpSelection: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly searchWithGoogle: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly searchWithOther: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly cut: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly copy: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly paste: (options: ActionOptions) => MenuItemConstructorOptions;
@@ -184,6 +191,34 @@ declare namespace contextMenu {
 		@default true
 		*/
 		readonly showSearchWithGoogle?: boolean;
+
+		/**
+		Add a `Search with {searchEngine}` menu item when right-clicking text.
+
+		This allows the use of a search engine besides Google (e.g., Bing and DuckDuckGo). The `title` and `url` of the desired search engine need to be provided. The `{searchEngine}` placeholder will be replaced by `title`.
+		@property {string} title Title/name of search engine
+		@property {string} url URL of search engine (with query syntax used in Chrome)
+
+		@example
+		```
+		{
+			addSearchWithOther: {
+				title: 'Bing',
+				url: 'https://www.bing.com/search'
+			}
+		};
+		```
+		@example
+		```
+		{
+			addSearchWithOther: {
+				title: 'DuckDuckGo',
+				url: 'https://duckduckgo.com'
+			}
+		};
+		```
+		*/
+		readonly addSearchWithOther?: {title: string; url: string};
 
 		/**
 		Show the `Select All` menu item when right-clicking in a window.
@@ -318,6 +353,7 @@ declare namespace contextMenu {
 		- `showLearnSpelling`
 		- `showLookUpSelection`
 		- `showSearchWithGoogle`
+		- `addSearchWithOther`
 		- `showSelectAll`
 		- `showCopyImage`
 		- `showCopyImageAddress`
@@ -331,7 +367,7 @@ declare namespace contextMenu {
 
 		To get spellchecking, “Correct Automatically”, and “Learn Spelling” in the menu, please enable the `spellcheck` preference in browser window: `new BrowserWindow({webPreferences: {spellcheck: true}})`
 
-		@default [...dictionarySuggestions, defaultActions.separator(), defaultActions.separator(), defaultActions.learnSpelling(), defaultActions.separator(), defaultActions.lookUpSelection(), defaultActions.separator(),defaultActions.searchWithGoogle(), defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.selectAll(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.saveVideo(), defaultActions.saveVideoAs(), defaultActions.copyLink(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.saveLinkAs(), defaultActions.separator(), defaultActions.inspect()]
+		@default [...dictionarySuggestions, defaultActions.separator(), defaultActions.separator(), defaultActions.learnSpelling(), defaultActions.separator(), defaultActions.lookUpSelection(), defaultActions.separator(),defaultActions.searchWithGoogle(), defaultActions.searchWithOther(), defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.selectAll(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.saveVideo(), defaultActions.saveVideoAs(), defaultActions.copyLink(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.saveLinkAs(), defaultActions.separator(), defaultActions.inspect()]
 		*/
 		readonly menu?: (
 			defaultActions: Actions,

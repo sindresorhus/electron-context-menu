@@ -36,7 +36,11 @@ contextMenu({
 		}
 	],
 	append: () => {},
-	showSelectAll: true,
+	addSearchWithOther:
+	{
+		title: 'DuckDuckGo',
+		url: 'https://duckduckgo.com/?q=%s'
+	},
 	showCopyImageAddress: true,
 	showSaveImageAs: true,
 	showCopyVideoAddress: true,

@@ -143,6 +143,39 @@ Default: `true`
 
 Show the `Search with Google` menu item when right-clicking text.
 
+#### addSearchWithOther
+
+Type: `object: {title: string; url: string}`\
+Default: `{}`
+
+Add a `Search with {searchEngine}` menu item when right-clicking text.
+
+This allows the use of a search engine besides Google (e.g., Bing and DuckDuckGo). The `title` and `url` of the desired search engine need to be provided. The `{searchEngine}` placeholder will be replaced by `title`.
+
+Properties:
+
+`title` - string - Title/name of search engine
+
+`url` - string - URL of search engine (with query syntax used in Chrome)
+
+Examples:
+```js
+{
+	addSearchWithOther: {
+		title: 'Bing',
+		url: 'https://www.bing.com/search'
+	}
+};
+```
+```js
+{
+	addSearchWithOther: {
+		title: 'DuckDuckGo',
+		url: 'https://duckduckgo.com'
+	}
+};
+```
+
 #### showSelectAll
 
 Type: `boolean`\
@@ -278,6 +311,7 @@ The following options are ignored when `menu` is used:
 
 - `showLookUpSelection`
 - `showSearchWithGoogle`
+- `addSearchWithOther`
 - `showSelectAll`
 - `showCopyImage`
 - `showCopyImageAddress`
@@ -296,6 +330,7 @@ Default actions:
 - `separator`
 - `lookUpSelection`
 - `searchWithGoogle`
+- `searchWithOther`
 - `cut`
 - `copy`
 - `paste`

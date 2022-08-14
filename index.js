@@ -39,6 +39,9 @@ const create = (win, options) => {
 		const isLink = Boolean(props.linkURL);
 		const can = type => editFlags[`can${type}`] && hasText;
 
+		const addSearchWithOtherExists = typeof options.addSearchWithOther !== 'undefined' && 'title' in options.addSearchWithOther && 'url' in options.addSearchWithOther;
+		const addSearchWithOtherHasValues = addSearchWithOtherExists && options.addSearchWithOther.title.trim().length > 0 && options.addSearchWithOther.url.trim().length > 0;
+
 		const defaultActions = {
 			separator: () => ({type: 'separator'}),
 			learnSpelling: decorateMenuItem({
@@ -66,6 +69,16 @@ const create = (win, options) => {
 				visible: hasText,
 				click() {
 					const url = new URL('https://www.google.com/search');
+					url.searchParams.set('q', props.selectionText);
+					electron.shell.openExternal(url.toString());
+				}
+			}),
+			searchWithOther: decorateMenuItem({
+				id: 'searchWithOther',
+				label: `Search &with ${addSearchWithOtherHasValues ? options.addSearchWithOther.title : ''}`,
+				visible: hasText,
+				click() {
+					const url = new URL(addSearchWithOtherHasValues ? options.addSearchWithOther.url : '');
 					url.searchParams.set('q', props.selectionText);
 					electron.shell.openExternal(url.toString());
 				}
@@ -275,6 +288,7 @@ const create = (win, options) => {
 			options.showLookUpSelection !== false && defaultActions.lookUpSelection(),
 			defaultActions.separator(),
 			options.showSearchWithGoogle !== false && defaultActions.searchWithGoogle(),
+			addSearchWithOtherHasValues && defaultActions.searchWithOther(),
 			defaultActions.separator(),
 			defaultActions.cut(),
 			defaultActions.copy(),
