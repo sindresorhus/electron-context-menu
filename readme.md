@@ -176,21 +176,21 @@ Show the `Save Image As…` menu item when right-clicking on an image.
 Type: `boolean`\
 Default: `false`
 
-Show the `Copy Video Address` menu item when right-clicking on an video.
+Show the `Copy Video Address` menu item when right-clicking on a video.
 
 #### showSaveVideo
 
 Type: `boolean`\
 Default: `false`
 
-Show the `Save Video` menu item when right-clicking on an video.
+Show the `Save Video` menu item when right-clicking on a video.
 
 #### showSaveVideoAs
 
 Type: `boolean`\
 Default: `false`
 
-Show the `Save Video As…` menu item when right-clicking on an video.
+Show the `Save Video As…` menu item when right-clicking on a video.
 
 #### showSaveLinkAs
 

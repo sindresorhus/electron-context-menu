@@ -208,21 +208,21 @@ declare namespace contextMenu {
 		readonly showSaveImageAs?: boolean;
 
 		/**
-		Show the `Copy Video Address` menu item when right-clicking on an video.
+		Show the `Copy Video Address` menu item when right-clicking on a video.
 
 		@default false
 		*/
 		readonly showCopyVideoAddress?: boolean;
 
 		/**
-		Show the `Save Video` menu item when right-clicking on an video.
+		Show the `Save Video` menu item when right-clicking on a video.
 
 		@default false
 		 */
 		readonly showSaveVideo?: boolean;
 
 		/**
-		Show the `Save Video As…` menu item when right-clicking on an video.
+		Show the `Save Video As…` menu item when right-clicking on a video.
 
 		@default false
 		*/
