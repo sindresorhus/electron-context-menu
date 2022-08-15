@@ -41,7 +41,7 @@ let mainWindow;
 Advanced example:
 
 ```js
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, shell} = require('electron');
 const contextMenu = require('electron-context-menu');
 
 contextMenu({
