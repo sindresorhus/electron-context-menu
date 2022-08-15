@@ -119,6 +119,13 @@ const create = (win, options) => {
 					}
 				}
 			}),
+			selectAll: decorateMenuItem({
+				id: 'selectAll',
+				label: 'Select &All',
+				click() {
+					webContents(win).selectAll();
+				}
+			}),
 			saveImage: decorateMenuItem({
 				id: 'saveImage',
 				label: 'Save I&mage',
@@ -231,6 +238,7 @@ const create = (win, options) => {
 		};
 
 		const shouldShowInspectElement = typeof options.showInspectElement === 'boolean' ? options.showInspectElement : isDev;
+		const shouldShowSelectAll = options.showSelectAll || (options.showSelectAll !== false && process.platform !== 'darwin');
 
 		function word(suggestion) {
 			return {
@@ -271,6 +279,7 @@ const create = (win, options) => {
 			defaultActions.cut(),
 			defaultActions.copy(),
 			defaultActions.paste(),
+			shouldShowSelectAll && defaultActions.selectAll(),
 			defaultActions.separator(),
 			options.showSaveImage && defaultActions.saveImage(),
 			options.showSaveImageAs && defaultActions.saveImageAs(),

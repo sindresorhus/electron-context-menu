@@ -36,6 +36,7 @@ contextMenu({
 		}
 	],
 	append: () => {},
+	showSelectAll: true,
 	showCopyImageAddress: true,
 	showSaveImageAs: true,
 	showCopyVideoAddress: true,
