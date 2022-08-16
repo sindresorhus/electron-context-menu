@@ -318,8 +318,8 @@ You can use this module directly in both the main and renderer process.
 
 @example
 ```
-const {app, BrowserWindow} = require('electron');
-const contextMenu = require('electron-context-menu');
+import {app, BrowserWindow} = require('electron');
+import contextMenu = require('electron-context-menu');
 
 contextMenu({
 	showSaveImageAs: true
@@ -339,7 +339,7 @@ let mainWindow;
 
 @example
 ```
-import {app, BrowserWindow} from 'electron';
+import {app, BrowserWindow} = require('electron');
 import contextMenu = require('electron-context-menu');
 
 contextMenu({
@@ -348,6 +348,14 @@ contextMenu({
 			label: 'Rainbow',
 			// Only show it when right-clicking images
 			visible: parameters.mediaType === 'image'
+		},
+		{
+			label: 'Search Google for “{selection}”',
+			// Only show it when right-clicking text
+			visible: parameters.selectionText.trim().length > 0,
+			click: () => {
+				shell.openExternal(`https://google.com/search?q=${encodeURIComponent(parameters.selectionText)}`);
+			}
 		}
 	]
 });
@@ -361,7 +369,7 @@ let mainWindow;
 			spellcheck: true
 		}
 	});
-});
+})();
 ```
 
 The return value of `contextMenu()` is a function that disposes of the created event listeners:
@@ -372,7 +380,6 @@ const dispose = contextMenu();
 
 dispose();
 ```
-
 */
 declare function contextMenu(options?: contextMenu.Options): () => void; // eslint-disable-line no-redeclare
 
