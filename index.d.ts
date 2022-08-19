@@ -56,6 +56,16 @@ declare namespace contextMenu {
 		readonly saveImageAs?: string;
 
 		/**
+		@default 'Save Video'
+		*/
+		readonly saveVideo?: string;
+
+		/**
+		@default 'Save Video As…'
+		*/
+		readonly saveVideoAs?: string;
+
+		/**
 		@default 'Copy Link'
 		*/
 		readonly copyLink?: string;
@@ -74,6 +84,11 @@ declare namespace contextMenu {
 		@default 'Copy Image Address'
 		*/
 		readonly copyImageAddress?: string;
+
+		/**
+		@default 'Copy Video Address'
+		*/
+		readonly copyVideoAddress?: string;
 
 		/**
 		@default 'Inspect Element'
@@ -106,9 +121,12 @@ declare namespace contextMenu {
 		readonly selectAll: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly saveImage: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly saveImageAs: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly saveVideo: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly saveVideoAs: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly copyLink: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly copyImage: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly copyImageAddress: (options: ActionOptions) => MenuItemConstructorOptions;
+		readonly copyVideoAddress: (options: ActionOptions) => MenuItemConstructorOptions;
 		readonly inspect: () => MenuItemConstructorOptions;
 		readonly services: () => MenuItemConstructorOptions;
 	}
@@ -203,6 +221,27 @@ declare namespace contextMenu {
 		readonly showSaveImageAs?: boolean;
 
 		/**
+		Show the `Copy Video Address` menu item when right-clicking on a video.
+
+		@default false
+		*/
+		readonly showCopyVideoAddress?: boolean;
+
+		/**
+		Show the `Save Video` menu item when right-clicking on a video.
+
+		@default false
+		 */
+		readonly showSaveVideo?: boolean;
+
+		/**
+		Show the `Save Video As…` menu item when right-clicking on a video.
+
+		@default false
+		*/
+		readonly showSaveVideoAs?: boolean;
+
+		/**
 		Show the `Save Link As…` menu item when right-clicking on a link.
 
 		@default false
@@ -283,13 +322,16 @@ declare namespace contextMenu {
 		- `showCopyImage`
 		- `showCopyImageAddress`
 		- `showSaveImageAs`
+		- `showCopyVideoAddress`
+		- `showSaveVideo`
+		- `showSaveVideoAs`
 		- `showSaveLinkAs`
 		- `showInspectElement`
 		- `showServices`
 
 		To get spellchecking, “Correct Automatically”, and “Learn Spelling” in the menu, please enable the `spellcheck` preference in browser window: `new BrowserWindow({webPreferences: {spellcheck: true}})`
 
-		@default [...dictionarySuggestions, defaultActions.separator(), defaultActions.separator(), defaultActions.learnSpelling(), defaultActions.separator(), defaultActions.lookUpSelection(), defaultActions.separator(),defaultActions.searchWithGoogle(), defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.selectAll(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyLink(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.saveLinkAs(), defaultActions.separator(), defaultActions.inspect()]
+		@default [...dictionarySuggestions, defaultActions.separator(), defaultActions.separator(), defaultActions.learnSpelling(), defaultActions.separator(), defaultActions.lookUpSelection(), defaultActions.separator(),defaultActions.searchWithGoogle(), defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.selectAll(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.saveVideo(), defaultActions.saveVideoAs(), defaultActions.copyLink(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.saveLinkAs(), defaultActions.separator(), defaultActions.inspect()]
 		*/
 		readonly menu?: (
 			defaultActions: Actions,
