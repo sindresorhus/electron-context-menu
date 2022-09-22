@@ -78,8 +78,8 @@ const create = (win, options) => {
 				label: `Search &with ${addSearchWithOtherHasValues ? options.addSearchWithOther.title : ''}`,
 				visible: hasText,
 				click() {
-					const url = new URL(addSearchWithOtherHasValues ? options.addSearchWithOther.url : '');
-					url.searchParams.set('q', props.selectionText);
+					let url = addSearchWithOtherHasValues ? options.addSearchWithOther.url : '';
+					url = new URL(url.replace('%s', props.selectionText));
 					electron.shell.openExternal(url.toString());
 				}
 			}),
