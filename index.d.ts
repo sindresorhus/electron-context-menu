@@ -242,6 +242,13 @@ declare namespace contextMenu {
 		readonly showSaveVideoAs?: boolean;
 
 		/**
+		Show the `Copy Link` menu item when right-clicking on a link.
+
+		@default true
+		*/
+		readonly showCopyLink?: boolean;
+
+		/**
 		Show the `Save Link As…` menu item when right-clicking on a link.
 
 		@default false
@@ -325,6 +332,7 @@ declare namespace contextMenu {
 		- `showCopyVideoAddress`
 		- `showSaveVideo`
 		- `showSaveVideoAs`
+		- `showCopyLink`
 		- `showSaveLinkAs`
 		- `showInspectElement`
 		- `showServices`

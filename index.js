@@ -289,7 +289,7 @@ const create = (win, options) => {
 			options.showSaveVideoAs && defaultActions.saveVideoAs(),
 			options.showCopyVideoAddress && defaultActions.copyVideoAddress(),
 			defaultActions.separator(),
-			defaultActions.copyLink(),
+			options.showCopyLink !== false && defaultActions.copyLink(),
 			options.showSaveLinkAs && defaultActions.saveLinkAs(),
 			defaultActions.separator(),
 			shouldShowInspectElement && defaultActions.inspect(),
