@@ -292,6 +292,7 @@ The following options are ignored when `menu` is used:
 - `showCopyVideoAddress`
 - `showSaveVideo`
 - `showSaveVideoAs`
+- `showCopyLink`
 - `showSaveLinkAs`
 - `showInspectElement`
 - `showServices`
