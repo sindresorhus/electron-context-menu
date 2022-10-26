@@ -35,7 +35,7 @@ const create = (win, options) => {
 		}
 
 		const {editFlags} = props;
-		const hasText = props.selectionText.trim().length > 0;
+		const hasText = props.selectionText.length > 0;
 		const isLink = Boolean(props.linkURL);
 		const can = type => editFlags[`can${type}`] && hasText;
 
