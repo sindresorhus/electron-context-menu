@@ -154,26 +154,26 @@ This allows the use of a search engine besides Google (e.g., Bing and DuckDuckGo
 
 Properties:
 
-`title` - string - Title/name of search engine
+`title` - string - The title/name of the search engine.
 
-`url` - string - URL of search engine (with query syntax used in Chrome)
+`url` - string - The search engine's results [URL with `%s` in place of query](https://support.google.com/chrome/answer/95426#ts&zippy=%2Curl-with-s-in-place-of-query-field) (syntax used in Chrome).
 
 Examples:
 ```js
 {
 	addSearchWithOther: {
-		title: 'Bing',
-		url: 'https://www.bing.com/search'
+		title: 'DuckDuckGo',
+		url: 'https://duckduckgo.com?q=%s'
 	}
-};
+}
 ```
 ```js
 {
 	addSearchWithOther: {
-		title: 'DuckDuckGo',
-		url: 'https://duckduckgo.com'
+		title: 'Wolfram Alpha',
+		url: 'https://www.wolframalpha.com/input?i=%s'
 	}
-};
+}
 ```
 
 #### showSelectAll

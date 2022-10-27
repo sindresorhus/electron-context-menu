@@ -196,26 +196,25 @@ declare namespace contextMenu {
 		Add a `Search with {searchEngine}` menu item when right-clicking text.
 
 		This allows the use of a search engine besides Google (e.g., Bing and DuckDuckGo). The `title` and `url` of the desired search engine need to be provided. The `{searchEngine}` placeholder will be replaced by `title`.
-		@property {string} title Title/name of search engine
-		@property {string} url URL of search engine (with query syntax used in Chrome)
-
-		@example
-		```
-		{
-			addSearchWithOther: {
-				title: 'Bing',
-				url: 'https://www.bing.com/search'
-			}
-		};
-		```
+		@property {string} title - The title/name of the search engine.
+		@property {string} url - The search engine's results [URL with `%s` in place of query](https://support.google.com/chrome/answer/95426#ts&zippy=%2Curl-with-s-in-place-of-query-field) (syntax used in Chrome).
 		@example
 		```
 		{
 			addSearchWithOther: {
 				title: 'DuckDuckGo',
-				url: 'https://duckduckgo.com'
+				url: 'https://duckduckgo.com?q=%s'
 			}
-		};
+		}
+		```
+		@example
+		```
+		{
+			addSearchWithOther: {
+				title: 'Wolfram Alpha',
+				url: 'https://www.wolframalpha.com/input?i=%s'
+			}
+		}
 		```
 		*/
 		readonly addSearchWithOther?: {title: string; url: string};
