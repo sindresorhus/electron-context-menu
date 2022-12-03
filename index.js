@@ -222,7 +222,7 @@ const create = (win, options) => {
 				id: 'inspect',
 				label: 'I&nspect Element',
 				click() {
-					win.inspectElement(props.x, props.y);
+					webContents(win).inspectElement(props.x, props.y);
 
 					if (webContents(win).isDevToolsOpened()) {
 						webContents(win).devToolsWebContents.focus();
