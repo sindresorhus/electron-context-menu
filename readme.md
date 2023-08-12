@@ -30,11 +30,7 @@ let mainWindow;
 (async () => {
 	await app.whenReady();
 
-	mainWindow = new BrowserWindow({
-		webPreferences: {
-			spellcheck: true // enabled by default since electron 9
-		}
-	});
+	mainWindow = new BrowserWindow();
 })();
 ```
 
@@ -66,11 +62,7 @@ let mainWindow;
 (async () => {
 	await app.whenReady();
 
-	mainWindow = new BrowserWindow({
-		webPreferences: {
-			spellcheck: true // enabled by default since electron 9
-		}
-	});
+	mainWindow = new BrowserWindow();
 })();
 ```
 
