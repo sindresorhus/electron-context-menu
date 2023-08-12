@@ -119,7 +119,7 @@ Default: `true`
 
 Show the `Learn Spelling {selection}` menu item when right-clicking text.
 
-Even if `true`, the `spellcheck` preference in browser window must still be enabled on Electron 8. For Electron 9 or higher, this is done by default. The spellcheck will also only show when right-clicking misspelled words.
+The spellcheck will only show when right-clicking misspelled words.
 
 #### showLookUpSelection
 
@@ -271,7 +271,7 @@ Even though you include an action, it will still only be shown/enabled when appr
 
 `MenuItem` labels may contain the placeholder `{selection}` which will be replaced by the currently selected text as described in [`options.labels`](#labels).
 
-To get spellchecking, “Correct Automatically”, and “Learn Spelling” in the menu, please enable the `spellcheck` preference in browser window: `new BrowserWindow({webPreferences: {spellcheck: true}})` if you are on Electron 8.
+To get spellchecking, “Correct Automatically”, and “Learn Spelling” in the menu, make sure you have not disabled the `spellcheck` option (it's `true` by default) in `BrowserWindow`.
 
 The following options are ignored when `menu` is used:
 
