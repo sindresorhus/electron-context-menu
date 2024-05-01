@@ -10,17 +10,17 @@ This package can only be used in the main process.
 
 ## Install
 
-```
-$ npm install electron-context-menu
+```sh
+npm install electron-context-menu
 ```
 
-*Requires Electron 10 or later.*
+*Requires Electron 30 or later.*
 
 ## Usage
 
 ```js
-const {app, BrowserWindow} = require('electron');
-const contextMenu = require('electron-context-menu');
+import {app, BrowserWindow} from 'electron';
+import contextMenu from 'electron-context-menu';
 
 contextMenu({
 	showSaveImageAs: true
@@ -37,8 +37,8 @@ let mainWindow;
 Advanced example:
 
 ```js
-const {app, BrowserWindow, shell} = require('electron');
-const contextMenu = require('electron-context-menu');
+import {app, BrowserWindow, shell} from 'electron';
+import contextMenu from 'electron-context-menu';
 
 contextMenu({
 	prepend: (defaultActions, parameters, browserWindow) => [
@@ -96,7 +96,7 @@ When not specified, the context menu will be added to all existing and new windo
 
 Type: `Function`
 
-Should return an array of [MenuItem](https://electronjs.org/docs/api/menu-item/)'s to be prepended to the context menu.
+Should return an array of [`MenuItem`](https://electronjs.org/docs/api/menu-item/)'s to be prepended to the context menu.
 
 The first argument is an array of default actions that can be used. The second argument is [this `parameters` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window/) the context menu was requested for. The fourth argument is the context menu event.
 
@@ -106,7 +106,7 @@ The first argument is an array of default actions that can be used. The second a
 
 Type: `Function`
 
-Should return an array of [MenuItem](https://electronjs.org/docs/api/menu-item/)'s to be appended to the context menu.
+Should return an array of [`MenuItem`](https://electronjs.org/docs/api/menu-item/)'s to be appended to the context menu.
 
 The first argument is an array of default actions that can be used. The second argument is [this `parameters` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window/) the context menu was requested for. The fourth argument is the context menu event.
 
@@ -361,7 +361,7 @@ The function receives an [`Event` object](https://developer.mozilla.org/en-US/do
 
 - [electron-util](https://github.com/sindresorhus/electron-util) - Useful utilities for developing Electron apps and modules
 - [electron-debug](https://github.com/sindresorhus/electron-debug) - Adds useful debug features to your Electron app
-- [electron-store](https://github.com/sindresorhus/electron-store) - Save and load data like user preferences, app state, cache, etc
+- [electron-store](https://github.com/sindresorhus/electron-store) - Save and load data like user settings, app state, cache, etc
 - [electron-reloader](https://github.com/sindresorhus/electron-reloader) - Simple auto-reloading for Electron apps during development
 - [electron-serve](https://github.com/sindresorhus/electron-serve) - Static file serving for Electron apps
 - [electron-unhandled](https://github.com/sindresorhus/electron-unhandled) - Catch unhandled errors and promise rejections in your Electron app

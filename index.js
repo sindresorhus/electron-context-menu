@@ -1,19 +1,17 @@
-'use strict';
-const electron = require('electron');
-const cliTruncate = require('cli-truncate');
-const {download} = require('electron-dl');
-const isDev = require('electron-is-dev');
+import process from 'node:process';
+import electron from 'electron';
+import cliTruncate from 'cli-truncate';
+import {download} from 'electron-dl';
+import isDev from 'electron-is-dev';
 
-const webContents = win => win.webContents || (win.id && win);
+const webContents = win => win.webContents ?? (win.id && win);
 
-const decorateMenuItem = menuItem => {
-	return (options = {}) => {
-		if (options.transform && !options.click) {
-			menuItem.transform = options.transform;
-		}
+const decorateMenuItem = menuItem => (options = {}) => {
+	if (options.transform && !options.click) {
+		menuItem.transform = options.transform;
+	}
 
-		return menuItem;
-	};
+	return menuItem;
 };
 
 const removeUnusedMenuItems = menuTemplate => {
@@ -29,14 +27,14 @@ const removeUnusedMenuItems = menuTemplate => {
 };
 
 const create = (win, options) => {
-	const handleContextMenu = (event, props) => {
-		if (typeof options.shouldShowMenu === 'function' && options.shouldShowMenu(event, props) === false) {
+	const handleContextMenu = (event, properties) => {
+		if (typeof options.shouldShowMenu === 'function' && options.shouldShowMenu(event, properties) === false) {
 			return;
 		}
 
-		const {editFlags} = props;
-		const hasText = props.selectionText.length > 0;
-		const isLink = Boolean(props.linkURL);
+		const {editFlags} = properties;
+		const hasText = properties.selectionText.length > 0;
+		const isLink = Boolean(properties.linkURL);
 		const can = type => editFlags[`can${type}`] && hasText;
 
 		const defaultActions = {
@@ -44,11 +42,11 @@ const create = (win, options) => {
 			learnSpelling: decorateMenuItem({
 				id: 'learnSpelling',
 				label: '&Learn Spelling',
-				visible: Boolean(props.isEditable && hasText && props.misspelledWord),
+				visible: Boolean(properties.isEditable && hasText && properties.misspelledWord),
 				click() {
 					const target = webContents(win);
-					target.session.addWordToSpellCheckerDictionary(props.misspelledWord);
-				}
+					target.session.addWordToSpellCheckerDictionary(properties.misspelledWord);
+				},
 			}),
 			lookUpSelection: decorateMenuItem({
 				id: 'lookUpSelection',
@@ -58,7 +56,7 @@ const create = (win, options) => {
 					if (process.platform === 'darwin') {
 						webContents(win).showDefinitionForSelection();
 					}
-				}
+				},
 			}),
 			searchWithGoogle: decorateMenuItem({
 				id: 'searchWithGoogle',
@@ -66,175 +64,175 @@ const create = (win, options) => {
 				visible: hasText,
 				click() {
 					const url = new URL('https://www.google.com/search');
-					url.searchParams.set('q', props.selectionText);
+					url.searchParams.set('q', properties.selectionText);
 					electron.shell.openExternal(url.toString());
-				}
+				},
 			}),
 			cut: decorateMenuItem({
 				id: 'cut',
 				label: 'Cu&t',
 				enabled: can('Cut'),
-				visible: props.isEditable,
+				visible: properties.isEditable,
 				click(menuItem) {
 					const target = webContents(win);
 
 					if (!menuItem.transform && target) {
 						target.cut();
 					} else {
-						props.selectionText = menuItem.transform ? menuItem.transform(props.selectionText) : props.selectionText;
-						electron.clipboard.writeText(props.selectionText);
+						properties.selectionText = menuItem.transform ? menuItem.transform(properties.selectionText) : properties.selectionText;
+						electron.clipboard.writeText(properties.selectionText);
 					}
-				}
+				},
 			}),
 			copy: decorateMenuItem({
 				id: 'copy',
 				label: '&Copy',
 				enabled: can('Copy'),
-				visible: props.isEditable || hasText,
+				visible: properties.isEditable || hasText,
 				click(menuItem) {
 					const target = webContents(win);
 
 					if (!menuItem.transform && target) {
 						target.copy();
 					} else {
-						props.selectionText = menuItem.transform ? menuItem.transform(props.selectionText) : props.selectionText;
-						electron.clipboard.writeText(props.selectionText);
+						properties.selectionText = menuItem.transform ? menuItem.transform(properties.selectionText) : properties.selectionText;
+						electron.clipboard.writeText(properties.selectionText);
 					}
-				}
+				},
 			}),
 			paste: decorateMenuItem({
 				id: 'paste',
 				label: '&Paste',
 				enabled: editFlags.canPaste,
-				visible: props.isEditable,
+				visible: properties.isEditable,
 				click(menuItem) {
 					const target = webContents(win);
 
 					if (menuItem.transform) {
-						let clipboardContent = electron.clipboard.readText(props.selectionText);
+						let clipboardContent = electron.clipboard.readText(properties.selectionText);
 						clipboardContent = menuItem.transform ? menuItem.transform(clipboardContent) : clipboardContent;
 						target.insertText(clipboardContent);
 					} else {
 						target.paste();
 					}
-				}
+				},
 			}),
 			selectAll: decorateMenuItem({
 				id: 'selectAll',
 				label: 'Select &All',
 				click() {
 					webContents(win).selectAll();
-				}
+				},
 			}),
 			saveImage: decorateMenuItem({
 				id: 'saveImage',
 				label: 'Save I&mage',
-				visible: props.mediaType === 'image',
+				visible: properties.mediaType === 'image',
 				click(menuItem) {
-					props.srcURL = menuItem.transform ? menuItem.transform(props.srcURL) : props.srcURL;
-					download(win, props.srcURL);
-				}
+					properties.srcURL = menuItem.transform ? menuItem.transform(properties.srcURL) : properties.srcURL;
+					download(win, properties.srcURL);
+				},
 			}),
 			saveImageAs: decorateMenuItem({
 				id: 'saveImageAs',
 				label: 'Sa&ve Image As…',
-				visible: props.mediaType === 'image',
+				visible: properties.mediaType === 'image',
 				click(menuItem) {
-					props.srcURL = menuItem.transform ? menuItem.transform(props.srcURL) : props.srcURL;
-					download(win, props.srcURL, {saveAs: true});
-				}
+					properties.srcURL = menuItem.transform ? menuItem.transform(properties.srcURL) : properties.srcURL;
+					download(win, properties.srcURL, {saveAs: true});
+				},
 			}),
 			saveVideo: decorateMenuItem({
 				id: 'saveVideo',
 				label: 'Save Vide&o',
-				visible: props.mediaType === 'video',
+				visible: properties.mediaType === 'video',
 				click(menuItem) {
-					props.srcURL = menuItem.transform ? menuItem.transform(props.srcURL) : props.srcURL;
-					download(win, props.srcURL);
-				}
+					properties.srcURL = menuItem.transform ? menuItem.transform(properties.srcURL) : properties.srcURL;
+					download(win, properties.srcURL);
+				},
 			}),
 			saveVideoAs: decorateMenuItem({
 				id: 'saveVideoAs',
 				label: 'Save Video& As…',
-				visible: props.mediaType === 'video',
+				visible: properties.mediaType === 'video',
 				click(menuItem) {
-					props.srcURL = menuItem.transform ? menuItem.transform(props.srcURL) : props.srcURL;
-					download(win, props.srcURL, {saveAs: true});
-				}
+					properties.srcURL = menuItem.transform ? menuItem.transform(properties.srcURL) : properties.srcURL;
+					download(win, properties.srcURL, {saveAs: true});
+				},
 			}),
 			copyLink: decorateMenuItem({
 				id: 'copyLink',
 				label: 'Copy Lin&k',
-				visible: props.linkURL.length > 0 && props.mediaType === 'none',
+				visible: properties.linkURL.length > 0 && properties.mediaType === 'none',
 				click(menuItem) {
-					props.linkURL = menuItem.transform ? menuItem.transform(props.linkURL) : props.linkURL;
+					properties.linkURL = menuItem.transform ? menuItem.transform(properties.linkURL) : properties.linkURL;
 
 					electron.clipboard.write({
-						bookmark: props.linkText,
-						text: props.linkURL
+						bookmark: properties.linkText,
+						text: properties.linkURL,
 					});
-				}
+				},
 			}),
 			saveLinkAs: decorateMenuItem({
 				id: 'saveLinkAs',
 				label: 'Save Link As…',
-				visible: props.linkURL.length > 0 && props.mediaType === 'none',
+				visible: properties.linkURL.length > 0 && properties.mediaType === 'none',
 				click(menuItem) {
-					props.linkURL = menuItem.transform ? menuItem.transform(props.linkURL) : props.linkURL;
-					download(win, props.linkURL, {saveAs: true});
-				}
+					properties.linkURL = menuItem.transform ? menuItem.transform(properties.linkURL) : properties.linkURL;
+					download(win, properties.linkURL, {saveAs: true});
+				},
 			}),
 			copyImage: decorateMenuItem({
 				id: 'copyImage',
 				label: 'Cop&y Image',
-				visible: props.mediaType === 'image',
+				visible: properties.mediaType === 'image',
 				click() {
-					webContents(win).copyImageAt(props.x, props.y);
-				}
+					webContents(win).copyImageAt(properties.x, properties.y);
+				},
 			}),
 			copyImageAddress: decorateMenuItem({
 				id: 'copyImageAddress',
 				label: 'C&opy Image Address',
-				visible: props.mediaType === 'image',
+				visible: properties.mediaType === 'image',
 				click(menuItem) {
-					props.srcURL = menuItem.transform ? menuItem.transform(props.srcURL) : props.srcURL;
+					properties.srcURL = menuItem.transform ? menuItem.transform(properties.srcURL) : properties.srcURL;
 
 					electron.clipboard.write({
-						bookmark: props.srcURL,
-						text: props.srcURL
+						bookmark: properties.srcURL,
+						text: properties.srcURL,
 					});
-				}
+				},
 			}),
 			copyVideoAddress: decorateMenuItem({
 				id: 'copyVideoAddress',
 				label: 'Copy Video Ad&dress',
-				visible: props.mediaType === 'video',
+				visible: properties.mediaType === 'video',
 				click(menuItem) {
-					props.srcURL = menuItem.transform ? menuItem.transform(props.srcURL) : props.srcURL;
+					properties.srcURL = menuItem.transform ? menuItem.transform(properties.srcURL) : properties.srcURL;
 
 					electron.clipboard.write({
-						bookmark: props.srcURL,
-						text: props.srcURL
+						bookmark: properties.srcURL,
+						text: properties.srcURL,
 					});
-				}
+				},
 			}),
 			inspect: () => ({
 				id: 'inspect',
 				label: 'I&nspect Element',
 				click() {
-					webContents(win).inspectElement(props.x, props.y);
+					webContents(win).inspectElement(properties.x, properties.y);
 
 					if (webContents(win).isDevToolsOpened()) {
 						webContents(win).devToolsWebContents.focus();
 					}
-				}
+				},
 			}),
 			services: () => ({
 				id: 'services',
 				label: 'Services',
 				role: 'services',
-				visible: process.platform === 'darwin' && (props.isEditable || hasText)
-			})
+				visible: process.platform === 'darwin' && (properties.isEditable || hasText),
+			}),
 		};
 
 		const shouldShowInspectElement = typeof options.showInspectElement === 'boolean' ? options.showInspectElement : isDev;
@@ -244,25 +242,25 @@ const create = (win, options) => {
 			return {
 				id: 'dictionarySuggestions',
 				label: suggestion,
-				visible: Boolean(props.isEditable && hasText && props.misspelledWord),
+				visible: Boolean(properties.isEditable && hasText && properties.misspelledWord),
 				click(menuItem) {
 					const target = webContents(win);
 					target.replaceMisspelling(menuItem.label);
-				}
+				},
 			};
 		}
 
 		let dictionarySuggestions = [];
-		if (hasText && props.misspelledWord && props.dictionarySuggestions.length > 0) {
-			dictionarySuggestions = props.dictionarySuggestions.map(suggestion => word(suggestion));
+		if (hasText && properties.misspelledWord && properties.dictionarySuggestions.length > 0) {
+			dictionarySuggestions = properties.dictionarySuggestions.map(suggestion => word(suggestion));
 		} else {
 			dictionarySuggestions.push(
 				{
 					id: 'dictionarySuggestions',
 					label: 'No Guesses Found',
-					visible: Boolean(hasText && props.misspelledWord),
-					enabled: false
-				}
+					visible: Boolean(hasText && properties.misspelledWord),
+					enabled: false,
+				},
 			);
 		}
 
@@ -294,15 +292,15 @@ const create = (win, options) => {
 			defaultActions.separator(),
 			shouldShowInspectElement && defaultActions.inspect(),
 			options.showServices && defaultActions.services(),
-			defaultActions.separator()
+			defaultActions.separator(),
 		];
 
 		if (options.menu) {
-			menuTemplate = options.menu(defaultActions, props, win, dictionarySuggestions, event);
+			menuTemplate = options.menu(defaultActions, properties, win, dictionarySuggestions, event);
 		}
 
 		if (options.prepend) {
-			const result = options.prepend(defaultActions, props, win, event);
+			const result = options.prepend(defaultActions, properties, win, event);
 
 			if (Array.isArray(result)) {
 				menuTemplate.unshift(...result);
@@ -310,7 +308,7 @@ const create = (win, options) => {
 		}
 
 		if (options.append) {
-			const result = options.append(defaultActions, props, win, event);
+			const result = options.append(defaultActions, properties, win, event);
 
 			if (Array.isArray(result)) {
 				menuTemplate.push(...result);
@@ -329,8 +327,8 @@ const create = (win, options) => {
 
 			// Replace placeholders in menu item labels
 			if (typeof menuItem.label === 'string' && menuItem.label.includes('{selection}')) {
-				const selectionString = typeof props.selectionText === 'string' ? props.selectionText.trim() : '';
-				menuItem.label = menuItem.label.replace('{selection}', cliTruncate(selectionString, 25).replace(/&/g, '&&'));
+				const selectionString = typeof properties.selectionText === 'string' ? properties.selectionText.trim() : '';
+				menuItem.label = menuItem.label.replace('{selection}', cliTruncate(selectionString, 25).replaceAll('&', '&&'));
 			}
 		}
 
@@ -360,7 +358,7 @@ const create = (win, options) => {
 	};
 };
 
-module.exports = (options = {}) => {
+export default function contextMenu(options = {}) {
 	if (process.type === 'renderer') {
 		throw new Error('Cannot use electron-context-menu in the renderer process!');
 	}
@@ -383,7 +381,7 @@ module.exports = (options = {}) => {
 			}
 		};
 
-		if (typeof win.once !== 'undefined') { // Support for BrowserView
+		if (win.once !== undefined) { // Support for BrowserView
 			win.once('closed', removeDisposable);
 		}
 
@@ -410,7 +408,7 @@ module.exports = (options = {}) => {
 				init(win);
 			};
 
-			const listenerFunction = win.addEventListener || win.addListener;
+			const listenerFunction = win.addEventListener ?? win.addListener;
 			listenerFunction('dom-ready', onDomReady, {once: true});
 
 			disposables.push(() => {
@@ -439,4 +437,4 @@ module.exports = (options = {}) => {
 	});
 
 	return dispose;
-};
+}
