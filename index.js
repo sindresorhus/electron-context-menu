@@ -373,21 +373,14 @@ export default function contextMenu(options = {}) {
 
 		const disposeMenu = create(win, options);
 
-		disposables.push(disposeMenu);
-		const removeDisposable = () => {
-			const index = disposables.indexOf(disposeMenu);
-			if (index !== -1) {
-				disposables.splice(index, 1);
-			}
+		const disposable = () => {
+			win.off('close', disposable);
+			disposeMenu();
 		};
 
 		if (win.once !== undefined) { // Support for BrowserView
-			win.once('closed', removeDisposable);
+			win.once('close', disposable);
 		}
-
-		disposables.push(() => {
-			win.off('closed', removeDisposable);
-		});
 	};
 
 	const dispose = () => {
