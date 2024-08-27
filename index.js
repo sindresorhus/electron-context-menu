@@ -374,7 +374,6 @@ export default function contextMenu(options = {}) {
 		const disposeMenu = create(win, options);
 
 		const disposable = () => {
-			win.webContents.off('destroyed', disposable);
 			disposeMenu();
 		};
 
