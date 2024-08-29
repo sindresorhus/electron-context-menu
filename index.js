@@ -377,9 +377,7 @@ export default function contextMenu(options = {}) {
 			disposeMenu();
 		};
 
-		if (win.once !== undefined) { // Support for BrowserView
-			win.webContents.once('destroyed', disposable);
-		}
+		webContents(win).on('destroyed', disposable);
 	};
 
 	const dispose = () => {
