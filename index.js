@@ -378,6 +378,7 @@ export default function contextMenu(options = {}) {
 		};
 
 		webContents(win).once('destroyed', disposable);
+		disposables.push(disposable);
 	};
 
 	const dispose = () => {
