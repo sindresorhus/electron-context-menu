@@ -350,7 +350,7 @@ const create = (win, options) => {
 	webContents(win).on('context-menu', handleContextMenu);
 
 	return () => {
-		if (win?.isDestroyed && win.isDestroyed()) {
+		if (win?.isDestroyed?.()) {
 			return;
 		}
 
