@@ -5,6 +5,7 @@ import {
 	type MenuItemConstructorOptions,
 	type Event as ElectronEvent,
 	type WebContents,
+	type WebContentsView,
 } from 'electron';
 
 export type Labels = {
@@ -135,7 +136,7 @@ export type Options = {
 	Window or WebView to add the context menu to.
 	When not specified, the context menu will be added to all existing and new windows.
 	*/
-	readonly window?: BrowserWindow | BrowserView | Electron.WebviewTag | WebContents;
+	readonly window?: BrowserWindow | BrowserView | Electron.WebviewTag | WebContents | WebContentsView;
 
 	/**
 	Should return an array of [menu items](https://electronjs.org/docs/api/menu-item) to be prepended to the context menu.
