@@ -5,7 +5,7 @@ import {
 	type MenuItemConstructorOptions,
 	type Event as ElectronEvent,
 	type WebContents,
-	type WebContentsView
+	type WebContentsView,
 } from 'electron';
 
 export type Labels = {
