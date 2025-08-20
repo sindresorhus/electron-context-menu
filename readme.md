@@ -96,7 +96,7 @@ When not specified, the context menu will be added to all existing and new windo
 
 Type: `Function`
 
-Should return an array of [`MenuItem`](https://electronjs.org/docs/api/menu-item/)'s to be prepended to the context menu.
+Should return an array of [`MenuItem`](https://electronjs.org/docs/api/menu-item/) to be prepended to the context menu.
 
 The first argument is an array of default actions that can be used. The second argument is [this `parameters` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window/) the context menu was requested for. The fourth argument is the context menu event.
 
@@ -106,7 +106,7 @@ The first argument is an array of default actions that can be used. The second a
 
 Type: `Function`
 
-Should return an array of [`MenuItem`](https://electronjs.org/docs/api/menu-item/)'s to be appended to the context menu.
+Should return an array of [`MenuItem`](https://electronjs.org/docs/api/menu-item/) to be appended to the context menu.
 
 The first argument is an array of default actions that can be used. The second argument is [this `parameters` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window/) the context menu was requested for. The fourth argument is the context menu event.
 
@@ -275,6 +275,7 @@ To get spellchecking, “Correct Automatically”, and “Learn Spelling” in t
 
 The following options are ignored when `menu` is used:
 
+- `showLearnSpelling`
 - `showLookUpSelection`
 - `showSearchWithGoogle`
 - `showSelectAll`
@@ -291,7 +292,6 @@ The following options are ignored when `menu` is used:
 
 Default actions:
 
-- `spellCheck`
 - `learnSpelling`
 - `separator`
 - `lookUpSelection`
