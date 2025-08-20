@@ -1,6 +1,6 @@
 {
 	"name": "electron-context-menu",
-	"version": "4.1.0",
+	"version": "4.1.1",
 	"description": "Context menu for your Electron app",
 	"license": "MIT",
 	"repository": "sindresorhus/electron-context-menu",
