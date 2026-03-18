@@ -354,7 +354,7 @@ const create = (win, options) => {
 			return;
 		}
 
-		webContents(win).removeListener('context-menu', handleContextMenu);
+		webContents(win)?.removeListener('context-menu', handleContextMenu);
 	};
 };
 
