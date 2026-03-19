@@ -347,14 +347,11 @@ const create = (win, options) => {
 		}
 	};
 
-	webContents(win).on('context-menu', handleContextMenu);
+	const currentWebContents = webContents(win);
+	currentWebContents.on('context-menu', handleContextMenu);
 
 	return () => {
-		if (win?.isDestroyed?.()) {
-			return;
-		}
-
-		webContents(win).removeListener('context-menu', handleContextMenu);
+		currentWebContents.removeListener('context-menu', handleContextMenu);
 	};
 };
 
