@@ -1,30 +1,10 @@
 import process from 'node:process';
 import electron from 'electron';
-import cliTruncate from 'cli-truncate';
 import {download} from 'electron-dl';
 import isDev from 'electron-is-dev';
+import {applyMenuItemLabels, decorateMenuItem, removeUnusedMenuItems} from './utilities.js';
 
 const webContents = win => win.webContents ?? (win.id && win);
-
-const decorateMenuItem = menuItem => (options = {}) => {
-	if (options.transform && !options.click) {
-		menuItem.transform = options.transform;
-	}
-
-	return menuItem;
-};
-
-const removeUnusedMenuItems = menuTemplate => {
-	let notDeletedPreviousElement;
-
-	return menuTemplate
-		.filter(menuItem => menuItem !== undefined && menuItem !== false && menuItem.visible !== false && menuItem.visible !== '')
-		.filter((menuItem, index, array) => {
-			const toDelete = menuItem.type === 'separator' && (!notDeletedPreviousElement || index === array.length - 1 || array[index + 1].type === 'separator');
-			notDeletedPreviousElement = toDelete ? notDeletedPreviousElement : menuItem;
-			return !toDelete;
-		});
-};
 
 const create = (win, options) => {
 	const handleContextMenu = (event, properties) => {
@@ -319,18 +299,7 @@ const create = (win, options) => {
 		// TODO: https://github.com/electron/electron/issues/5869
 		menuTemplate = removeUnusedMenuItems(menuTemplate);
 
-		for (const menuItem of menuTemplate) {
-			// Apply custom labels for default menu items
-			if (options.labels && options.labels[menuItem.id]) {
-				menuItem.label = options.labels[menuItem.id];
-			}
-
-			// Replace placeholders in menu item labels
-			if (typeof menuItem.label === 'string' && menuItem.label.includes('{selection}')) {
-				const selectionString = typeof properties.selectionText === 'string' ? properties.selectionText.trim() : '';
-				menuItem.label = menuItem.label.replace('{selection}', cliTruncate(selectionString, 25).replaceAll('&', '&&'));
-			}
-		}
+		applyMenuItemLabels(menuTemplate, {labels: options.labels, selectionText: properties.selectionText});
 
 		if (menuTemplate.length > 0) {
 			const menu = electron.Menu.buildFromTemplate(menuTemplate);
