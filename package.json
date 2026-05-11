@@ -27,7 +27,8 @@
 	},
 	"files": [
 		"index.js",
-		"index.d.ts"
+		"index.d.ts",
+		"utilities.js"
 	],
 	"keywords": [
 		"electron",
@@ -54,10 +55,10 @@
 		"electron-is-dev": "^3.0.1"
 	},
 	"devDependencies": {
-		"@types/node": "^20.12.7",
+		"@types/node": "20.12.7",
 		"ava": "^6.1.2",
 		"electron": "^30.0.1",
-		"typescript": "^5.4.5",
+		"typescript": "5.4.5",
 		"xo": "^0.58.0"
 	},
 	"xo": {
