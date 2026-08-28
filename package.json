@@ -17,7 +17,7 @@
 	},
 	"sideEffects": false,
 	"engines": {
-		"node": ">=18"
+		"node": ">=24"
 	},
 	"scripts": {
 		"start": "electron fixtures/fixture.js",
@@ -54,9 +54,9 @@
 		"electron-is-dev": "^3.0.1"
 	},
 	"devDependencies": {
-		"@types/node": "^20.12.7",
+		"@types/node": "^24.13.3",
 		"ava": "^6.1.2",
-		"electron": "^30.0.1",
+		"electron": "^44.0.0",
 		"typescript": "^5.4.5",
 		"xo": "^0.58.0"
 	},

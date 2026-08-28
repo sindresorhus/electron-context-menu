@@ -6,6 +6,15 @@ import isDev from 'electron-is-dev';
 
 const webContents = win => win.webContents ?? (win.id && win);
 
+const applyTransform = (menuItem, value) => menuItem.transform ? menuItem.transform(value) : value;
+
+const writeBookmark = async (title, url) => electron.clipboard.write([
+	new electron.ClipboardItem({
+		'text/plain': url,
+		'electron application/bookmark': {title, url},
+	}),
+]);
+
 const decorateMenuItem = menuItem => (options = {}) => {
 	if (options.transform && !options.click) {
 		menuItem.transform = options.transform;
@@ -73,14 +82,14 @@ const create = (win, options) => {
 				label: 'Cu&t',
 				enabled: can('Cut'),
 				visible: properties.isEditable,
-				click(menuItem) {
+				async click(menuItem) {
 					const target = webContents(win);
 
 					if (!menuItem.transform && target) {
 						target.cut();
 					} else {
-						properties.selectionText = menuItem.transform ? menuItem.transform(properties.selectionText) : properties.selectionText;
-						electron.clipboard.writeText(properties.selectionText);
+						properties.selectionText = applyTransform(menuItem, properties.selectionText);
+						await electron.clipboard.writeText(properties.selectionText);
 					}
 				},
 			}),
@@ -89,14 +98,14 @@ const create = (win, options) => {
 				label: '&Copy',
 				enabled: can('Copy'),
 				visible: properties.isEditable || hasText,
-				click(menuItem) {
+				async click(menuItem) {
 					const target = webContents(win);
 
 					if (!menuItem.transform && target) {
 						target.copy();
 					} else {
-						properties.selectionText = menuItem.transform ? menuItem.transform(properties.selectionText) : properties.selectionText;
-						electron.clipboard.writeText(properties.selectionText);
+						properties.selectionText = applyTransform(menuItem, properties.selectionText);
+						await electron.clipboard.writeText(properties.selectionText);
 					}
 				},
 			}),
@@ -105,13 +114,12 @@ const create = (win, options) => {
 				label: '&Paste',
 				enabled: editFlags.canPaste,
 				visible: properties.isEditable,
-				click(menuItem) {
+				async click(menuItem) {
 					const target = webContents(win);
 
 					if (menuItem.transform) {
-						let clipboardContent = electron.clipboard.readText(properties.selectionText);
-						clipboardContent = menuItem.transform ? menuItem.transform(clipboardContent) : clipboardContent;
-						target.insertText(clipboardContent);
+						const clipboardContent = await electron.clipboard.readText();
+						await target.insertText(menuItem.transform(clipboardContent));
 					} else {
 						target.paste();
 					}
@@ -129,7 +137,7 @@ const create = (win, options) => {
 				label: 'Save I&mage',
 				visible: properties.mediaType === 'image',
 				click(menuItem) {
-					properties.srcURL = menuItem.transform ? menuItem.transform(properties.srcURL) : properties.srcURL;
+					properties.srcURL = applyTransform(menuItem, properties.srcURL);
 					download(win, properties.srcURL);
 				},
 			}),
@@ -138,7 +146,7 @@ const create = (win, options) => {
 				label: 'Sa&ve Image As…',
 				visible: properties.mediaType === 'image',
 				click(menuItem) {
-					properties.srcURL = menuItem.transform ? menuItem.transform(properties.srcURL) : properties.srcURL;
+					properties.srcURL = applyTransform(menuItem, properties.srcURL);
 					download(win, properties.srcURL, {saveAs: true});
 				},
 			}),
@@ -147,7 +155,7 @@ const create = (win, options) => {
 				label: 'Save Vide&o',
 				visible: properties.mediaType === 'video',
 				click(menuItem) {
-					properties.srcURL = menuItem.transform ? menuItem.transform(properties.srcURL) : properties.srcURL;
+					properties.srcURL = applyTransform(menuItem, properties.srcURL);
 					download(win, properties.srcURL);
 				},
 			}),
@@ -156,7 +164,7 @@ const create = (win, options) => {
 				label: 'Save Video& As…',
 				visible: properties.mediaType === 'video',
 				click(menuItem) {
-					properties.srcURL = menuItem.transform ? menuItem.transform(properties.srcURL) : properties.srcURL;
+					properties.srcURL = applyTransform(menuItem, properties.srcURL);
 					download(win, properties.srcURL, {saveAs: true});
 				},
 			}),
@@ -164,13 +172,9 @@ const create = (win, options) => {
 				id: 'copyLink',
 				label: 'Copy Lin&k',
 				visible: properties.linkURL.length > 0 && properties.mediaType === 'none',
-				click(menuItem) {
-					properties.linkURL = menuItem.transform ? menuItem.transform(properties.linkURL) : properties.linkURL;
-
-					electron.clipboard.write({
-						bookmark: properties.linkText,
-						text: properties.linkURL,
-					});
+				async click(menuItem) {
+					properties.linkURL = applyTransform(menuItem, properties.linkURL);
+					await writeBookmark(properties.linkText, properties.linkURL);
 				},
 			}),
 			saveLinkAs: decorateMenuItem({
@@ -178,7 +182,7 @@ const create = (win, options) => {
 				label: 'Save Link As…',
 				visible: properties.linkURL.length > 0 && properties.mediaType === 'none',
 				click(menuItem) {
-					properties.linkURL = menuItem.transform ? menuItem.transform(properties.linkURL) : properties.linkURL;
+					properties.linkURL = applyTransform(menuItem, properties.linkURL);
 					download(win, properties.linkURL, {saveAs: true});
 				},
 			}),
@@ -194,26 +198,18 @@ const create = (win, options) => {
 				id: 'copyImageAddress',
 				label: 'C&opy Image Address',
 				visible: properties.mediaType === 'image',
-				click(menuItem) {
-					properties.srcURL = menuItem.transform ? menuItem.transform(properties.srcURL) : properties.srcURL;
-
-					electron.clipboard.write({
-						bookmark: properties.srcURL,
-						text: properties.srcURL,
-					});
+				async click(menuItem) {
+					properties.srcURL = applyTransform(menuItem, properties.srcURL);
+					await writeBookmark(properties.srcURL, properties.srcURL);
 				},
 			}),
 			copyVideoAddress: decorateMenuItem({
 				id: 'copyVideoAddress',
 				label: 'Copy Video Ad&dress',
 				visible: properties.mediaType === 'video',
-				click(menuItem) {
-					properties.srcURL = menuItem.transform ? menuItem.transform(properties.srcURL) : properties.srcURL;
-
-					electron.clipboard.write({
-						bookmark: properties.srcURL,
-						text: properties.srcURL,
-					});
+				async click(menuItem) {
+					properties.srcURL = applyTransform(menuItem, properties.srcURL);
+					await writeBookmark(properties.srcURL, properties.srcURL);
 				},
 			}),
 			inspect: () => ({
