@@ -146,7 +146,7 @@ export type Options = {
 	readonly prepend?: (
 		defaultActions: Actions,
 		parameters: ContextMenuParams,
-		browserWindow: BrowserWindow | BrowserView | Electron.WebviewTag | WebContents,
+		browserWindow: BrowserWindow | BrowserView | Electron.WebviewTag | WebContents | WebContentsView,
 		event: ElectronEvent
 	) => MenuItemConstructorOptions[];
 
@@ -158,7 +158,7 @@ export type Options = {
 	readonly append?: (
 		defaultActions: Actions,
 		parameters: ContextMenuParams,
-		browserWindow: BrowserWindow | BrowserView | Electron.WebviewTag | WebContents,
+		browserWindow: BrowserWindow | BrowserView | Electron.WebviewTag | WebContents | WebContentsView,
 		event: ElectronEvent
 	) => MenuItemConstructorOptions[];
 
@@ -344,7 +344,7 @@ export type Options = {
 	readonly menu?: (
 		defaultActions: Actions,
 		parameters: ContextMenuParams,
-		browserWindow: BrowserWindow | BrowserView | Electron.WebviewTag | WebContents,
+		browserWindow: BrowserWindow | BrowserView | Electron.WebviewTag | WebContents | WebContentsView,
 		dictionarySuggestions: MenuItemConstructorOptions[],
 		event: ElectronEvent
 	) => MenuItemConstructorOptions[];
