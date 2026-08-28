@@ -7,7 +7,7 @@ contextMenu({
 		cut: 'Configured Cut',
 		copy: 'Configured Copy',
 		paste: 'Configured Paste',
-		save: 'Configured Save Image',
+		saveImage: 'Configured Save Image',
 		saveImageAs: 'Configured Save Image As…',
 		copyLink: 'Configured Copy Link',
 		saveLinkAs: 'Configured Save Link As…',
@@ -40,6 +40,8 @@ contextMenu({
 	showSaveImageAs: true,
 	showCopyVideoAddress: true,
 	showSaveVideoAs: true,
+	showCopyVideoFrame: true,
+	showSaveVideoFrameAs: true,
 	showInspectElement: false,
 	showSaveLinkAs: true,
 });

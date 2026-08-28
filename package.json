@@ -22,8 +22,8 @@
 	"scripts": {
 		"start": "electron fixtures/fixture.js",
 		"test": "xo && ava && tsc index.d.ts",
-		"start-fixture2": "electron fixtures/fixture-menu.js",
-		"start-fixture3": "electron fixtures/fixture-toggle.js"
+		"start-menu-fixture": "electron fixtures/fixture-menu.js",
+		"start-toggle-fixture": "electron fixtures/fixture-toggle.js"
 	},
 	"files": [
 		"index.js",
@@ -59,6 +59,9 @@
 		"electron": "^44.0.0",
 		"typescript": "^5.4.5",
 		"xo": "^0.58.0"
+	},
+	"ava": {
+		"timeout": "2m"
 	},
 	"xo": {
 		"envs": [

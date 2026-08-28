@@ -86,9 +86,11 @@ Type: `object`
 
 #### window
 
-Type: `BrowserWindow | BrowserView | WebViewTag | WebContents | WebContentsView`
+Type: `BrowserWindow | BrowserView | WebContents | WebContentsView`
 
-Window or WebView to add the context menu to.
+Window or view to add the context menu to.
+
+To attach it to a `<webview>`, pass its `WebContents`, which you can get in the main process with `webContents.fromId(...)` using the id from `webview.getWebContentsId()`.
 
 When not specified, the context menu will be added to all existing and new windows.
 
@@ -98,7 +100,7 @@ Type: `Function`
 
 Should return an array of [`MenuItem`](https://electronjs.org/docs/api/menu-item/) to be prepended to the context menu.
 
-The first argument is an array of default actions that can be used. The second argument is [this `parameters` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window/) the context menu was requested for. The fourth argument is the context menu event.
+The first argument is an array of default actions that can be used. The second argument is [this `parameters` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the window or view the context menu was requested for. The fourth argument is the context menu event.
 
 `MenuItem` labels may contain the placeholder `{selection}` which will be replaced by the currently selected text as described in [`options.labels`](#labels).
 
@@ -108,7 +110,7 @@ Type: `Function`
 
 Should return an array of [`MenuItem`](https://electronjs.org/docs/api/menu-item/) to be appended to the context menu.
 
-The first argument is an array of default actions that can be used. The second argument is [this `parameters` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window/) the context menu was requested for. The fourth argument is the context menu event.
+The first argument is an array of default actions that can be used. The second argument is [this `parameters` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the window or view the context menu was requested for. The fourth argument is the context menu event.
 
 `MenuItem` labels may contain the placeholder `{selection}` which will be replaced by the currently selected text as described in [`options.labels`](#labels).
 
@@ -191,6 +193,24 @@ Default: `false`
 
 Show the `Save Video As…` menu item when right-clicking on a video.
 
+#### showCopyVideoFrame
+
+Type: `boolean`\
+Default: `false`
+
+Show the `Copy Video Frame` menu item when right-clicking on a video.
+
+Copies the video frame at the click position to the clipboard.
+
+#### showSaveVideoFrameAs
+
+Type: `boolean`\
+Default: `false`
+
+Show the `Save Video Frame As…` menu item when right-clicking on a video.
+
+Shows a save dialog for the video frame at the click position.
+
 #### showCopyLink
 
 Type: `boolean`\
@@ -219,7 +239,7 @@ Default: `false`
 
 Show the system `Services` submenu when right-clicking text on macOS.
 
-Note: Due to [a bug in the Electron implementation](https://github.com/electron/electron/issues/18476), this menu is not identical to the "Services" submenu in the context menus of native apps. Instead, it looks the same as the "Services" menu in the main App Menu. For this reason, it is currently disabled by default.
+Note: Due to [a bug in the Electron implementation](https://github.com/electron/electron/issues/18476), this menu is not identical to the “Services” submenu in the context menus of native apps. Instead, it looks the same as the “Services” menu in the main App Menu. For this reason, it is currently disabled by default.
 
 #### labels
 
@@ -248,7 +268,7 @@ Type: `Function`
 
 Determines whether or not to show the menu. Can be useful if you for example have other code presenting a context menu in some contexts.
 
-The second argument is [this `parameters` object](https://electronjs.org/docs/api/web-contents#event-context-menu).
+The first argument is the context menu event. The second argument is [this `parameters` object](https://electronjs.org/docs/api/web-contents/#event-context-menu).
 
 Example:
 
@@ -265,7 +285,7 @@ Type: `Function`
 
 This option lets you manually pick what menu items to include. It's meant for advanced needs. The default menu with the other options should be enough for most use-cases, and it ensures correct behavior, for example, correct order of menu items. So prefer the `append` and `prepend` option instead of `menu` whenever possible.
 
-The function passed to this option is expected to return [`MenuItem[]`](https://electronjs.org/docs/api/menu-item/). The first argument the function receives is an array of default actions that can be used. These actions are functions that can take an object with a transform property (except for `separator` and `inspect`). The transform function will be passed the content of the action and can modify it if needed. If you use `transform` on `cut`, `copy`, or `paste`, they will convert rich text to plain text. The second argument is [this `parameters` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the [BrowserWindow](https://electronjs.org/docs/api/browser-window/) the context menu was requested for. The fourth argument is an Array of menu items for dictionary suggestions. This should be used if you wish to implement spellcheck in your custom menu. The last argument is the context menu event.
+The function passed to this option is expected to return [`MenuItem[]`](https://electronjs.org/docs/api/menu-item/). If it returns anything else, the default menu is used. The first argument the function receives is an array of default actions that can be used. These actions are functions that can take an object with a transform property (except for `separator`, `inspect`, and `services`). The transform function will be passed the content of the action and can modify it if needed. If you use `transform` on `cut`, `copy`, or `paste`, they will convert rich text to plain text. The second argument is [this `parameters` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the window or view the context menu was requested for. The fourth argument is an Array of menu items for dictionary suggestions. This should be used if you wish to implement spellcheck in your custom menu. The last argument is the context menu event.
 
 Even though you include an action, it will still only be shown/enabled when appropriate. For example, the `saveImage` action is only shown when right-clicking an image.
 
@@ -281,10 +301,13 @@ The following options are ignored when `menu` is used:
 - `showSelectAll`
 - `showCopyImage`
 - `showCopyImageAddress`
+- `showSaveImage`
 - `showSaveImageAs`
 - `showCopyVideoAddress`
 - `showSaveVideo`
 - `showSaveVideoAs`
+- `showCopyVideoFrame`
+- `showSaveVideoFrameAs`
 - `showCopyLink`
 - `showSaveLinkAs`
 - `showInspectElement`
@@ -292,8 +315,8 @@ The following options are ignored when `menu` is used:
 
 Default actions:
 
-- `learnSpelling`
 - `separator`
+- `learnSpelling`
 - `lookUpSelection`
 - `searchWithGoogle`
 - `cut`
@@ -304,11 +327,13 @@ Default actions:
 - `saveImageAs`
 - `saveVideo`
 - `saveVideoAs`
+- `copyLink`
+- `saveLinkAs`
 - `copyImage`
 - `copyImageAddress`
 - `copyVideoAddress`
-- `copyLink`
-- `saveLinkAs`
+- `copyVideoFrame`
+- `saveVideoFrameAs`
 - `inspect`
 - `services`
 
@@ -347,7 +372,7 @@ Type: `Function`
 
 Called when the context menu is shown.
 
-The function receives an [`Event` object](https://developer.mozilla.org/en-US/docs/Web/API/Event).
+The function receives the [Electron `Event` object](https://electronjs.org/docs/api/structures/event).
 
 #### onClose
 
@@ -355,7 +380,7 @@ Type: `Function`
 
 Called when the context menu is closed.
 
-The function receives an [`Event` object](https://developer.mozilla.org/en-US/docs/Web/API/Event).
+The function receives the [Electron `Event` object](https://electronjs.org/docs/api/structures/event).
 
 ## Related
 

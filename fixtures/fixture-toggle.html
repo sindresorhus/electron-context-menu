@@ -4,66 +4,29 @@
 		<meta charset="utf-8">
 		<title>Fixture</title>
 		<script>
-			const contextMenu = require('..');
-
-			function createContextMenu() {
-				return contextMenu({
-					labels: {
-						cut: 'Configured Cut',
-						copy: 'Configured Copy',
-						paste: 'Configured Paste',
-						save: 'Configured Save Image',
-						saveImageAs: 'Configured Save Image As…',
-						copyLink: 'Configured Copy Link',
-						inspect: 'Configured Inspect'
-					},
-					prepend: () => [
-						{
-							label: 'Unicorn'
-						},
-						{
-							type: 'separator'
-						},
-						{
-							type: 'separator'
-						},
-						{
-							label: 'Invisible',
-							visible: false
-						},
-						{
-							type: 'separator'
-						},
-						{
-							type: 'separator'
-						}
-					],
-					append: () => {},
-					showCopyImageAddress: true,
-					showSaveImageAs: true,
-					showInspectElement: false
-				});
-			}
+			const {ipcRenderer} = require('electron');
 
 			function init() {
-				let dispose;
 				const enableButton = document.getElementById('enable');
 				const disableButton = document.getElementById('disable');
 
-				const enable = () => {
-					enableButton.disabled = true;
-					disableButton.disabled = false;
-					dispose = createContextMenu();
-				};
-				const disable = () => {
-					enableButton.disabled = false;
-					disableButton.disabled = true;
-					dispose();
+				const toggle = isEnabled => {
+					enableButton.disabled = isEnabled;
+					disableButton.disabled = !isEnabled;
+					ipcRenderer.send('toggle', isEnabled);
 				};
 
-				enableButton.addEventListener('click', enable);
-				disableButton.addEventListener('click', disable);
+				enableButton.addEventListener('click', () => {
+					toggle(true);
+				});
+
+				disableButton.addEventListener('click', () => {
+					toggle(false);
+				});
+
+				toggle(true);
 			}
+
 			window.addEventListener('load', init);
 		</script>
 	</head>

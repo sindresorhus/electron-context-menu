@@ -1,12 +1,23 @@
 import process from 'node:process';
 import electron from 'electron';
 import cliTruncate from 'cli-truncate';
-import {download} from 'electron-dl';
+import {download, CancelError} from 'electron-dl';
 import isDev from 'electron-is-dev';
 
-const webContents = win => win.webContents ?? (win.id && win);
+const webContents = win => win.webContents ?? win;
 
 const applyTransform = (menuItem, value) => menuItem.transform ? menuItem.transform(value) : value;
+
+const downloadFile = async (target, url, options) => {
+	try {
+		await download(target, url, options);
+	} catch (error) {
+		// Cancelling the save dialog is a normal user action, not an error.
+		if (!(error instanceof CancelError)) {
+			electron.dialog.showErrorBox('Download Error', error.message);
+		}
+	}
+};
 
 const writeBookmark = async (title, url) => electron.clipboard.write([
 	new electron.ClipboardItem({
@@ -15,27 +26,58 @@ const writeBookmark = async (title, url) => electron.clipboard.write([
 	}),
 ]);
 
-const decorateMenuItem = menuItem => (options = {}) => {
-	if (options.transform && !options.click) {
-		menuItem.transform = options.transform;
+// Electron does not await menu click handlers, so a rejection would go unhandled and crash the app.
+const catchClickErrors = click => async menuItem => {
+	try {
+		await click(menuItem);
+	} catch (error) {
+		electron.dialog.showErrorBox('Error', error.message);
 	}
+};
 
-	return menuItem;
+const decorateMenuItem = menuItem => {
+	menuItem.click = catchClickErrors(menuItem.click);
+
+	return (options = {}) => {
+		if (options.transform && !options.click) {
+			menuItem.transform = options.transform;
+		}
+
+		return menuItem;
+	};
 };
 
 const removeUnusedMenuItems = menuTemplate => {
-	let notDeletedPreviousElement;
+	const menuItems = [];
 
-	return menuTemplate
-		.filter(menuItem => menuItem !== undefined && menuItem !== false && menuItem.visible !== false && menuItem.visible !== '')
-		.filter((menuItem, index, array) => {
-			const toDelete = menuItem.type === 'separator' && (!notDeletedPreviousElement || index === array.length - 1 || array[index + 1].type === 'separator');
-			notDeletedPreviousElement = toDelete ? notDeletedPreviousElement : menuItem;
-			return !toDelete;
-		});
+	for (const menuItem of menuTemplate) {
+		// `visible` is an empty string when it comes from an expression like `visible: parameters.misspelledWord`.
+		if (!menuItem || menuItem.visible === false || menuItem.visible === '') {
+			continue;
+		}
+
+		// Skip leading and repeated separators.
+		if (menuItem.type === 'separator' && (menuItems.length === 0 || menuItems.at(-1).type === 'separator')) {
+			continue;
+		}
+
+		menuItems.push(menuItem);
+	}
+
+	// Drop a trailing separator.
+	if (menuItems.at(-1)?.type === 'separator') {
+		menuItems.pop();
+	}
+
+	return menuItems;
 };
 
 const create = (win, options) => {
+	const currentWebContents = webContents(win);
+
+	// `electron-dl` only needs `.webContents`, so wrapping it this way also works when `win` is itself a `WebContents`.
+	const downloadTarget = {webContents: currentWebContents};
+
 	const handleContextMenu = (event, properties) => {
 		if (typeof options.shouldShowMenu === 'function' && options.shouldShowMenu(event, properties) === false) {
 			return;
@@ -44,17 +86,16 @@ const create = (win, options) => {
 		const {editFlags} = properties;
 		const hasText = properties.selectionText.length > 0;
 		const isLink = Boolean(properties.linkURL);
-		const can = type => editFlags[`can${type}`] && hasText;
+		const isMisspelled = Boolean(properties.isEditable && hasText && properties.misspelledWord);
 
 		const defaultActions = {
 			separator: () => ({type: 'separator'}),
 			learnSpelling: decorateMenuItem({
 				id: 'learnSpelling',
 				label: '&Learn Spelling',
-				visible: Boolean(properties.isEditable && hasText && properties.misspelledWord),
+				visible: isMisspelled,
 				click() {
-					const target = webContents(win);
-					target.session.addWordToSpellCheckerDictionary(properties.misspelledWord);
+					currentWebContents.session.addWordToSpellCheckerDictionary(properties.misspelledWord);
 				},
 			}),
 			lookUpSelection: decorateMenuItem({
@@ -63,7 +104,7 @@ const create = (win, options) => {
 				visible: process.platform === 'darwin' && hasText && !isLink,
 				click() {
 					if (process.platform === 'darwin') {
-						webContents(win).showDefinitionForSelection();
+						currentWebContents.showDefinitionForSelection();
 					}
 				},
 			}),
@@ -80,32 +121,26 @@ const create = (win, options) => {
 			cut: decorateMenuItem({
 				id: 'cut',
 				label: 'Cu&t',
-				enabled: can('Cut'),
+				enabled: editFlags.canCut && hasText,
 				visible: properties.isEditable,
 				async click(menuItem) {
-					const target = webContents(win);
-
-					if (!menuItem.transform && target) {
-						target.cut();
+					if (menuItem.transform) {
+						await electron.clipboard.writeText(menuItem.transform(properties.selectionText));
 					} else {
-						properties.selectionText = applyTransform(menuItem, properties.selectionText);
-						await electron.clipboard.writeText(properties.selectionText);
+						currentWebContents.cut();
 					}
 				},
 			}),
 			copy: decorateMenuItem({
 				id: 'copy',
 				label: '&Copy',
-				enabled: can('Copy'),
+				enabled: editFlags.canCopy && hasText,
 				visible: properties.isEditable || hasText,
 				async click(menuItem) {
-					const target = webContents(win);
-
-					if (!menuItem.transform && target) {
-						target.copy();
+					if (menuItem.transform) {
+						await electron.clipboard.writeText(menuItem.transform(properties.selectionText));
 					} else {
-						properties.selectionText = applyTransform(menuItem, properties.selectionText);
-						await electron.clipboard.writeText(properties.selectionText);
+						currentWebContents.copy();
 					}
 				},
 			}),
@@ -115,13 +150,11 @@ const create = (win, options) => {
 				enabled: editFlags.canPaste,
 				visible: properties.isEditable,
 				async click(menuItem) {
-					const target = webContents(win);
-
 					if (menuItem.transform) {
 						const clipboardContent = await electron.clipboard.readText();
-						await target.insertText(menuItem.transform(clipboardContent));
+						await currentWebContents.insertText(menuItem.transform(clipboardContent));
 					} else {
-						target.paste();
+						currentWebContents.paste();
 					}
 				},
 			}),
@@ -129,7 +162,7 @@ const create = (win, options) => {
 				id: 'selectAll',
 				label: 'Select &All',
 				click() {
-					webContents(win).selectAll();
+					currentWebContents.selectAll();
 				},
 			}),
 			saveImage: decorateMenuItem({
@@ -137,8 +170,7 @@ const create = (win, options) => {
 				label: 'Save I&mage',
 				visible: properties.mediaType === 'image',
 				click(menuItem) {
-					properties.srcURL = applyTransform(menuItem, properties.srcURL);
-					download(win, properties.srcURL);
+					return downloadFile(downloadTarget, applyTransform(menuItem, properties.srcURL));
 				},
 			}),
 			saveImageAs: decorateMenuItem({
@@ -146,8 +178,7 @@ const create = (win, options) => {
 				label: 'Sa&ve Image As…',
 				visible: properties.mediaType === 'image',
 				click(menuItem) {
-					properties.srcURL = applyTransform(menuItem, properties.srcURL);
-					download(win, properties.srcURL, {saveAs: true});
+					return downloadFile(downloadTarget, applyTransform(menuItem, properties.srcURL), {saveAs: true});
 				},
 			}),
 			saveVideo: decorateMenuItem({
@@ -155,17 +186,15 @@ const create = (win, options) => {
 				label: 'Save Vide&o',
 				visible: properties.mediaType === 'video',
 				click(menuItem) {
-					properties.srcURL = applyTransform(menuItem, properties.srcURL);
-					download(win, properties.srcURL);
+					return downloadFile(downloadTarget, applyTransform(menuItem, properties.srcURL));
 				},
 			}),
 			saveVideoAs: decorateMenuItem({
 				id: 'saveVideoAs',
-				label: 'Save Video& As…',
+				label: 'Sa&ve Video As…',
 				visible: properties.mediaType === 'video',
 				click(menuItem) {
-					properties.srcURL = applyTransform(menuItem, properties.srcURL);
-					download(win, properties.srcURL, {saveAs: true});
+					return downloadFile(downloadTarget, applyTransform(menuItem, properties.srcURL), {saveAs: true});
 				},
 			}),
 			copyLink: decorateMenuItem({
@@ -173,8 +202,7 @@ const create = (win, options) => {
 				label: 'Copy Lin&k',
 				visible: properties.linkURL.length > 0 && properties.mediaType === 'none',
 				async click(menuItem) {
-					properties.linkURL = applyTransform(menuItem, properties.linkURL);
-					await writeBookmark(properties.linkText, properties.linkURL);
+					await writeBookmark(properties.linkText, applyTransform(menuItem, properties.linkURL));
 				},
 			}),
 			saveLinkAs: decorateMenuItem({
@@ -182,8 +210,7 @@ const create = (win, options) => {
 				label: 'Save Link As…',
 				visible: properties.linkURL.length > 0 && properties.mediaType === 'none',
 				click(menuItem) {
-					properties.linkURL = applyTransform(menuItem, properties.linkURL);
-					download(win, properties.linkURL, {saveAs: true});
+					return downloadFile(downloadTarget, applyTransform(menuItem, properties.linkURL), {saveAs: true});
 				},
 			}),
 			copyImage: decorateMenuItem({
@@ -191,7 +218,7 @@ const create = (win, options) => {
 				label: 'Cop&y Image',
 				visible: properties.mediaType === 'image',
 				click() {
-					webContents(win).copyImageAt(properties.x, properties.y);
+					currentWebContents.copyImageAt(properties.x, properties.y);
 				},
 			}),
 			copyImageAddress: decorateMenuItem({
@@ -199,8 +226,8 @@ const create = (win, options) => {
 				label: 'C&opy Image Address',
 				visible: properties.mediaType === 'image',
 				async click(menuItem) {
-					properties.srcURL = applyTransform(menuItem, properties.srcURL);
-					await writeBookmark(properties.srcURL, properties.srcURL);
+					const url = applyTransform(menuItem, properties.srcURL);
+					await writeBookmark(url, url);
 				},
 			}),
 			copyVideoAddress: decorateMenuItem({
@@ -208,19 +235,35 @@ const create = (win, options) => {
 				label: 'Copy Video Ad&dress',
 				visible: properties.mediaType === 'video',
 				async click(menuItem) {
-					properties.srcURL = applyTransform(menuItem, properties.srcURL);
-					await writeBookmark(properties.srcURL, properties.srcURL);
+					const url = applyTransform(menuItem, properties.srcURL);
+					await writeBookmark(url, url);
+				},
+			}),
+			copyVideoFrame: decorateMenuItem({
+				id: 'copyVideoFrame',
+				label: 'Copy Video Fra&me',
+				visible: properties.mediaType === 'video',
+				click() {
+					currentWebContents.copyVideoFrameAt(properties.x, properties.y);
+				},
+			}),
+			saveVideoFrameAs: decorateMenuItem({
+				id: 'saveVideoFrameAs',
+				label: 'Save Video &Frame As…',
+				visible: properties.mediaType === 'video',
+				click() {
+					currentWebContents.saveVideoFrameAs(properties.x, properties.y);
 				},
 			}),
 			inspect: () => ({
 				id: 'inspect',
 				label: 'I&nspect Element',
 				click() {
-					webContents(win).inspectElement(properties.x, properties.y);
+					currentWebContents.inspectElement(properties.x, properties.y);
 
-					if (webContents(win).isDevToolsOpened()) {
-						webContents(win).devToolsWebContents.focus();
-					}
+					// Raise the DevTools window when it is already open but not focused.
+					// Deliberately a no-op when DevTools was closed, as opening it focuses it anyway.
+					currentWebContents.devToolsWebContents?.focus();
 				},
 			}),
 			services: () => ({
@@ -231,37 +274,29 @@ const create = (win, options) => {
 			}),
 		};
 
-		const shouldShowInspectElement = typeof options.showInspectElement === 'boolean' ? options.showInspectElement : isDev;
-		const shouldShowSelectAll = options.showSelectAll || (options.showSelectAll !== false && process.platform !== 'darwin');
+		const shouldShowInspectElement = options.showInspectElement ?? isDev;
+		const shouldShowSelectAll = options.showSelectAll ?? process.platform !== 'darwin';
 
-		function word(suggestion) {
-			return {
+		const dictionarySuggestions = properties.dictionarySuggestions.length > 0
+			? properties.dictionarySuggestions.map(suggestion => ({
 				id: 'dictionarySuggestions',
 				label: suggestion,
-				visible: Boolean(properties.isEditable && hasText && properties.misspelledWord),
+				visible: isMisspelled,
 				click(menuItem) {
-					const target = webContents(win);
-					target.replaceMisspelling(menuItem.label);
+					currentWebContents.replaceMisspelling(menuItem.label);
 				},
-			};
-		}
-
-		let dictionarySuggestions = [];
-		if (hasText && properties.misspelledWord && properties.dictionarySuggestions.length > 0) {
-			dictionarySuggestions = properties.dictionarySuggestions.map(suggestion => word(suggestion));
-		} else {
-			dictionarySuggestions.push(
+			}))
+			: [
 				{
 					id: 'dictionarySuggestions',
 					label: 'No Guesses Found',
-					visible: Boolean(hasText && properties.misspelledWord),
+					visible: isMisspelled,
 					enabled: false,
 				},
-			);
-		}
+			];
 
 		let menuTemplate = [
-			dictionarySuggestions.length > 0 && defaultActions.separator(),
+			defaultActions.separator(),
 			...dictionarySuggestions,
 			defaultActions.separator(),
 			options.showLearnSpelling !== false && defaultActions.learnSpelling(),
@@ -282,6 +317,8 @@ const create = (win, options) => {
 			options.showSaveVideo && defaultActions.saveVideo(),
 			options.showSaveVideoAs && defaultActions.saveVideoAs(),
 			options.showCopyVideoAddress && defaultActions.copyVideoAddress(),
+			options.showCopyVideoFrame && defaultActions.copyVideoFrame(),
+			options.showSaveVideoFrameAs && defaultActions.saveVideoFrameAs(),
 			defaultActions.separator(),
 			options.showCopyLink !== false && defaultActions.copyLink(),
 			options.showSaveLinkAs && defaultActions.saveLinkAs(),
@@ -292,7 +329,11 @@ const create = (win, options) => {
 		];
 
 		if (options.menu) {
-			menuTemplate = options.menu(defaultActions, properties, win, dictionarySuggestions, event);
+			const result = options.menu(defaultActions, properties, win, dictionarySuggestions, event);
+
+			if (Array.isArray(result)) {
+				menuTemplate = result;
+			}
 		}
 
 		if (options.prepend) {
@@ -339,11 +380,15 @@ const create = (win, options) => {
 				menu.on('menu-will-close', options.onClose);
 			}
 
-			menu.popup(win);
+			menu.popup({
+				window: electron.BrowserWindow.fromWebContents(currentWebContents) ?? undefined,
+				// Lets macOS add its own items, like Writing Tools and Autofill.
+				frame: properties.frame ?? undefined,
+				sourceType: properties.menuSourceType,
+			});
 		}
 	};
 
-	const currentWebContents = webContents(win);
 	currentWebContents.on('context-menu', handleContextMenu);
 
 	return () => {
@@ -357,52 +402,38 @@ export default function contextMenu(options = {}) {
 	}
 
 	let isDisposed = false;
-	const disposables = [];
+	const disposables = new Set();
 
 	const init = win => {
 		if (isDisposed) {
 			return;
 		}
 
+		const currentWebContents = webContents(win);
 		const disposeMenu = create(win, options);
 
-		const disposable = () => {
+		// Also runs as the `destroyed` listener, where `once` has already removed it.
+		const disposeWindow = () => {
+			disposables.delete(disposeWindow);
+			currentWebContents.removeListener('destroyed', disposeWindow);
 			disposeMenu();
 		};
 
-		webContents(win).once('destroyed', disposable);
-		disposables.push(disposable);
+		currentWebContents.once('destroyed', disposeWindow);
+		disposables.add(disposeWindow);
 	};
 
 	const dispose = () => {
-		for (const dispose of disposables) {
-			dispose();
+		for (const disposeWindow of disposables) {
+			disposeWindow();
 		}
 
-		disposables.length = 0;
+		disposables.clear();
 		isDisposed = true;
 	};
 
 	if (options.window) {
-		const win = options.window;
-
-		// When window is a webview that has not yet finished loading webContents is not available
-		if (webContents(win) === undefined) {
-			const onDomReady = () => {
-				init(win);
-			};
-
-			const listenerFunction = win.addEventListener ?? win.addListener;
-			listenerFunction('dom-ready', onDomReady, {once: true});
-
-			disposables.push(() => {
-				win.removeEventListener('dom-ready', onDomReady, {once: true});
-			});
-
-			return dispose;
-		}
-
-		init(win);
+		init(options.window);
 
 		return dispose;
 	}
@@ -416,7 +447,7 @@ export default function contextMenu(options = {}) {
 	};
 
 	electron.app.on('browser-window-created', onWindowCreated);
-	disposables.push(() => {
+	disposables.add(() => {
 		electron.app.removeListener('browser-window-created', onWindowCreated);
 	});
 
