@@ -193,7 +193,7 @@ Show the `Paste and Match Style` menu item when right-clicking in an editable fi
 Type: `boolean`\
 Default: `true`
 
-Show the `Copy Image` menu item when right-clicking on an image.
+Show the `Copy Image` menu item when right-clicking on an image or a `<canvas>`.
 
 #### showCopyImageAddress
 
@@ -217,6 +217,8 @@ Type: `boolean`\
 Default: `false`
 
 Show the `Save Image As…` menu item when right-clicking on an image.
+
+A `<canvas>` cannot be saved, as it has no URL to download.
 
 #### showCopyVideoAddress
 

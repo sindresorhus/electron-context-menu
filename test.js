@@ -50,6 +50,14 @@ test('shows the image items when right-clicking an image', t => {
 	t.false(menus.image.includes('Save Vide&o'));
 });
 
+test('shows the copy image item when right-clicking a canvas', t => {
+	t.true(menus.canvas.includes('Cop&y Image'));
+	// A canvas has no URL to download or copy an address from.
+	t.false(menus.canvas.includes('Save I&mage'));
+	t.false(menus.canvas.includes('Sa&ve Image As…'));
+	t.false(menus.canvas.includes('C&opy Image Address'));
+});
+
 test('shows the video items when right-clicking a video', t => {
 	t.true(menus.video.includes('Save Vide&o'));
 	t.true(menus.video.includes('Sa&ve Video As…'));

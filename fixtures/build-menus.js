@@ -121,6 +121,7 @@ const withMenu = (options, properties) => {
 		fileUrlLinkShown: withMenu({showFileUrlItems: true, showSaveLinkAs: true}, {linkURL: 'file:///Users/unicorn/index.html', linkText: 'Local'}),
 		fileUrlImage: withMenu({showCopyImageAddress: true}, {mediaType: 'image', srcURL: 'file:///Users/unicorn/unicorn.png'}),
 		fileUrlVideo: withMenu({showCopyVideoAddress: true}, {mediaType: 'video', srcURL: 'file:///Users/unicorn/unicorn.mp4'}),
+		canvas: withMenu({showSaveImage: true, showSaveImageAs: true, showCopyImageAddress: true}, {mediaType: 'canvas'}),
 		labels: withMenu({labels: {copy: 'Kopier', lookUpSelection: 'Slå opp “{selection}”'}}, selection),
 		forced: withMenu({showInspectElement: true, showSelectAll: true}, selection),
 		search: withMenu({search: {label: 'Search with DuckDuckGo', url: 'https://duckduckgo.com/?q=%s'}}, selection),

@@ -285,7 +285,7 @@ export type Options = {
 	readonly showPasteAndMatchStyle?: boolean;
 
 	/**
-	Show the `Copy Image` menu item when right-clicking on an image.
+	Show the `Copy Image` menu item when right-clicking on an image or a `<canvas>`.
 
 	@default true
 	*/
@@ -309,6 +309,8 @@ export type Options = {
 
 	/**
 	Show the `Save Image As…` menu item when right-clicking on an image.
+
+	A `<canvas>` cannot be saved, as it has no URL to download.
 
 	@default false
 	*/

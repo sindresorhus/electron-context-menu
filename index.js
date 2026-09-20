@@ -239,7 +239,8 @@ const create = (win, options) => {
 			copyImage: decorateMenuItem({
 				id: 'copyImage',
 				label: 'Cop&y Image',
-				visible: properties.mediaType === 'image',
+				// A `<canvas>` has no URL, but `copyImageAt` copies its rendered pixels just like an image.
+				visible: properties.mediaType === 'image' || properties.mediaType === 'canvas',
 				click() {
 					currentWebContents.copyImageAt(properties.x, properties.y);
 				},
