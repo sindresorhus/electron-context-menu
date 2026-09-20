@@ -137,6 +137,13 @@ Default: `true`
 
 Show the `Search with Google` menu item when right-clicking text.
 
+#### showDictionarySuggestions
+
+Type: `boolean`\
+Default: `true`
+
+Show the dictionary suggestions when right-clicking a misspelled word.
+
 #### showSelectAll
 
 Type: `boolean`\
@@ -305,6 +312,7 @@ The following options are ignored when `menu` is used:
 - `showLearnSpelling`
 - `showLookUpSelection`
 - `showSearchWithGoogle`
+- `showDictionarySuggestions`
 - `showSelectAll`
 - `showPasteAndMatchStyle`
 - `showCopyImage`

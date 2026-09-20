@@ -151,6 +151,12 @@ const withMenu = (options, properties) => {
 			selectionText: 'unicron',
 			misspelledWord: 'unicron',
 		}),
+		hiddenSuggestions: withMenu({showDictionarySuggestions: false}, {
+			...selection,
+			selectionText: 'unicron',
+			misspelledWord: 'unicron',
+			dictionarySuggestions: ['unicorn', 'unicorns'],
+		}),
 	};
 
 	// The `window` option also accepts a bare `WebContents`.

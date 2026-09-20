@@ -145,6 +145,11 @@ test('shows a placeholder when there are no dictionary suggestions', t => {
 	t.true(menus.noSuggestions.includes('No Guesses Found'));
 });
 
+test('hides the dictionary suggestions when disabled', t => {
+	t.false(menus.hiddenSuggestions.includes('unicorn'));
+	t.true(menus.hiddenSuggestions.includes('&Learn Spelling'));
+});
+
 test('accepts a bare `WebContents` as the `window` option', t => {
 	t.deepEqual(menus.bareWebContents, menus.text);
 });

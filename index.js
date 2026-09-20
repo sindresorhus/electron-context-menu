@@ -305,7 +305,7 @@ const create = (win, options) => {
 
 		let menuTemplate = [
 			defaultActions.separator(),
-			...dictionarySuggestions,
+			...(options.showDictionarySuggestions === false ? [] : dictionarySuggestions),
 			defaultActions.separator(),
 			options.showLearnSpelling !== false && defaultActions.learnSpelling(),
 			defaultActions.separator(),

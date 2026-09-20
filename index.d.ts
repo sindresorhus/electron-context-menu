@@ -212,6 +212,13 @@ export type Options = {
 	readonly showSearchWithGoogle?: boolean;
 
 	/**
+	Show the dictionary suggestions when right-clicking a misspelled word.
+
+	@default true
+	*/
+	readonly showDictionarySuggestions?: boolean;
+
+	/**
 	Show the `Select All` menu item when right-clicking in a window.
 
 	Default: `false` on macOS, `true` on Windows and Linux
@@ -380,6 +387,7 @@ export type Options = {
 	- `showLearnSpelling`
 	- `showLookUpSelection`
 	- `showSearchWithGoogle`
+	- `showDictionarySuggestions`
 	- `showSelectAll`
 	- `showPasteAndMatchStyle`
 	- `showCopyImage`
