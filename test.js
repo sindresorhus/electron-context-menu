@@ -145,6 +145,19 @@ test('keeps items without an `id` when custom items are provided', t => {
 	t.true(menus.prependWithoutId.includes('unicorns'));
 });
 
+test('lets `updateMenu` filter the final template', t => {
+	t.false(menus.updatedMenu.includes('&Copy'));
+	t.true(menus.updatedMenu.includes('Cu&t'));
+});
+
+test('lets `updateMenu` inject items in place', t => {
+	t.is(menus.updatedMenuInPlace.at(-1), 'Injected');
+});
+
+test('ignores an `updateMenu` that does not return an array', t => {
+	t.deepEqual(menus.updatedMenuNonArray, menus.text);
+});
+
 test('replaces the {selection} placeholder with trimmed and truncated text', t => {
 	// The text is trimmed, truncated to 25 columns, and `&` is escaped to `&&` so it is not read as a mnemonic.
 	t.true(menus.placeholder.includes('Search for “Rainbows && unicorns are …”'));

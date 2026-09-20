@@ -377,10 +377,6 @@ const create = (win, options) => {
 		// TODO: https://github.com/electron/electron/issues/5869
 		menuTemplate = removeUnusedMenuItems(menuTemplate);
 
-		if (menuTemplate.length === 0) {
-			return;
-		}
-
 		const selectionString = typeof properties.selectionText === 'string' ? properties.selectionText.trim() : '';
 
 		for (const menuItem of menuTemplate) {
@@ -393,6 +389,16 @@ const create = (win, options) => {
 				// The replacement is a function so that `$` patterns in the selection text are not treated as replacement patterns.
 				menuItem.label = label.replace('{selection}', () => cliTruncate(selectionString, 25).replaceAll('&', '&&'));
 			}
+		}
+
+		const updatedMenuTemplate = options.updateMenu?.(menuTemplate);
+
+		if (Array.isArray(updatedMenuTemplate)) {
+			menuTemplate = updatedMenuTemplate;
+		}
+
+		if (menuTemplate.length === 0) {
+			return;
 		}
 
 		const menu = electron.Menu.buildFromTemplate(menuTemplate);

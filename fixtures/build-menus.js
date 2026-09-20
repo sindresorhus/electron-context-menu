@@ -147,6 +147,15 @@ const withMenu = (options, properties) => {
 		overriddenAppend: withMenu({
 			append: () => [{id: 'searchWithGoogle', label: 'Custom Search'}],
 		}, selection),
+		updatedMenu: withMenu({
+			updateMenu: menuTemplate => menuTemplate.filter(menuItem => menuItem.id !== 'copy'),
+		}, selection),
+		updatedMenuInPlace: withMenu({
+			updateMenu(menuTemplate) {
+				menuTemplate.push({label: 'Injected'});
+			},
+		}, selection),
+		updatedMenuNonArray: withMenu({updateMenu: () => 'unicorn'}, selection),
 		prependWithoutId: withMenu({
 			prepend: () => [{label: 'Prepended'}],
 		}, {

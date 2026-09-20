@@ -484,6 +484,23 @@ export type Options = {
 	) => MenuItemConstructorOptions[];
 
 	/**
+	Called with the final menu template just before the menu is shown, so you can modify it.
+
+	Return a new template to replace the one passed in, or modify the array in place. Any other return value is ignored.
+
+	Menu items added here do not get the `labels` overrides or the `{selection}` placeholder replaced. Use `prepend` or `append` to add items.
+
+	@example
+	```
+	{
+		// Removes the `Copy Image Address` menu item
+		updateMenu: menuTemplate => menuTemplate.filter(menuItem => menuItem.id !== 'copyImageAddress')
+	}
+	```
+	*/
+	readonly updateMenu?: (menuTemplate: MenuItemConstructorOptions[]) => MenuItemConstructorOptions[] | void;
+
+	/**
 	Called when the context menu is shown.
 
 	The function receives the [Electron `Event` object](https://electronjs.org/docs/api/structures/event).
