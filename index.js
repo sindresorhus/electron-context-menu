@@ -123,6 +123,15 @@ const create = (win, options) => {
 					electron.shell.openExternal(url.href);
 				},
 			}),
+			search: decorateMenuItem({
+				id: 'search',
+				label: options.search?.label,
+				visible: hasText && Boolean(options.search),
+				click() {
+					const query = encodeURIComponent(properties.selectionText);
+					electron.shell.openExternal(options.search.url.replaceAll('%s', () => query));
+				},
+			}),
 			cut: decorateMenuItem({
 				id: 'cut',
 				label: 'Cu&t',
@@ -318,6 +327,7 @@ const create = (win, options) => {
 			options.showLookUpSelection !== false && defaultActions.lookUpSelection(),
 			defaultActions.separator(),
 			options.showSearchWithGoogle !== false && defaultActions.searchWithGoogle(),
+			defaultActions.search(),
 			defaultActions.separator(),
 			defaultActions.cut(),
 			defaultActions.copy(),

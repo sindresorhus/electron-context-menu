@@ -42,6 +42,11 @@ electron.clipboard.writeText = async text => {
 
 electron.clipboard.readText = async () => 'unicorn';
 
+const openedUrls = [];
+electron.shell.openExternal = async url => {
+	openedUrls.push(url);
+};
+
 // Electron does not await a menu item's click handler, so the real write has to be awaited through here.
 const {write} = electron.clipboard;
 let clipboardWrite;
@@ -112,6 +117,12 @@ const withMenu = (options, properties) => {
 		fileUrlVideo: withMenu({showCopyVideoAddress: true}, {mediaType: 'video', srcURL: 'file:///Users/unicorn/unicorn.mp4'}),
 		labels: withMenu({labels: {copy: 'Kopier', lookUpSelection: 'Slå opp “{selection}”'}}, selection),
 		forced: withMenu({showInspectElement: true, showSelectAll: true}, selection),
+		search: withMenu({search: {label: 'Search with DuckDuckGo', url: 'https://duckduckgo.com/?q=%s'}}, selection),
+		searchWithoutOption: withMenu({menu: actions => [actions.search()]}, selection),
+		searchWithGoogleDisabled: withMenu({
+			search: {label: 'Search with DuckDuckGo', url: 'https://duckduckgo.com/?q=%s'},
+			showSearchWithGoogle: false,
+		}, selection),
 		pasteAndMatchStyle: withMenu({showPasteAndMatchStyle: true}, selection),
 		disabledText: withMenu({
 			showLearnSpelling: false,
@@ -233,9 +244,9 @@ const withMenu = (options, properties) => {
 	results.menuEvents = menuEvents;
 
 	// `transform` is applied on click, so it needs the built menu rather than the template.
-	const clickFirstItem = async (menu, properties = selection) => {
+	const clickFirstItem = async (menu, properties = selection, options = {}) => {
 		const window_ = createWindow();
-		const dispose = contextMenu({window: window_, menu});
+		const dispose = contextMenu({window: window_, menu, ...options});
 		openMenu(window_, properties);
 		const [menuItem] = capturedMenu.items;
 		await menuItem.click(menuItem);
@@ -258,6 +269,11 @@ const withMenu = (options, properties) => {
 
 	await clickFirstItem(actions => [actions.pasteAndMatchStyle()]);
 	results.pasteAndMatchStyleClick = webContentsCommands.at(-1);
+
+	await clickFirstItem(actions => [actions.search()], {selectionText: 'rainbow unicorns'}, {
+		search: {label: 'Search with DuckDuckGo', url: 'https://duckduckgo.com/?q=%s'},
+	});
+	results.searchUrl = openedUrls.at(-1);
 
 	// `copyLink` writes a bookmark to the real clipboard, so it exercises the actual Electron API rather than a stub.
 	electron.clipboard.clear();

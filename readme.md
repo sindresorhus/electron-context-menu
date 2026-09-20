@@ -141,6 +141,32 @@ Default: `true`
 
 Show the `Search with Google` menu item when right-clicking text.
 
+#### search
+
+Type: `object`
+
+Add a search menu item when right-clicking text.
+
+Set `showSearchWithGoogle` to `false` to use this instead of the built-in `Search with Google` item.
+
+When using `menu`, add the item yourself with `defaultActions.search()`.
+
+The `url` must contain `%s`, which is replaced by the search query, [like in Chrome](https://support.google.com/chrome/answer/95426?hl=en&co=GENIE.Platform%3DDesktop).
+
+`MenuItem` labels may contain the `{selection}` placeholder as described in [`options.labels`](#labels).
+
+Example:
+
+```js
+{
+	search: {
+		label: 'Search with DuckDuckGo',
+		url: 'https://duckduckgo.com/?q=%s'
+	},
+	showSearchWithGoogle: false
+}
+```
+
 #### showDictionarySuggestions
 
 Type: `boolean`\
@@ -359,6 +385,7 @@ Default actions:
 - `learnSpelling`
 - `lookUpSelection`
 - `searchWithGoogle`
+- `search`
 - `cut`
 - `copy`
 - `paste`

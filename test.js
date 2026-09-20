@@ -90,6 +90,24 @@ test('honors the options that force an item to show', t => {
 	t.true(menus.forced.includes('Select &All'));
 });
 
+test('shows a custom search item', t => {
+	t.true(menus.search.includes('Search with DuckDuckGo'));
+	t.false(menus.text.includes('Search with DuckDuckGo'));
+});
+
+test('ignores the search action when the `search` option is not set', t => {
+	t.is(menus.searchWithoutOption, null);
+});
+
+test('can replace the search with Google item with a custom search item', t => {
+	t.true(menus.searchWithGoogleDisabled.includes('Search with DuckDuckGo'));
+	t.false(menus.searchWithGoogleDisabled.includes('&Search with Google'));
+});
+
+test('opens the custom search URL with the encoded query', t => {
+	t.is(menus.searchUrl, 'https://duckduckgo.com/?q=rainbow%20unicorns');
+});
+
 test('shows the paste and match style item only when enabled', t => {
 	t.true(menus.pasteAndMatchStyle.includes('Paste and &Match Style'));
 	t.false(menus.text.includes('Paste and &Match Style'));

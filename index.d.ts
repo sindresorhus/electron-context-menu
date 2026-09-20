@@ -137,6 +137,7 @@ export type Actions = {
 	readonly learnSpelling: (options?: ActionOptions) => MenuItemConstructorOptions;
 	readonly lookUpSelection: (options?: ActionOptions) => MenuItemConstructorOptions;
 	readonly searchWithGoogle: (options?: ActionOptions) => MenuItemConstructorOptions;
+	readonly search: (options?: ActionOptions) => MenuItemConstructorOptions;
 	readonly cut: (options?: ActionOptions) => MenuItemConstructorOptions;
 	readonly copy: (options?: ActionOptions) => MenuItemConstructorOptions;
 	readonly paste: (options?: ActionOptions) => MenuItemConstructorOptions;
@@ -221,6 +222,40 @@ export type Options = {
 	@default true
 	*/
 	readonly showSearchWithGoogle?: boolean;
+
+	/**
+	Add a search menu item when right-clicking text.
+
+	Set `showSearchWithGoogle` to `false` to use this instead of the built-in `Search with Google` item.
+
+	When using `menu`, add the item yourself with `defaultActions.search()`.
+
+	The `url` must contain `%s`, which is replaced by the search query, [like in Chrome](https://support.google.com/chrome/answer/95426?hl=en&co=GENIE.Platform%3DDesktop).
+
+	`MenuItem` labels may contain the `{selection}` placeholder as described in `options.labels`.
+
+	@example
+	```
+	{
+		search: {
+			label: 'Search with DuckDuckGo',
+			url: 'https://duckduckgo.com/?q=%s'
+		},
+		showSearchWithGoogle: false
+	}
+	```
+	*/
+	readonly search?: {
+		/**
+		The label of the menu item.
+		*/
+		readonly label: string;
+
+		/**
+		The URL to open, with `%s` as the placeholder for the search query.
+		*/
+		readonly url: string;
+	};
 
 	/**
 	Show the dictionary suggestions when right-clicking a misspelled word.
@@ -438,7 +473,7 @@ export type Options = {
 
 	To get spellchecking, “Correct Automatically”, and “Learn Spelling” in the menu, make sure you have not disabled the `spellcheck` option (it's `true` by default) in `BrowserWindow`.
 
-	@default [defaultActions.separator(), ...dictionarySuggestions, defaultActions.separator(), defaultActions.learnSpelling(), defaultActions.separator(), defaultActions.lookUpSelection(), defaultActions.separator(), defaultActions.searchWithGoogle(), defaultActions.separator(), defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.pasteAndMatchStyle(), defaultActions.selectAll(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.saveVideo(), defaultActions.saveVideoAs(), defaultActions.copyVideoAddress(), defaultActions.copyVideoFrame(), defaultActions.saveVideoFrameAs(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.saveLinkAs(), defaultActions.separator(), defaultActions.inspect(), defaultActions.services(), defaultActions.separator()]
+	@default [defaultActions.separator(), ...dictionarySuggestions, defaultActions.separator(), defaultActions.learnSpelling(), defaultActions.separator(), defaultActions.lookUpSelection(), defaultActions.separator(), defaultActions.searchWithGoogle(), defaultActions.search(), defaultActions.separator(), defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.pasteAndMatchStyle(), defaultActions.selectAll(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.saveVideo(), defaultActions.saveVideoAs(), defaultActions.copyVideoAddress(), defaultActions.copyVideoFrame(), defaultActions.saveVideoFrameAs(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.saveLinkAs(), defaultActions.separator(), defaultActions.inspect(), defaultActions.services(), defaultActions.separator()]
 	*/
 	readonly menu?: (
 		defaultActions: Actions,
