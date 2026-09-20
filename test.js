@@ -64,6 +64,18 @@ test('shows the link items when right-clicking a link', t => {
 	t.true(menus.link.includes('Save Link As…'));
 });
 
+test('hides the URL items for `file://` URLs by default', t => {
+	t.false(menus.fileUrlLink.includes('Copy Lin&k'));
+	t.false(menus.fileUrlLink.includes('Save Link As…'));
+	t.false(menus.fileUrlImage.includes('C&opy Image Address'));
+	t.false(menus.fileUrlVideo.includes('Copy Video Ad&dress'));
+});
+
+test('shows the URL items for `file://` URLs when enabled', t => {
+	t.true(menus.fileUrlLinkShown.includes('Copy Lin&k'));
+	t.true(menus.fileUrlLinkShown.includes('Save Link As…'));
+});
+
 test('applies custom labels', t => {
 	t.true(menus.labels.includes('Kopier'));
 	t.false(menus.labels.includes('&Copy'));

@@ -176,6 +176,8 @@ Default: `false`
 
 Show the `Copy Image Address` menu item when right-clicking on an image.
 
+Hidden for `file://` URLs by default. See [`showFileUrlItems`](#showfileurlitems).
+
 #### showSaveImage
 
 Type: `boolean`\
@@ -196,6 +198,8 @@ Type: `boolean`\
 Default: `false`
 
 Show the `Copy Video Address` menu item when right-clicking on a video.
+
+Hidden for `file://` URLs by default. See [`showFileUrlItems`](#showfileurlitems).
 
 #### showSaveVideo
 
@@ -229,6 +233,17 @@ Show the `Save Video Frame As…` menu item when right-clicking on a video.
 
 Shows a save dialog for the video frame at the click position.
 
+#### showFileUrlItems
+
+Type: `boolean`\
+Default: `false`
+
+Show the menu items for `file://` URLs when right-clicking on a link, image, or video.
+
+This controls `Copy Link`, `Save Link As…`, `Copy Image Address`, and `Copy Video Address`. You rarely want to expose `file://` URLs to the user.
+
+These items used to be shown unconditionally. Set this to `true` to keep that behavior.
+
 #### showCopyLink
 
 Type: `boolean`\
@@ -236,12 +251,16 @@ Default: `true`
 
 Show the `Copy Link` menu item when right-clicking on a link.
 
+Hidden for `file://` URLs by default. See [`showFileUrlItems`](#showfileurlitems).
+
 #### showSaveLinkAs
 
 Type: `boolean`\
 Default: `false`
 
 Show the `Save Link As…` menu item when right-clicking on a link.
+
+Hidden for `file://` URLs by default. See [`showFileUrlItems`](#showfileurlitems).
 
 #### showInspectElement
 

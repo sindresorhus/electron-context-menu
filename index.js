@@ -80,6 +80,9 @@ const create = (win, options) => {
 	// `electron-dl` only needs `.webContents`, so wrapping it this way also works when `win` is itself a `WebContents`.
 	const downloadTarget = {webContents: currentWebContents};
 
+	// `file://` URLs are rarely useful to expose to the user, so the items showing them are hidden by default.
+	const shouldShowUrl = url => options.showFileUrlItems || !url.startsWith('file://');
+
 	const handleContextMenu = (event, properties) => {
 		if (typeof options.shouldShowMenu === 'function' && options.shouldShowMenu(event, properties) === false) {
 			return;
@@ -211,7 +214,7 @@ const create = (win, options) => {
 			copyLink: decorateMenuItem({
 				id: 'copyLink',
 				label: 'Copy Lin&k',
-				visible: properties.linkURL.length > 0 && properties.mediaType === 'none',
+				visible: properties.linkURL.length > 0 && properties.mediaType === 'none' && shouldShowUrl(properties.linkURL),
 				async click(menuItem) {
 					await writeBookmark(properties.linkText, applyTransform(menuItem, properties.linkURL));
 				},
@@ -219,7 +222,7 @@ const create = (win, options) => {
 			saveLinkAs: decorateMenuItem({
 				id: 'saveLinkAs',
 				label: 'Save Link As…',
-				visible: properties.linkURL.length > 0 && properties.mediaType === 'none',
+				visible: properties.linkURL.length > 0 && properties.mediaType === 'none' && shouldShowUrl(properties.linkURL),
 				click(menuItem) {
 					return downloadFile(downloadTarget, applyTransform(menuItem, properties.linkURL), {saveAs: true});
 				},
@@ -235,7 +238,7 @@ const create = (win, options) => {
 			copyImageAddress: decorateMenuItem({
 				id: 'copyImageAddress',
 				label: 'C&opy Image Address',
-				visible: properties.mediaType === 'image',
+				visible: properties.mediaType === 'image' && shouldShowUrl(properties.srcURL),
 				async click(menuItem) {
 					const url = applyTransform(menuItem, properties.srcURL);
 					await writeBookmark(url, url);
@@ -244,7 +247,7 @@ const create = (win, options) => {
 			copyVideoAddress: decorateMenuItem({
 				id: 'copyVideoAddress',
 				label: 'Copy Video Ad&dress',
-				visible: properties.mediaType === 'video',
+				visible: properties.mediaType === 'video' && shouldShowUrl(properties.srcURL),
 				async click(menuItem) {
 					const url = applyTransform(menuItem, properties.srcURL);
 					await writeBookmark(url, url);
