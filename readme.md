@@ -271,7 +271,8 @@ Format:
 	labels: {
 		copy: 'Copiar',
 		saveImageAs: 'Guardar imagen como…',
-		lookUpSelection: 'Consultar “{selection}”'
+		lookUpSelection: 'Consultar “{selection}”',
+		dictionarySuggestions: 'No se encontraron sugerencias'
 	}
 }
 ```

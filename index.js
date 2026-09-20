@@ -285,9 +285,9 @@ const create = (win, options) => {
 		const shouldShowInspectElement = options.showInspectElement ?? isDev;
 		const shouldShowSelectAll = options.showSelectAll ?? (process.platform !== 'darwin');
 
+		// The suggestions are dynamic words with no stable identity, so they deliberately have no `id`. That also keeps `options.labels` from renaming them.
 		const dictionarySuggestions = properties.dictionarySuggestions.length > 0
 			? properties.dictionarySuggestions.map(suggestion => ({
-				id: 'dictionarySuggestions',
 				label: suggestion,
 				visible: isMisspelled,
 				click(menuItem) {

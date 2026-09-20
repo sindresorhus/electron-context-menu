@@ -145,6 +145,17 @@ test('shows a placeholder when there are no dictionary suggestions', t => {
 	t.true(menus.noSuggestions.includes('No Guesses Found'));
 });
 
+test('allows translating the placeholder shown when there are no dictionary suggestions', t => {
+	t.true(menus.suggestionsLabel.includes('Aucune proposition trouvée'));
+	t.false(menus.suggestionsLabel.includes('No Guesses Found'));
+});
+
+test('does not rename the dictionary suggestions themselves', t => {
+	t.true(menus.suggestionsLabelWithSuggestions.includes('unicorn'));
+	t.true(menus.suggestionsLabelWithSuggestions.includes('unicorns'));
+	t.false(menus.suggestionsLabelWithSuggestions.includes('Aucune proposition trouvée'));
+});
+
 test('hides the dictionary suggestions when disabled', t => {
 	t.false(menus.hiddenSuggestions.includes('unicorn'));
 	t.true(menus.hiddenSuggestions.includes('&Learn Spelling'));

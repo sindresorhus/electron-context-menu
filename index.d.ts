@@ -26,6 +26,13 @@ export type Labels = {
 	readonly searchWithGoogle?: string;
 
 	/**
+	Shown in place of the dictionary suggestions when there are none.
+
+	@default 'No Guesses Found'
+	*/
+	readonly dictionarySuggestions?: string;
+
+	/**
 	@default 'Cut'
 	*/
 	readonly cut?: string;
@@ -340,8 +347,10 @@ export type Options = {
 	```
 	{
 		labels: {
-			copy: 'Configured Copy',
-			saveImageAs: 'Configured Save Image As…'
+			copy: 'Copiar',
+			saveImageAs: 'Guardar imagen como…',
+			lookUpSelection: 'Consultar “{selection}”',
+			dictionarySuggestions: 'No se encontraron sugerencias'
 		}
 	}
 	```

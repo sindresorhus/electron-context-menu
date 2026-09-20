@@ -151,6 +151,17 @@ const withMenu = (options, properties) => {
 			selectionText: 'unicron',
 			misspelledWord: 'unicron',
 		}),
+		suggestionsLabel: withMenu({labels: {dictionarySuggestions: 'Aucune proposition trouvée'}}, {
+			...selection,
+			selectionText: 'unicron',
+			misspelledWord: 'unicron',
+		}),
+		suggestionsLabelWithSuggestions: withMenu({labels: {dictionarySuggestions: 'Aucune proposition trouvée'}}, {
+			...selection,
+			selectionText: 'unicron',
+			misspelledWord: 'unicron',
+			dictionarySuggestions: ['unicorn', 'unicorns'],
+		}),
 		hiddenSuggestions: withMenu({showDictionarySuggestions: false}, {
 			...selection,
 			selectionText: 'unicron',
