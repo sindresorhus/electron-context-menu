@@ -113,6 +113,11 @@ export type Labels = {
 	readonly saveVideoFrameAs?: string;
 
 	/**
+	@default 'Picture in Picture'
+	*/
+	readonly pictureInPicture?: string;
+
+	/**
 	@default 'Inspect Element'
 	*/
 	readonly inspect?: string;
@@ -154,6 +159,7 @@ export type Actions = {
 	readonly copyVideoAddress: (options?: ActionOptions) => MenuItemConstructorOptions;
 	readonly copyVideoFrame: (options?: ActionOptions) => MenuItemConstructorOptions;
 	readonly saveVideoFrameAs: (options?: ActionOptions) => MenuItemConstructorOptions;
+	readonly pictureInPicture: (options?: ActionOptions) => MenuItemConstructorOptions;
 	readonly inspect: () => MenuItemConstructorOptions;
 	readonly services: () => MenuItemConstructorOptions;
 };
@@ -350,6 +356,15 @@ export type Options = {
 	readonly showSaveVideoFrameAs?: boolean;
 
 	/**
+	Show the `Picture in Picture` menu item when right-clicking on a video.
+
+	Toggles [Picture-in-Picture](https://developer.mozilla.org/en-US/docs/Web/API/Picture-in-Picture_API) for the video.
+
+	@default false
+	*/
+	readonly showPictureInPicture?: boolean;
+
+	/**
 	Show the menu items for `file://` URLs when right-clicking on a link, image, or video.
 
 	This controls `Copy Link`, `Save Link As…`, `Copy Image Address`, and `Copy Video Address`. You rarely want to expose `file://` URLs to the user.
@@ -466,6 +481,7 @@ export type Options = {
 	- `showSaveVideoAs`
 	- `showCopyVideoFrame`
 	- `showSaveVideoFrameAs`
+	- `showPictureInPicture`
 	- `showCopyLink`
 	- `showSaveLinkAs`
 	- `showInspectElement`
@@ -473,7 +489,7 @@ export type Options = {
 
 	To get spellchecking, “Correct Automatically”, and “Learn Spelling” in the menu, make sure you have not disabled the `spellcheck` option (it's `true` by default) in `BrowserWindow`.
 
-	@default [defaultActions.separator(), ...dictionarySuggestions, defaultActions.separator(), defaultActions.learnSpelling(), defaultActions.separator(), defaultActions.lookUpSelection(), defaultActions.separator(), defaultActions.searchWithGoogle(), defaultActions.search(), defaultActions.separator(), defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.pasteAndMatchStyle(), defaultActions.selectAll(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.saveVideo(), defaultActions.saveVideoAs(), defaultActions.copyVideoAddress(), defaultActions.copyVideoFrame(), defaultActions.saveVideoFrameAs(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.saveLinkAs(), defaultActions.separator(), defaultActions.inspect(), defaultActions.services(), defaultActions.separator()]
+	@default [defaultActions.separator(), ...dictionarySuggestions, defaultActions.separator(), defaultActions.learnSpelling(), defaultActions.separator(), defaultActions.lookUpSelection(), defaultActions.separator(), defaultActions.searchWithGoogle(), defaultActions.search(), defaultActions.separator(), defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.pasteAndMatchStyle(), defaultActions.selectAll(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.saveVideo(), defaultActions.saveVideoAs(), defaultActions.copyVideoAddress(), defaultActions.copyVideoFrame(), defaultActions.saveVideoFrameAs(), defaultActions.pictureInPicture(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.saveLinkAs(), defaultActions.separator(), defaultActions.inspect(), defaultActions.services(), defaultActions.separator()]
 	*/
 	readonly menu?: (
 		defaultActions: Actions,

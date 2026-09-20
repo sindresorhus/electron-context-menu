@@ -6,6 +6,7 @@ import contextMenu from '../index.js';
 
 const insertedText = [];
 const webContentsCommands = [];
+const executedScripts = [];
 
 // Electron's `WebContents` is an `EventEmitter`, so the stand-in must be one too.
 const createWindow = () => {
@@ -18,6 +19,10 @@ const createWindow = () => {
 
 	currentWebContents.pasteAndMatchStyle = () => {
 		webContentsCommands.push('pasteAndMatchStyle');
+	};
+
+	currentWebContents.executeJavaScript = async (script, userGesture) => {
+		executedScripts.push({script, userGesture});
 	};
 
 	return {webContents: currentWebContents};
@@ -109,6 +114,7 @@ const withMenu = (options, properties) => {
 			showCopyVideoAddress: true,
 			showCopyVideoFrame: true,
 			showSaveVideoFrameAs: true,
+			showPictureInPicture: true,
 		}, {mediaType: 'video', srcURL: 'https://example.com/unicorn.mp4'}),
 		link: withMenu({showSaveLinkAs: true}, {linkURL: 'https://example.com', linkText: 'Example'}),
 		fileUrlLink: withMenu({showSaveLinkAs: true}, {linkURL: 'file:///Users/unicorn/index.html', linkText: 'Local'}),
@@ -283,6 +289,10 @@ const withMenu = (options, properties) => {
 		search: {label: 'Search with DuckDuckGo', url: 'https://duckduckgo.com/?q=%s'},
 	});
 	results.searchUrl = openedUrls.at(-1);
+
+	// Picture-in-Picture runs in the page, so it needs the built menu.
+	await clickFirstItem(actions => [actions.pictureInPicture()], {mediaType: 'video', x: 12, y: 34});
+	results.pictureInPicture = executedScripts.at(-1);
 
 	// `copyLink` writes a bookmark to the real clipboard, so it exercises the actual Electron API rather than a stub.
 	electron.clipboard.clear();

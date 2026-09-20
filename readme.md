@@ -259,6 +259,15 @@ Show the `Save Video Frame As…` menu item when right-clicking on a video.
 
 Shows a save dialog for the video frame at the click position.
 
+#### showPictureInPicture
+
+Type: `boolean`\
+Default: `false`
+
+Show the `Picture in Picture` menu item when right-clicking on a video.
+
+Toggles [Picture-in-Picture](https://developer.mozilla.org/en-US/docs/Web/API/Picture-in-Picture_API) for the video.
+
 #### showFileUrlItems
 
 Type: `boolean`\
@@ -374,6 +383,7 @@ The following options are ignored when `menu` is used:
 - `showSaveVideoAs`
 - `showCopyVideoFrame`
 - `showSaveVideoFrameAs`
+- `showPictureInPicture`
 - `showCopyLink`
 - `showSaveLinkAs`
 - `showInspectElement`
@@ -402,6 +412,7 @@ Default actions:
 - `copyVideoAddress`
 - `copyVideoFrame`
 - `saveVideoFrameAs`
+- `pictureInPicture`
 - `inspect`
 - `services`
 

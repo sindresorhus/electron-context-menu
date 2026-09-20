@@ -56,7 +56,19 @@ test('shows the video items when right-clicking a video', t => {
 	t.true(menus.video.includes('Copy Video Ad&dress'));
 	t.true(menus.video.includes('Copy Video Fra&me'));
 	t.true(menus.video.includes('Save Video &Frame As…'));
+	t.true(menus.video.includes('Picture in &Picture'));
 	t.false(menus.video.includes('Cop&y Image'));
+	t.false(menus.text.includes('Picture in &Picture'));
+});
+
+test('toggles picture-in-picture for the video under the cursor', t => {
+	t.true(menus.pictureInPicture.script.includes('elementFromPoint(12, 34)'));
+	t.true(menus.pictureInPicture.script.includes('requestPictureInPicture'));
+	t.true(menus.pictureInPicture.script.includes('exitPictureInPicture'));
+	// The browser throws or rejects for videos that cannot be shown in Picture-in-Picture, and that must not reach the error dialog.
+	t.true(menus.pictureInPicture.script.includes('} catch {'));
+	// Without a simulated user gesture, the browser blocks `requestPictureInPicture()`.
+	t.true(menus.pictureInPicture.userGesture);
 });
 
 test('shows the link items when right-clicking a link', t => {

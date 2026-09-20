@@ -278,6 +278,28 @@ const create = (win, options) => {
 					currentWebContents.saveVideoFrameAs(properties.x, properties.y);
 				},
 			}),
+			pictureInPicture: decorateMenuItem({
+				id: 'pictureInPicture',
+				label: 'Picture in &Picture',
+				visible: properties.mediaType === 'video',
+				click() {
+					// Picture-in-Picture is a web API, so it has to run in the page. The coordinates are relative to the viewport, which is what `elementFromPoint` expects.
+					const script = `
+						(async () => {
+							const video = document.elementFromPoint(${properties.x}, ${properties.y})?.closest('video');
+
+							try {
+								await (document.pictureInPictureElement ? document.exitPictureInPicture() : video.requestPictureInPicture());
+							} catch {
+								// The browser throws or rejects when the video cannot be shown in Picture-in-Picture, which is not worth reporting to the user.
+							}
+						})()
+					`;
+
+					// The simulated user gesture is required for `requestPictureInPicture()`.
+					return currentWebContents.executeJavaScript(script, true);
+				},
+			}),
 			inspect: () => ({
 				id: 'inspect',
 				label: 'I&nspect Element',
@@ -344,6 +366,7 @@ const create = (win, options) => {
 			options.showCopyVideoAddress && defaultActions.copyVideoAddress(),
 			options.showCopyVideoFrame && defaultActions.copyVideoFrame(),
 			options.showSaveVideoFrameAs && defaultActions.saveVideoFrameAs(),
+			options.showPictureInPicture && defaultActions.pictureInPicture(),
 			defaultActions.separator(),
 			options.showCopyLink !== false && defaultActions.copyLink(),
 			options.showSaveLinkAs && defaultActions.saveLinkAs(),
