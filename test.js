@@ -100,10 +100,10 @@ test('strips leading, trailing, and repeated separators', t => {
 	t.not(menus.emptyPrepend.at(0), '[separator]');
 	t.not(menus.emptyPrepend.at(-1), '[separator]');
 
-	for (const [index, label] of menus.emptyPrepend.entries()) {
-		if (label === '[separator]') {
-			t.not(menus.emptyPrepend[index + 1], '[separator]');
-		}
+	// The next item after a separator is never another separator.
+	const separatorIndexes = menus.emptyPrepend.flatMap((label, index) => label === '[separator]' ? index : []);
+	for (const index of separatorIndexes) {
+		t.not(menus.emptyPrepend[index + 1], '[separator]');
 	}
 
 	t.false(menus.emptyPrepend.includes('Invisible'));

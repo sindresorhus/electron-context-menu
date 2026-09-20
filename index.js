@@ -52,12 +52,11 @@ const removeUnusedMenuItems = menuTemplate => {
 
 	for (const menuItem of menuTemplate) {
 		// `visible` is an empty string when it comes from an expression like `visible: parameters.misspelledWord`.
-		if (!menuItem || menuItem.visible === false || menuItem.visible === '') {
-			continue;
-		}
-
+		const isHidden = !menuItem || menuItem.visible === false || menuItem.visible === '';
 		// Skip leading and repeated separators.
-		if (menuItem.type === 'separator' && (menuItems.length === 0 || menuItems.at(-1).type === 'separator')) {
+		const isRedundantSeparator = menuItem?.type === 'separator' && (menuItems.length === 0 || menuItems.at(-1).type === 'separator');
+
+		if (isHidden || isRedundantSeparator) {
 			continue;
 		}
 
@@ -86,7 +85,7 @@ const create = (win, options) => {
 		const {editFlags} = properties;
 		const hasText = properties.selectionText.length > 0;
 		const isLink = Boolean(properties.linkURL);
-		const isMisspelled = Boolean(properties.isEditable && hasText && properties.misspelledWord);
+		const isMisspelled = Boolean(hasText && properties.isEditable && properties.misspelledWord);
 
 		const defaultActions = {
 			separator: () => ({type: 'separator'}),
@@ -115,7 +114,7 @@ const create = (win, options) => {
 				click() {
 					const url = new URL('https://www.google.com/search');
 					url.searchParams.set('q', properties.selectionText);
-					electron.shell.openExternal(url.toString());
+					electron.shell.openExternal(url.href);
 				},
 			}),
 			cut: decorateMenuItem({
@@ -275,7 +274,7 @@ const create = (win, options) => {
 		};
 
 		const shouldShowInspectElement = options.showInspectElement ?? isDev;
-		const shouldShowSelectAll = options.showSelectAll ?? process.platform !== 'darwin';
+		const shouldShowSelectAll = options.showSelectAll ?? (process.platform !== 'darwin');
 
 		const dictionarySuggestions = properties.dictionarySuggestions.length > 0
 			? properties.dictionarySuggestions.map(suggestion => ({
@@ -356,37 +355,40 @@ const create = (win, options) => {
 		// TODO: https://github.com/electron/electron/issues/5869
 		menuTemplate = removeUnusedMenuItems(menuTemplate);
 
+		if (menuTemplate.length === 0) {
+			return;
+		}
+
+		const selectionString = typeof properties.selectionText === 'string' ? properties.selectionText.trim() : '';
+
 		for (const menuItem of menuTemplate) {
 			// Apply custom labels for default menu items
-			if (options.labels && options.labels[menuItem.id]) {
-				menuItem.label = options.labels[menuItem.id];
-			}
+			// `||` rather than `??`, so that an empty custom label leaves the default label in place.
+			const label = options.labels?.[menuItem.id] || menuItem.label;
 
 			// Replace placeholders in menu item labels
-			if (typeof menuItem.label === 'string' && menuItem.label.includes('{selection}')) {
-				const selectionString = typeof properties.selectionText === 'string' ? properties.selectionText.trim() : '';
-				menuItem.label = menuItem.label.replace('{selection}', cliTruncate(selectionString, 25).replaceAll('&', '&&'));
+			if (typeof label === 'string') {
+				// The replacement is a function so that `$` patterns in the selection text are not treated as replacement patterns.
+				menuItem.label = label.replace('{selection}', () => cliTruncate(selectionString, 25).replaceAll('&', '&&'));
 			}
 		}
 
-		if (menuTemplate.length > 0) {
-			const menu = electron.Menu.buildFromTemplate(menuTemplate);
+		const menu = electron.Menu.buildFromTemplate(menuTemplate);
 
-			if (typeof options.onShow === 'function') {
-				menu.on('menu-will-show', options.onShow);
-			}
-
-			if (typeof options.onClose === 'function') {
-				menu.on('menu-will-close', options.onClose);
-			}
-
-			menu.popup({
-				window: electron.BrowserWindow.fromWebContents(currentWebContents) ?? undefined,
-				// Lets macOS add its own items, like Writing Tools and Autofill.
-				frame: properties.frame ?? undefined,
-				sourceType: properties.menuSourceType,
-			});
+		if (typeof options.onShow === 'function') {
+			menu.on('menu-will-show', options.onShow);
 		}
+
+		if (typeof options.onClose === 'function') {
+			menu.on('menu-will-close', options.onClose);
+		}
+
+		menu.popup({
+			window: electron.BrowserWindow.fromWebContents(currentWebContents) ?? undefined,
+			// Lets macOS add its own items, like Writing Tools and Autofill.
+			frame: properties.frame ?? undefined,
+			sourceType: properties.menuSourceType,
+		});
 	};
 
 	currentWebContents.on('context-menu', handleContextMenu);

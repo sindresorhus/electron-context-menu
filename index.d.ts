@@ -165,7 +165,7 @@ export type Options = {
 		defaultActions: Actions,
 		parameters: ContextMenuParams,
 		browserWindow: BrowserWindow | BrowserView | WebContents | WebContentsView,
-		event: ElectronEvent
+		event: ElectronEvent,
 	) => MenuItemConstructorOptions[];
 
 	/**
@@ -179,7 +179,7 @@ export type Options = {
 		defaultActions: Actions,
 		parameters: ContextMenuParams,
 		browserWindow: BrowserWindow | BrowserView | WebContents | WebContentsView,
-		event: ElectronEvent
+		event: ElectronEvent,
 	) => MenuItemConstructorOptions[];
 
 	/**
@@ -344,7 +344,7 @@ export type Options = {
 	*/
 	readonly shouldShowMenu?: (
 		event: ElectronEvent,
-		parameters: ContextMenuParams
+		parameters: ContextMenuParams,
 	) => boolean;
 
 	/**
@@ -391,7 +391,7 @@ export type Options = {
 		parameters: ContextMenuParams,
 		browserWindow: BrowserWindow | BrowserView | WebContents | WebContentsView,
 		dictionarySuggestions: MenuItemConstructorOptions[],
-		event: ElectronEvent
+		event: ElectronEvent,
 	) => MenuItemConstructorOptions[];
 
 	/**

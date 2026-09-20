@@ -178,8 +178,12 @@ const withMenu = (options, properties) => {
 	const eventsWindow = createWindow();
 	const disposeEvents = contextMenu({
 		window: eventsWindow,
-		onShow: () => menuEvents.push('show'),
-		onClose: () => menuEvents.push('close'),
+		onShow() {
+			menuEvents.push('show');
+		},
+		onClose() {
+			menuEvents.push('close');
+		},
 	});
 	openMenu(eventsWindow, selection);
 	capturedMenu.emit('menu-will-show');

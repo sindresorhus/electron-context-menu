@@ -5,11 +5,7 @@
 	"license": "MIT",
 	"repository": "sindresorhus/electron-context-menu",
 	"funding": "https://github.com/sponsors/sindresorhus",
-	"author": {
-		"name": "Sindre Sorhus",
-		"email": "sindresorhus@gmail.com",
-		"url": "https://sindresorhus.com"
-	},
+	"author": "Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)",
 	"type": "module",
 	"exports": {
 		"types": "./index.d.ts",
@@ -49,24 +45,23 @@
 		"dictionary"
 	],
 	"dependencies": {
-		"cli-truncate": "^4.0.0",
-		"electron-dl": "^4.0.0",
+		"cli-truncate": "^6.1.1",
+		"electron-dl": "^5.0.0",
 		"electron-is-dev": "^3.0.1"
 	},
 	"devDependencies": {
-		"@types/node": "^24.13.3",
-		"ava": "^6.1.2",
-		"electron": "^44.0.0",
-		"typescript": "^5.4.5",
-		"xo": "^0.58.0"
+		"@types/node": "^26.6.2",
+		"ava": "^8.0.1",
+		"electron": "^44.4.3",
+		"typescript": "^6.0.3",
+		"xo": "^5.0.1"
 	},
 	"ava": {
 		"timeout": "2m"
 	},
 	"xo": {
-		"envs": [
-			"node",
-			"browser"
+		"ignores": [
+			"fixtures/*.html"
 		]
 	}
 }
