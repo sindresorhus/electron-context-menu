@@ -99,6 +99,22 @@ test('puts `prepend` items first and `append` items last', t => {
 	t.is(menus.prependAndAppend.at(-1), 'Appended');
 });
 
+test('replaces a default action with a prepended item that has the same `id`', t => {
+	t.is(menus.overriddenPrepend.at(0), 'Custom Copy');
+	t.false(menus.overriddenPrepend.includes('&Copy'));
+});
+
+test('replaces a default action with an appended item that has the same `id`', t => {
+	t.is(menus.overriddenAppend.at(-1), 'Custom Search');
+	t.false(menus.overriddenAppend.includes('&Search with Google'));
+});
+
+test('keeps items without an `id` when custom items are provided', t => {
+	t.true(menus.prependWithoutId.includes('Prepended'));
+	t.true(menus.prependWithoutId.includes('unicorn'));
+	t.true(menus.prependWithoutId.includes('unicorns'));
+});
+
 test('replaces the {selection} placeholder with trimmed and truncated text', t => {
 	// The text is trimmed, truncated to 25 columns, and `&` is escaped to `&&` so it is not read as a mnemonic.
 	t.true(menus.placeholder.includes('Search for “Rainbows && unicorns are …”'));

@@ -102,6 +102,8 @@ Should return an array of [`MenuItem`](https://electronjs.org/docs/api/menu-item
 
 The first argument is an array of default actions that can be used. The second argument is [this `parameters` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the window or view the context menu was requested for. The fourth argument is the context menu event.
 
+A menu item with an `id` matching one of the default action names (for example `copy`) replaces that default action, and stays where `prepend` put it. The default action is replaced even when the custom item is not visible.
+
 `MenuItem` labels may contain the placeholder `{selection}` which will be replaced by the currently selected text as described in [`options.labels`](#labels).
 
 #### append
@@ -111,6 +113,8 @@ Type: `Function`
 Should return an array of [`MenuItem`](https://electronjs.org/docs/api/menu-item/) to be appended to the context menu.
 
 The first argument is an array of default actions that can be used. The second argument is [this `parameters` object](https://electronjs.org/docs/api/web-contents/#event-context-menu). The third argument is the window or view the context menu was requested for. The fourth argument is the context menu event.
+
+A menu item with an `id` matching one of the default action names (for example `copy`) replaces that default action, and stays where `append` put it. The default action is replaced even when the custom item is not visible.
 
 `MenuItem` labels may contain the placeholder `{selection}` which will be replaced by the currently selected text as described in [`options.labels`](#labels).
 

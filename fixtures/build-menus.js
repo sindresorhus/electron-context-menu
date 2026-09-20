@@ -126,6 +126,20 @@ const withMenu = (options, properties) => {
 		placeholder: withMenu({
 			prepend: () => [{label: 'Search for “{selection}”'}],
 		}, {selectionText: '  Rainbows & unicorns are extremely wonderful  '}),
+		overriddenPrepend: withMenu({
+			prepend: () => [{id: 'copy', label: 'Custom Copy'}],
+		}, selection),
+		overriddenAppend: withMenu({
+			append: () => [{id: 'searchWithGoogle', label: 'Custom Search'}],
+		}, selection),
+		prependWithoutId: withMenu({
+			prepend: () => [{label: 'Prepended'}],
+		}, {
+			...selection,
+			selectionText: 'unicron',
+			misspelledWord: 'unicron',
+			dictionarySuggestions: ['unicorn', 'unicorns'],
+		}),
 		emptyPrepend: withMenu({
 			prepend: () => [
 				{type: 'separator'},

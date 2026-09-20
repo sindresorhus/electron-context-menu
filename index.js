@@ -71,6 +71,9 @@ const removeUnusedMenuItems = menuTemplate => {
 	return menuItems;
 };
 
+// A `prepend`/`append` callback may return anything, in which case the default menu is used.
+const asMenuItems = items => Array.isArray(items) ? items : [];
+
 const create = (win, options) => {
 	const currentWebContents = webContents(win);
 
@@ -345,21 +348,17 @@ const create = (win, options) => {
 			}
 		}
 
-		if (options.prepend) {
-			const result = options.prepend(defaultActions, properties, win, event);
+		const prependedItems = asMenuItems(options.prepend?.(defaultActions, properties, win, event));
+		const appendedItems = asMenuItems(options.append?.(defaultActions, properties, win, event));
 
-			if (Array.isArray(result)) {
-				menuTemplate.unshift(...result);
-			}
-		}
+		// A custom item with the same `id` as a default action replaces it, and keeps the position `prepend`/`append` gave it.
+		const overriddenIds = new Set([...prependedItems, ...appendedItems].map(menuItem => menuItem?.id).filter(Boolean));
 
-		if (options.append) {
-			const result = options.append(defaultActions, properties, win, event);
-
-			if (Array.isArray(result)) {
-				menuTemplate.push(...result);
-			}
-		}
+		menuTemplate = [
+			...prependedItems,
+			...menuTemplate.filter(menuItem => !overriddenIds.has(menuItem?.id)),
+			...appendedItems,
+		];
 
 		// Filter out leading/trailing separators
 		// TODO: https://github.com/electron/electron/issues/5869
