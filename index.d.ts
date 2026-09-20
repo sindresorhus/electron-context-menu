@@ -41,6 +41,11 @@ export type Labels = {
 	readonly paste?: string;
 
 	/**
+	@default 'Paste and Match Style'
+	*/
+	readonly pasteAndMatchStyle?: string;
+
+	/**
 	@default 'Select All'
 	*/
 	readonly selectAll?: string;
@@ -128,6 +133,7 @@ export type Actions = {
 	readonly cut: (options?: ActionOptions) => MenuItemConstructorOptions;
 	readonly copy: (options?: ActionOptions) => MenuItemConstructorOptions;
 	readonly paste: (options?: ActionOptions) => MenuItemConstructorOptions;
+	readonly pasteAndMatchStyle: (options?: ActionOptions) => MenuItemConstructorOptions;
 	readonly selectAll: (options?: ActionOptions) => MenuItemConstructorOptions;
 	readonly saveImage: (options?: ActionOptions) => MenuItemConstructorOptions;
 	readonly saveImageAs: (options?: ActionOptions) => MenuItemConstructorOptions;
@@ -211,6 +217,13 @@ export type Options = {
 	Default: `false` on macOS, `true` on Windows and Linux
 	*/
 	readonly showSelectAll?: boolean;
+
+	/**
+	Show the `Paste and Match Style` menu item when right-clicking in an editable field.
+
+	@default false
+	*/
+	readonly showPasteAndMatchStyle?: boolean;
 
 	/**
 	Show the `Copy Image` menu item when right-clicking on an image.
@@ -368,6 +381,7 @@ export type Options = {
 	- `showLookUpSelection`
 	- `showSearchWithGoogle`
 	- `showSelectAll`
+	- `showPasteAndMatchStyle`
 	- `showCopyImage`
 	- `showCopyImageAddress`
 	- `showSaveImage`
@@ -384,7 +398,7 @@ export type Options = {
 
 	To get spellchecking, “Correct Automatically”, and “Learn Spelling” in the menu, make sure you have not disabled the `spellcheck` option (it's `true` by default) in `BrowserWindow`.
 
-	@default [defaultActions.separator(), ...dictionarySuggestions, defaultActions.separator(), defaultActions.learnSpelling(), defaultActions.separator(), defaultActions.lookUpSelection(), defaultActions.separator(), defaultActions.searchWithGoogle(), defaultActions.separator(), defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.selectAll(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.saveVideo(), defaultActions.saveVideoAs(), defaultActions.copyVideoAddress(), defaultActions.copyVideoFrame(), defaultActions.saveVideoFrameAs(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.saveLinkAs(), defaultActions.separator(), defaultActions.inspect(), defaultActions.services(), defaultActions.separator()]
+	@default [defaultActions.separator(), ...dictionarySuggestions, defaultActions.separator(), defaultActions.learnSpelling(), defaultActions.separator(), defaultActions.lookUpSelection(), defaultActions.separator(), defaultActions.searchWithGoogle(), defaultActions.separator(), defaultActions.cut(), defaultActions.copy(), defaultActions.paste(), defaultActions.pasteAndMatchStyle(), defaultActions.selectAll(), defaultActions.separator(), defaultActions.saveImage(), defaultActions.saveImageAs(), defaultActions.copyImage(), defaultActions.copyImageAddress(), defaultActions.saveVideo(), defaultActions.saveVideoAs(), defaultActions.copyVideoAddress(), defaultActions.copyVideoFrame(), defaultActions.saveVideoFrameAs(), defaultActions.separator(), defaultActions.copyLink(), defaultActions.saveLinkAs(), defaultActions.separator(), defaultActions.inspect(), defaultActions.services(), defaultActions.separator()]
 	*/
 	readonly menu?: (
 		defaultActions: Actions,

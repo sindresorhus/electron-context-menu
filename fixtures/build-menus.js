@@ -5,6 +5,7 @@ import electron from 'electron';
 import contextMenu from '../index.js';
 
 const insertedText = [];
+const webContentsCommands = [];
 
 // Electron's `WebContents` is an `EventEmitter`, so the stand-in must be one too.
 const createWindow = () => {
@@ -13,6 +14,10 @@ const createWindow = () => {
 
 	currentWebContents.insertText = text => {
 		insertedText.push(text);
+	};
+
+	currentWebContents.pasteAndMatchStyle = () => {
+		webContentsCommands.push('pasteAndMatchStyle');
 	};
 
 	return {webContents: currentWebContents};
@@ -103,6 +108,7 @@ const withMenu = (options, properties) => {
 		link: withMenu({showSaveLinkAs: true}, {linkURL: 'https://example.com', linkText: 'Example'}),
 		labels: withMenu({labels: {copy: 'Kopier', lookUpSelection: 'Slå opp “{selection}”'}}, selection),
 		forced: withMenu({showInspectElement: true, showSelectAll: true}, selection),
+		pasteAndMatchStyle: withMenu({showPasteAndMatchStyle: true}, selection),
 		disabledText: withMenu({
 			showLearnSpelling: false,
 			showLookUpSelection: false,
@@ -214,6 +220,9 @@ const withMenu = (options, properties) => {
 
 	await clickFirstItem(actions => [actions.paste({transform: content => `pasted_${content}`})]);
 	results.pasteTransform = insertedText.at(-1);
+
+	await clickFirstItem(actions => [actions.pasteAndMatchStyle()]);
+	results.pasteAndMatchStyleClick = webContentsCommands.at(-1);
 
 	// `copyLink` writes a bookmark to the real clipboard, so it exercises the actual Electron API rather than a stub.
 	electron.clipboard.clear();

@@ -157,6 +157,15 @@ const create = (win, options) => {
 					}
 				},
 			}),
+			pasteAndMatchStyle: decorateMenuItem({
+				id: 'pasteAndMatchStyle',
+				label: 'Paste and &Match Style',
+				enabled: editFlags.canPaste,
+				visible: properties.isEditable,
+				click() {
+					currentWebContents.pasteAndMatchStyle();
+				},
+			}),
 			selectAll: decorateMenuItem({
 				id: 'selectAll',
 				label: 'Select &All',
@@ -307,6 +316,7 @@ const create = (win, options) => {
 			defaultActions.cut(),
 			defaultActions.copy(),
 			defaultActions.paste(),
+			options.showPasteAndMatchStyle && defaultActions.pasteAndMatchStyle(),
 			shouldShowSelectAll && defaultActions.selectAll(),
 			defaultActions.separator(),
 			options.showSaveImage && defaultActions.saveImage(),

@@ -144,6 +144,13 @@ Default: `false` on macOS, `true` on Windows and Linux
 
 Show the `Select All` menu item when right-clicking in a window.
 
+#### showPasteAndMatchStyle
+
+Type: `boolean`\
+Default: `false`
+
+Show the `Paste and Match Style` menu item when right-clicking in an editable field.
+
 #### showCopyImage
 
 Type: `boolean`\
@@ -299,6 +306,7 @@ The following options are ignored when `menu` is used:
 - `showLookUpSelection`
 - `showSearchWithGoogle`
 - `showSelectAll`
+- `showPasteAndMatchStyle`
 - `showCopyImage`
 - `showCopyImageAddress`
 - `showSaveImage`
@@ -322,6 +330,7 @@ Default actions:
 - `cut`
 - `copy`
 - `paste`
+- `pasteAndMatchStyle`
 - `selectAll`
 - `saveImage`
 - `saveImageAs`

@@ -78,6 +78,15 @@ test('honors the options that force an item to show', t => {
 	t.true(menus.forced.includes('Select &All'));
 });
 
+test('shows the paste and match style item only when enabled', t => {
+	t.true(menus.pasteAndMatchStyle.includes('Paste and &Match Style'));
+	t.false(menus.text.includes('Paste and &Match Style'));
+});
+
+test('runs `pasteAndMatchStyle` on click', t => {
+	t.is(menus.pasteAndMatchStyleClick, 'pasteAndMatchStyle');
+});
+
 test('honors the options that hide an item', t => {
 	t.false(menus.disabledText.includes('&Learn Spelling'));
 	t.false(menus.disabledText.includes('&Search with Google'));
